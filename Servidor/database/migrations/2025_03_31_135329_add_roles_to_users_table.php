@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             //probar con el array de roles y el boolean!
+            $table->enum('role', ['moderator', 'premium', 'user'])->default('user');
         });
     }
 

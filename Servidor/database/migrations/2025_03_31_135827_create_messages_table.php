@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
+            $table->dateTime('sent');
+            $table->unsignedBigInteger('user_id_sent');
+            $table->foreign('user_id_sent')->references('id')->on('users');
+            $table->unsignedBigInteger('user_id_received');
+            $table->foreign('user_id_received')->references('id')->on('users');
+            $table->boolean('received');
+            $table->string('content');
             $table->timestamps();
         });
     }

@@ -14,15 +14,14 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('nom');
+            $table->string('title');
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->datetime('data_hora');
-            
-            $table->unsignedBigInteger('story_id')->nullable();
-            $table->foreign('story_id')->references('id')->on('stories');
-            $table->unsignedBigInteger('location_id')->nullable();
-            $table->foreign('location_id')->references('id')->on('locations');
+            $table->string('description')->nullable();
+            $table->json('media');
+            $table->string('location');
+            $table->datetime('caducidad');
         });
     }
 
