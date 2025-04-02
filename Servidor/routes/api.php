@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,8 +20,14 @@ Route::delete('/posts/{id}', [PostController::class, 'delete']);
 
 ///// USERS /////
 
-Route::get('/users', [UserController::class, 'list']);
+/* Route::get('/users', [UserController::class, 'list']);
 Route::match(['get', 'post'], '/user/{id}', [UserController::class, 'edit']);
 Route::post('/user', [UserController::class, 'new']);
 Route::get('/user/{id}', [UserController::class, 'search']);
-Route::delete('/user/{id}', [UserController::class, 'delete']);
+Route::delete('/user/{id}', [UserController::class, 'delete']); */
+
+Route::get('/users', [ApiController::class, 'listUsers']);
+Route::get('/user/{id}', [ApiController::class, 'searchUser']);
+Route::post('/user', [ApiController::class, 'createUser']);
+Route::post('/user/{id}', [ApiController::class, 'updateUser']);
+Route::delete('/user/{id}', [ApiController::class, 'deleteUser']);
