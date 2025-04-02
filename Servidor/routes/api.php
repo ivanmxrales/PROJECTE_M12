@@ -20,7 +20,7 @@ Route::delete('/posts/{id}', [PostController::class, 'delete']);
 ///// USERS /////
 
 Route::get('/users', [UserController::class, 'list']);
-Route::put('/user/{id}', [UserController::class, 'edit']);
+Route::match(['get', 'post'], '/user/{id}', [UserController::class, 'edit']);
 Route::post('/user', [UserController::class, 'new']);
 Route::get('/user/{id}', [UserController::class, 'search']);
 Route::delete('/user/{id}', [UserController::class, 'delete']);
