@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('coment_id')->nullable();
             $table->foreign('coment_id')->references('id')->on('coments')->onDelete('cascade');
+            $table->dateTime('dataCom');
         });
     }
 

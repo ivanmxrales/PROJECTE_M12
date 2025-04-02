@@ -43,7 +43,7 @@ class PostController extends Controller
             'data_hora' => $request->data_hora,
             'caducidad' => $request->caducidad,
             'user_id' => $request->autor_id,
-            'media' => json_encode($request->media),
+            'media' => $request->media,
         ]);
 
         return response()->json([

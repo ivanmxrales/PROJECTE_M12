@@ -36,20 +36,25 @@ class UserController extends Controller
                 'name' => 'required|min:2|max:20',
                 'surname' => 'required|min:2|max:20',
                 'birth_date' => 'required|date',
-                'username' => 'required|min:2|max:20, unique:users,username',
+                'username' => 'required|min:2|max:20|unique:users,username',
                 'email' => 'required|email',
                 'password' => 'required|min:8|max:20',
-                'profile_picture' => 'image|mimes:jpeg,png,jpg|max:2048',
+                'profile_picture' => 'image|mimes:jpeg,png,jpg|max:2048', 
+                'biography' => 'max:255'
             ]); 
 
+            
+            var_dump($validate);
+            dd($validate);
             if($validate) { 
-                $user->role = $request->role;
                 $user->name = $request->name;
                 $user->surname = $request->surname;
                 $user->birth_date = $request->birth_date;
+                $user->biography = $request->biography;
                 $user->username = $request->username;
                 $user->email = $request->email;
                 $user->password = Hash::make($request->password);
+                $user->role = $request->role;
                 if($request->hasFile('profile_picture')) {
                     $file = $request->file('profile_picture');
                     $file_name = $user->name . '_' . $user->surname .  '.' . $file->getClientOriginalExtension();
