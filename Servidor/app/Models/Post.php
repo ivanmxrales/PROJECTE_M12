@@ -19,6 +19,8 @@ class Post extends Model
         return $this->hasMany(User::class,'likes');
     }
 
+    protected $guarded = ['id'];
+
 
 
 }

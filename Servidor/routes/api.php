@@ -13,7 +13,8 @@ use Illuminate\Support\Facades\Route;
 ///// POSTS /////
 
 Route::get('/posts', [PostController::class, 'list']);
-Route::put('/posts/{id}', [PostController::class, 'edit']);
+Route::match(['get', 'post'], '/post/{id}', [PostController::class, 'edit']);
+// Route::put('/posts/{id}', [PostController::class, 'edit']);
 Route::post('/post', [PostController::class, 'new']);
 Route::get('/post/{id}', [PostController::class, 'search']);
 Route::delete('/posts/{id}', [PostController::class, 'delete']);
