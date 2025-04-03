@@ -1,0 +1,76 @@
+.a-form {
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+  }
+  
+  .a-form h2 {
+    text-align: center;
+    color: #333;
+  }
+  
+  .a-form div {
+    margin-bottom: 15px;
+  }
+  
+  .a-form label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .a-form input,
+  .a-form textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    background-color: #f9f9f9;
+    color: #333;
+  }
+  
+  .a-form textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+  
+  .a-form button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 48%;
+  }
+  
+  .a-form button[type="submit"] {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  .a-form button[type="submit"]:hover {
+    background-color: #218838;
+  }
+  
+  .a-form button[type="button"] {
+    background-color: #dc3545;
+    color: white;
+  }
+  
+  .a-form button[type="button"]:hover {
+    background-color: #c82333;
+  }
+  
+  .a-form button + button {
+    margin-left: 4%;
+  }
+  
+  .a-form input:disabled {
+    background-color: #e9ecef;
+  }
+  

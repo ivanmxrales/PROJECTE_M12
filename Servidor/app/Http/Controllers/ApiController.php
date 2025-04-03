@@ -13,6 +13,9 @@ class ApiController extends Controller
         $this->userController = $userController;
     }
 
+
+    // Controller Users
+
     public function listUsers()
     {
         return $this->userController->list();
@@ -37,4 +40,6 @@ class ApiController extends Controller
     {
         return $this->userController->delete($id);
     }
+
+    //Controller Posts
 }
