@@ -7,10 +7,12 @@ use Illuminate\Http\Request;
 class ApiController extends Controller
 {
     protected $userController;
+    protected $postController;
 
-    public function __construct(UserController $userController)
+    public function __construct(UserController $userController, PostController $postController)
     {
         $this->userController = $userController;
+        $this->postController = $postController;
     }
 
 
@@ -41,5 +43,31 @@ class ApiController extends Controller
         return $this->userController->delete($id);
     }
 
+    
+
     //Controller Posts
+    public function listPosts()
+    {
+        return $this->postController->list();
+    }
+
+    public function searchPost($id)
+    {
+        return $this->postController->search($id);
+    }
+
+    public function createPost(Request $request)
+    {
+        return $this->postController->new($request);
+    }
+
+    public function updatePost(Request $request, $id)
+    {
+        return $this->postController->edit($request, $id);
+    }
+
+    public function deletePost($id)
+    {
+        return $this->postController->delete($id);
+    }
 }

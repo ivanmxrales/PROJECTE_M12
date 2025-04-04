@@ -12,12 +12,18 @@ use Illuminate\Support\Facades\Route;
 
 ///// POSTS /////
 
-Route::get('/posts', [PostController::class, 'list']);
-Route::match(['get', 'post'], '/post/{id}', [PostController::class, 'edit']);
-// Route::put('/posts/{id}', [PostController::class, 'edit']);
-Route::post('/post', [PostController::class, 'new']);
-Route::get('/post/{id}', [PostController::class, 'search']);
-Route::delete('/posts/{id}', [PostController::class, 'delete']);
+// Route::get('/posts', [PostController::class, 'list']);
+// Route::match(['get', 'post'], '/post/{id}', [PostController::class, 'edit']);
+// // Route::put('/posts/{id}', [PostController::class, 'edit']);
+// Route::post('/post', [PostController::class, 'new']);
+// Route::get('/post/{id}', [PostController::class, 'search']);
+// Route::delete('/posts/{id}', [PostController::class, 'delete']);
+
+Route::get('/posts', [ApiController::class, 'listPosts']);
+Route::get('/post/{id}', [ApiController::class, 'searchPost']);
+Route::post('/post', [ApiController::class, 'createPost']);
+Route::post('/post/{id}', [ApiController::class, 'updatePost']);
+Route::delete('/post/{id}', [ApiController::class, 'deletePost']);
 
 ///// USERS /////
 
