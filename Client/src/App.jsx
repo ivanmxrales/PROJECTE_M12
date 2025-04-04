@@ -4,9 +4,11 @@ import axios from 'axios'
 import './App.css'
 //import Users from './components/users/Users';
 import Users from './pages/users/Users';
+import Login from './pages/login/Login';
 
 function App() {
   const [users, setUsers] = useState([]);
+  const [login, setLogin] = useState([]);
   const [monsters, setMonsters] = useState([]);
   const [materials, setMaterials] = useState([]);
 
@@ -52,9 +54,8 @@ function App() {
         <nav>
           <h1>Moderator Page</h1>
           <Link to="/">Inici</Link> &nbsp;&nbsp;| &nbsp;&nbsp;
-          <Link to="/materials">Llistat de Materials</Link> &nbsp;&nbsp;| &nbsp;&nbsp;
-          <Link to="/monsters">Llistat de Monsters</Link>&nbsp;&nbsp;| &nbsp;&nbsp;
-          <Link to="/users">Llistat d'usuaris</Link>
+          <Link to="/users">Llistat d'usuaris</Link>&nbsp;&nbsp;| &nbsp;&nbsp;
+          <Link to="/login">Login</Link>&nbsp;&nbsp;| &nbsp;&nbsp;
         </nav>
 
         <Routes>
@@ -67,6 +68,7 @@ function App() {
           <Route path="/edit-material/:id" element={<EditMaterial existingMaterials={materials} onUpdate={handleUpdateMaterial} />} /> */}
           <Route path="/" element={<h2>Funciona</h2>} />
           <Route path='/users' element={< Users users={users}/>}/>
+          <Route path='/login' element={< Login login={login}/>}/>
         </Routes>
       </div>
     </Router>

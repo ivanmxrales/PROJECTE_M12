@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -79,7 +79,7 @@ class UserController extends Controller
                 'name' => 'required|min:2|max:20',
                 'surname' => 'required|min:2|max:20',
                 'birth_date' => 'required|date',
-                'username' => 'required|min:2|max:20|unique:users,username',
+                'username' => ['required|min:2|max:20|unique:users,username', Rule::unique('users')->ignore($user->id)],
                 'email' => 'required|email',
                 'password' => 'nullable|min:8|max:20'
             ]);
@@ -91,7 +91,11 @@ class UserController extends Controller
                 $user->biography = $request->biography;
                 $user->username = $request->username;
                 $user->email = $request->email;
-                $user->password = Hash::make($request->password);
+
+                if ($request->filled('password')) {
+                    $user->password = Hash::make($request->password);
+                }
+                
                 $user->role = $request->role;
                 if ($request->hasFile('profile_picture')) {
                     $file = $request->file('profile_picture');

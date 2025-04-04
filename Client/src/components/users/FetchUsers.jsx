@@ -23,14 +23,14 @@ const FetchUsers = () => {
     }
   };
 
-  const handleDelete = async (id_num) => {
+  const handleDelete = async (id) => {
     const confirmDelete = window.confirm("Estas segur?");
     if (!confirmDelete) return;
 
     try {
-      await axios.delete(`http://127.0.0.1:8000/api/users/${id_num}`);
+      await axios.delete(`http://127.0.0.1:8000/api/user/${id}`);
       setUsers((prevUsers) =>
-        prevUsers.filter((user) => user.id_num !== id_num)
+        prevUsers.filter((user) => user.id !== id)
       );
       console.log("Usuari esborrat");
     } catch (error) {
