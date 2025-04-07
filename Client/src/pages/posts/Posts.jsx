@@ -55,7 +55,7 @@ function Posts() {
 
                       <Button
                         variant="danger"
-                        onClick={() => handleDelete(post._id)}
+                        onClick={() => handleDelete(post.id)}
                       >
                         Eliminar
                       </Button>

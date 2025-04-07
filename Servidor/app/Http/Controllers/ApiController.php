@@ -21,6 +21,10 @@ class ApiController extends Controller
 
     // Controller Users
 
+    public function login(Request $request)
+    {
+        return $this->authController->login($request);
+    }
     public function listUsers()
     {
         return $this->userController->list();

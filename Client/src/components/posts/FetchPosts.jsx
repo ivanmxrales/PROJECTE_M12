@@ -28,13 +28,13 @@ const FetchPosts = () => {
     if (!confirmDelete) return;
 
     try {
-      await axios.delete(`http://127.0.0.1:8000/api/posts/${id_num}`);
+      await axios.delete(`http://127.0.0.1:8000/api/post/${id_num}`);
       setPosts((prevPosts) =>
         prevPosts.filter((post) => post.id_num !== id_num)
       );
-      console.log("Usuari esborrat");
+      console.log("Post esborrat");
     } catch (error) {
-      console.error("Error en esborrar l'usuari:", error.response?.data || error.message);
+      console.error("Error en esborrar l'Post:", error.response?.data || error.message);
     }
   };
 
