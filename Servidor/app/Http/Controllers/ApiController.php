@@ -8,9 +8,12 @@ class ApiController extends Controller
 {
     protected $userController;
     protected $postController;
+    protected $authController;
+    
 
-    public function __construct(UserController $userController, PostController $postController)
+    public function __construct(UserController $userController,PostController $postController ,AuthController $authController)
     {
+        $this->authController = $authController;
         $this->userController = $userController;
         $this->postController = $postController;
     }

@@ -4,6 +4,7 @@ import axios from 'axios'
 import './App.css'
 //import Users from './components/users/Users';
 import Users from './pages/users/Users';
+<<<<<<< HEAD
 import Posts from './pages/posts/Posts';
 
 function App() {
@@ -45,6 +46,51 @@ function App() {
   //     prevMaterials.map(m => (m.id === updatedMaterial.id ? updatedMaterial : m))
   //   );
   // };
+=======
+import Login from './pages/login/Login';
+
+function App() {
+  const [users, setUsers] = useState([]);
+  const [login, setLogin] = useState([]);
+  const [monsters, setMonsters] = useState([]);
+  const [materials, setMaterials] = useState([]);
+
+  useEffect(() => {
+    axios.get("http://localhost:3001/monsters")
+      .then((response) => setMonsters(response.data))
+      .catch((error) => console.error("Error carregant monstres:", error));
+  }, []);
+
+
+  useEffect(() => {
+    axios.get("http://localhost:3001/materials")
+      .then((response) => setMaterials(response.data))
+      .catch((error) => console.error("Error carregant materials:", error));
+  }, []);
+
+  
+  const handleAddMonster = (newMonster) => {
+    setMonsters((prevMonsters) => [...prevMonsters, newMonster]);
+  };
+
+  const handleUpdateMonster = (updatedMonster) => {
+    setMonsters((prevMonsters) => 
+      prevMonsters.map(m => (m.id_num === updatedMonster.id_num ? updatedMonster : m))
+    );
+  };
+
+  
+  const handleAddMaterial = (newMaterial) => {
+    setMaterials((prevMaterials) => [...prevMaterials, newMaterial]); 
+  };
+
+  
+  const handleUpdateMaterial = (updatedMaterial) => {
+    setMaterials((prevMaterials) => 
+      prevMaterials.map(m => (m.id === updatedMaterial.id ? updatedMaterial : m))
+    );
+  };
+>>>>>>> origin/ivan
 
   return (
     <Router>
@@ -52,9 +98,14 @@ function App() {
         <nav>
           <h1>Moderator Page</h1>
           <Link to="/">Inici</Link> &nbsp;&nbsp;| &nbsp;&nbsp;
+<<<<<<< HEAD
           <Link to="/materials">Llistat de Materials</Link> &nbsp;&nbsp;| &nbsp;&nbsp;
           <Link to="/posts">Llistat de Publicacions</Link>&nbsp;&nbsp;| &nbsp;&nbsp;
           <Link to="/users">Llistat d'usuaris</Link>
+=======
+          <Link to="/users">Llistat d'usuaris</Link>&nbsp;&nbsp;| &nbsp;&nbsp;
+          <Link to="/login">Login</Link>&nbsp;&nbsp;| &nbsp;&nbsp;
+>>>>>>> origin/ivan
         </nav>
 
         <Routes>
@@ -66,8 +117,13 @@ function App() {
           <Route path="/add-material" element={<AddMaterial onSave={handleAddMaterial} onCancel={() => { }} existingMaterials={materials}/>} />
           <Route path="/edit-material/:id" element={<EditMaterial existingMaterials={materials} onUpdate={handleUpdateMaterial} />} /> */}
           <Route path="/" element={<h2>Funciona</h2>} />
+<<<<<<< HEAD
           <Route path='/posts' element={< Posts posts={posts}/>}/>
           <Route path='/users' element={< Users users={users}/>}/>
+=======
+          <Route path='/users' element={< Users users={users}/>}/>
+          <Route path='/login' element={< Login login={login}/>}/>
+>>>>>>> origin/ivan
         </Routes>
       </div>
     </Router>
