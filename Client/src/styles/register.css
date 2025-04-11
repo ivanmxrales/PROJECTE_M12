@@ -5,11 +5,11 @@ body {
     justify-content: center;
     align-items: center;
     /* background: linear-gradient(to top, #1d1e4c, #8d5c9d); */
-    background-color: rgb(58, 52, 52);
+    background-color: rgba(0, 0, 0, 0.678);
     font-family: 'Poppins', sans-serif;
 }
 
-.login-container {
+.register-container {
     margin-top: 20px;
     display: block;
     justify-content: center;
@@ -18,7 +18,7 @@ body {
     width: 100%;
 }
 
-.login-card {
+.register-card {
     background: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(10px);
     padding: 40px;
@@ -53,7 +53,7 @@ input::hover{
     border: 2px #ffffff;
 }
 
-.login-options {
+.register-options {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -62,12 +62,12 @@ input::hover{
     margin: 10px 0;
 }
 
-.login-options label {
+.register-options label {
     display: flex;
     align-items: center;
 }
 
-.login-options a {
+.register-options a {
     color: #ff9dd9;
     text-decoration: none;
 }
@@ -100,4 +100,10 @@ button:hover {
 
 input[type="checkbox"] {
     scale: 1.5;
+}
+
+.error-message {
+    color: red;
+    margin-bottom: 10px;
+    text-align: center;
 }

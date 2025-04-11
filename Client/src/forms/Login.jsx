@@ -1,32 +1,44 @@
 import React, { useState } from 'react';
-import '../../styles/login.css';
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import Signup from './Signup';
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [username, setUsername] = useState('');
     const navigate = useNavigate();
+    const [emailError, setEmailError] = useState('');
+    const [generalError, setGeneralError] = useState('');
+
+    let hasError = false;
+    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
     
-        if (!email || !password) {
-            alert("Please enter email and password");
+        if ((!email) || !password) {
+            setGeneralError("El correu o la contrasenya són incorrectes.");
             return;
         }
     
         console.log('Submitting:', { email, password });
     
         try {
+            
             const response = await axios.post('http://127.0.0.1:8000/api/login', { email, password });
             console.log('Response:', response.data);
-            navigate('/users'); 
+            const { id } = response.data; //agafem el id de la resposta de la APU
+            console.log("USER ID: ", id);
+            navigate(`/profile/${id}`); 
         } catch (error) {
             console.error('Error:', error.response ? error.response.data : error.message);
-            alert("Login failed. Check console.");
+            setGeneralError("El correu o la contrasenya són incorrectes.");
         }
     };
+
+    const handleError = () =>setGeneralError('');
     
 
     return (
@@ -34,28 +46,35 @@ const Login = () => {
             <div className='login-card'>
                 <h2>Login</h2>
                 <form onSubmit={handleSubmit}>
+                    {generalError && <div className="error-message">{generalError}</div>}
                     <input 
                         type="email" 
-                        placeholder="Username" 
+                        placeholder="Correu electrònic" 
                         value={email} 
                         onChange={(e) => setEmail(e.target.value)}
+                        onFocus={handleError}
                     />
                     <input 
                         type="password" 
-                        placeholder="Password" 
+                        placeholder="Contrasenya" 
                         value={password} 
                         onChange={(e) => setPassword(e.target.value)}
+                        onFocus={handleError}
                     />
                     <div className='login-options'>
                         <label>
                             <input type="checkbox" /> Remember Me
                         </label>
-                        <a href="#">Forgot Password?</a>
+                        <br />
+                        <a href="#">Has oblidat la contrasenya?</a>
+                        <br /><br />
                     </div>
-                    <button type="submit">Login</button>
+                    <button type="submit">Iniciar sessió</button>
                 </form>
-                <p className='register-link'>Create Account</p>
+                <br />
+                <Link to="/sign-up">Registrar-se</Link>
             </div>
+
         </div>
     );
 };
