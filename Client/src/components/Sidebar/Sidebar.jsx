@@ -1,0 +1,72 @@
+import { Link as RouterLink } from "react-router-dom";
+import { CreatePostLogo, HomeLogo, InstagramLogo, InstagramMobileLogo, MessagesLogo, NotificationsLogo } from "../../assets/constants";
+import { SearchLogo } from "../../assets/constants";
+
+const Sidebar = () => {
+
+  const sidebarItems = [
+    {
+      icon: HomeLogo,
+      text: 'Inici',
+      link: '/',
+    },
+    {
+      icon: SearchLogo,
+      text: 'Buscar',
+      link: '/',
+    },
+    {
+      icon: MessagesLogo,
+      text: 'Missatges',
+    },
+    {
+      icon: NotificationsLogo ,
+      text: 'Notificacions',
+      link: '/profile',
+    },
+    {
+      icon: CreatePostLogo,
+      text: 'Publicació',
+      link: '/',
+    }
+  ]
+
+  return (
+    <div className="h-screen border-r border-white/30 py-8 px-2 md:px-4 sticky top-0 left-0">
+      <div className="flex flex-col gap-10 w-full h-full">
+
+        <RouterLink to="/" className="pl-2 hidden md:block cursor-pointer">
+          <InstagramLogo />
+        </RouterLink>
+        
+        <RouterLink
+          to="/"
+          className="p-2 block md:hidden rounded-md hover:bg-white/20 w-10 cursor-pointer"
+        >
+          <InstagramMobileLogo />
+        </RouterLink>
+
+        <div className="flex-col gap-10 cursor-pointer">
+          {sidebarItems.map((item, index) => (
+            <RouterLink
+              key={index}
+              to={item.path}
+              className="flex items-center gap-3 p-2 rounded-md hover:bg-white/20"
+            >
+              <br />
+              <br />
+              <item.icon className="w-6 h-6" />
+              <span className="hidden md:block text-white">{item.text}</span>
+            </RouterLink>
+          ))}
+        </div>
+
+        <span className="absolute left-full ml-2 bg-gray-700 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 md:hidden">
+          Logout
+        </span>
+      </div>
+    </div>
+  );
+};
+
+export default Sidebar;
