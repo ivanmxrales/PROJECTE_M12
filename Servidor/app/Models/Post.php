@@ -19,6 +19,11 @@ class Post extends Model
         return $this->hasMany(User::class,'likes');
     }
 
+    public function coments()
+    {
+        return $this->hasMany(Coment::class);
+    }
+
     protected $guarded = ['id'];
 
 

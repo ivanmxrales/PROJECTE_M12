@@ -127,12 +127,6 @@ public function edit(Request $request, $id)
     ], 200);
 }
 
-
-
-
-
-
-
     // Eliminar un post
     public function delete($id)
     {

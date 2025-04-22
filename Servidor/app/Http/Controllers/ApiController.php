@@ -9,13 +9,15 @@ class ApiController extends Controller
     protected $userController;
     protected $postController;
     protected $authController;
+    protected $comentController;
     
 
-    public function __construct(UserController $userController,PostController $postController ,AuthController $authController)
+    public function __construct(UserController $userController,PostController $postController ,AuthController $authController, ComentController $comentController)
     {
         $this->authController = $authController;
         $this->userController = $userController;
         $this->postController = $postController;
+        $this->comentController = $comentController;
     }
 
 
@@ -55,6 +57,7 @@ class ApiController extends Controller
     //Controller Posts
     public function listPosts()
     {
+        
         return $this->postController->list();
     }
 
@@ -76,5 +79,36 @@ class ApiController extends Controller
     public function deletePost($id)
     {
         return $this->postController->delete($id);
+    }
+
+    //Controller Coments
+    public function listComents()
+    {
+        return $this->comentController->list();
+    }
+
+    public function listComentsPost()
+    {
+        return $this->comentController->list();
+    }
+
+    public function searchComent($id)
+    {
+        return $this->comentController->search($id);
+    }
+
+    public function createComent(Request $request)
+    {
+        return $this->comentController->new($request);
+    }
+
+    public function updateComent(Request $request, $id)
+    {
+        return $this->comentController->edit($request, $id);
+    }
+
+    public function deleteComent($id)
+    {
+        return $this->comentController->delete($id);
     }
 }

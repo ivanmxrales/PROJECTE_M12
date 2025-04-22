@@ -2,15 +2,22 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Coment extends Model
 {
-    public function users(): hasMany{
-        return $this->hasMany(User::class);
+    protected $guarded = ['id'];
+
+    public function author(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
+    public function post(): BelongsTo
+    {
+        return $this->belongsTo(Post::class);
+    }
     
 }

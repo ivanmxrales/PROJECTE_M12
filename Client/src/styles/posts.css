@@ -14,12 +14,16 @@
 }
 
 .post-card {
-  background-color: #4b4040;
+  background-color: #3f3737;
   border: 1px solid #ddd;
   border-radius: 10px;
   padding: 30px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.coments {
+  background-color: #584848;
 }
 
 .post-card img {

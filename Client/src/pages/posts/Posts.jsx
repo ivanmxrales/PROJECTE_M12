@@ -3,12 +3,14 @@ import { Button } from "react-bootstrap";
 import React, { useState } from "react";
 import FetchPosts from "../../components/posts/FetchPosts";
 import FetchUsers from "../../components/users/FetchUsers";
+import Coments from "../coments/Coments";
 import PostImages from "../../components/posts/PostImages";
 import EditPostForm from "../../components/posts/EditPostForm";
 
 function Posts() {
   const { posts, loading, error, handleDelete } = FetchPosts();
   const { users } = FetchUsers();
+
 
   const [editingPost, setEditingPost] = useState(null);
 
@@ -45,6 +47,9 @@ function Posts() {
                     <p className="post-location"><strong>Ubicación: </strong>{post.location}</p>
                     <p className="post-description"><strong>Descripción: </strong>{post.description}</p>
 
+                    <div className="coments">
+                      <Coments postId={post.id} />
+                    </div>
                     <div className="buttons">
                       <Button
                         className="btn btn-primary"

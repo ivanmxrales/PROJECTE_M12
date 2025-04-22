@@ -39,3 +39,12 @@ Route::post('/user', [ApiController::class, 'createUser']);
 Route::post('/user/{id}', [ApiController::class, 'updateUser']);
 Route::delete('/user/{id}', [ApiController::class, 'deleteUser']);
 Route::post('/login', [ApiController::class, 'login']);
+
+
+//// Comments /////
+
+Route::get('/coments', [ApiController::class, 'listComents']);
+Route::get('/coment/{id}', [ApiController::class, 'searchComent']);
+Route::post('/coment', [ApiController::class, 'createComent']);
+Route::post('/coment/{id}', [ApiController::class, 'updateComent']);
+Route::delete('/coment/{id}', [ApiController::class, 'deleteComent']);
