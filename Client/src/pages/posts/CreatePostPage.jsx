@@ -3,7 +3,7 @@ import CreatePostForm from "../../components/posts/CreatePostForm"; // Asumiendo
 import { Container } from "react-bootstrap";
 
 const CreatePostPage = () => {
-  const userId = 1; // TODO: Reemplazar por el user ID dinámico si lo tenés
+  const userId = 2; // TODO: Reemplazar por el user ID dinámico si lo tenés
 
   return (
     <Container className="mt-4">

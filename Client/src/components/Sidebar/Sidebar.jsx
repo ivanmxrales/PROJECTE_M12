@@ -9,6 +9,7 @@ const Sidebar = () => {
       icon: HomeLogo,
       text: 'Inici',
       link: '/',
+      
     },
     {
       icon: SearchLogo,
@@ -18,6 +19,7 @@ const Sidebar = () => {
     {
       icon: MessagesLogo,
       text: 'Missatges',
+      link: '/post/3',
     },
     {
       icon: NotificationsLogo ,

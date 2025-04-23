@@ -14,7 +14,7 @@
 }
 
 .post-card {
-  background-color: #3f3737;
+  /* background-color: #3f3737; */
   border: 1px solid #ddd;
   border-radius: 10px;
   padding: 30px;
@@ -27,9 +27,6 @@
 }
 
 .post-card img {
-  width: 300px;
-  height: 300px;
-  border-radius: 5px;
   max-width: fit-content;
 }
 

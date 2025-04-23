@@ -18,7 +18,7 @@ function Coments({ postId }) {
   
   return (
     <div className="coments-list">
-      <h4>Comentarios</h4>
+      <hr></hr>
       {filteredComents.length === 0 ? (
         <p>No hay comentarios para esta publicación.</p>
       ) : (
