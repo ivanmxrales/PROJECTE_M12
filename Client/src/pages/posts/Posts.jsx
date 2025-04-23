@@ -50,21 +50,7 @@ function Posts() {
                     <div className="coments">
                       <Coments postId={post.id} />
                     </div>
-                    <div className="buttons">
-                      <Button
-                        className="btn btn-primary"
-                        onClick={() => setEditingPost(post)}
-                      >
-                        Editar
-                      </Button>
-
-                      <Button
-                        variant="danger"
-                        onClick={() => handleDelete(post.id)}
-                      >
-                        Eliminar
-                      </Button>
-                    </div>
+                    
                   </>
                 )}
               </div>

@@ -27,6 +27,11 @@ class ApiController extends Controller
     {
         return $this->authController->login($request);
     }
+
+    public function signup(Request $request)
+    {
+        return $this->authController->signup($request);
+    }
     public function listUsers()
     {
         return $this->userController->list();
@@ -37,10 +42,6 @@ class ApiController extends Controller
         return $this->userController->search($id);
     }
 
-    public function createUser(Request $request)
-    {
-        return $this->userController->new($request);
-    }
 
     public function updateUser(Request $request, $id)
     {
@@ -69,8 +70,13 @@ class ApiController extends Controller
     public function createPost(Request $request)
     {
         return $this->postController->new($request);
+        
     }
 
+    // public function createPost(Request $request)
+    // {
+    // return $this->userController->register($request);
+    // }
     public function updatePost(Request $request, $id)
     {
         return $this->postController->edit($request, $id);

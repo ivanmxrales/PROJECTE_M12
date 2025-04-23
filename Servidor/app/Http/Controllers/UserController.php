@@ -26,47 +26,9 @@ class UserController extends Controller
     function search($id)
     {
         $user = User::find($id);
+        $img_location = env('USERS_PROFILE_PICTURE');
+        $user->profile_picture = url($img_location . '/' . $user->profile_picture); //retornem la ruta de la imatge
         return response()->json($user);
-    }
-
-    function new(Request $request)
-    {
-        $user = new User;
-
-        if ($request->isMethod('post')) {
-            $validate = $request->validate([
-                'role' => 'required|in:moderator,premium,user',
-                'name' => 'required|min:2|max:20',
-                'surname' => 'required|min:2|max:20',
-                'birth_date' => 'required|date',
-                'username' => 'required|min:2|max:20|unique:users,username',
-                'email' => 'required|email',
-                'password' => 'required|min:8|max:20'
-            ]);
-
-
-            //var_dump($validate);
-            //dd($validate);
-            if ($validate) {
-                $user->name = $request->name;
-                $user->surname = $request->surname;
-                $user->birth_date = $request->birth_date;
-                $user->biography = $request->biography;
-                $user->username = $request->username;
-                $user->email = $request->email;
-                $user->password = Hash::make($request->password);
-                $user->role = $request->role;
-                if ($request->hasFile('profile_picture')) {
-                    $file = $request->file('profile_picture');
-                    $file_name = $user->name . '_' . $user->surname .  '.' . $file->getClientOriginalExtension();
-                    $file_location = env('USERS_PROFILE_PICTURE');
-                    $file->move(public_path($file_location), $file_name);
-                    $user->profile_picture = $file_name;
-                }
-                $user->save();
-                return response()->json($user);
-            }
-        }
     }
 
     function edit(Request $request, $id)
@@ -79,7 +41,12 @@ class UserController extends Controller
                 'name' => 'required|min:2|max:20',
                 'surname' => 'required|min:2|max:20',
                 'birth_date' => 'required|date',
-                'username' => ['required|min:2|max:20|unique:users,username', Rule::unique('users')->ignore($user->id)],
+                'username' => [
+                    'required',
+                    'min:2',
+                    'max:20',
+                    Rule::unique('users')->ignore($user->id)
+],
                 'email' => 'required|email',
                 'password' => 'nullable|min:8|max:20'
             ]);

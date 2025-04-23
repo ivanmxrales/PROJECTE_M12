@@ -40,7 +40,7 @@ function Coments({ postId }) {
                     <p className="coment-data_hora"><em>{coment.dataCom}</em></p>
                     <p className="coment-text"><strong>Comentario: </strong>{coment.coment}</p>
   
-                    <div className="buttons">
+                    {/* <div className="buttons">
                       <Button className="btn btn-primary" onClick={() => setEditingComent(coment)}>
                         Editar
                       </Button>
@@ -48,7 +48,7 @@ function Coments({ postId }) {
                       <Button variant="danger" onClick={() => handleDelete(coment._id)}>
                         Eliminar
                       </Button>
-                    </div>
+                    </div> */}
                   </>
                 )}
               </div>

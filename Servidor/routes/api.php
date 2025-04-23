@@ -35,7 +35,7 @@ Route::delete('/user/{id}', [UserController::class, 'delete']); */
 
 Route::get('/users', [ApiController::class, 'listUsers']);
 Route::get('/user/{id}', [ApiController::class, 'searchUser']);
-Route::post('/user', [ApiController::class, 'createUser']);
+Route::post('/signup', [ApiController::class, 'signup']);
 Route::post('/user/{id}', [ApiController::class, 'updateUser']);
 Route::delete('/user/{id}', [ApiController::class, 'deleteUser']);
 Route::post('/login', [ApiController::class, 'login']);

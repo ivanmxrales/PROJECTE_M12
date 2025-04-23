@@ -30,13 +30,14 @@ class PostController extends Controller
             'title' => 'required|min:2|max:20',
             'location' => 'required|min:2|max:20',
             'description' => 'nullable|max:250',
-            'data_hora' => 'required|date',
+            'data_hora' => 'nullable|date',
             'caducidad' => 'nullable|date|after_or_equal:data_hora',
             'user_id' => 'required|exists:users,id',
             'media' => 'required|array',
             'media.*' => 'file|mimes:jpg,jpeg,png,mp4,mov,avi|max:10240', // Permite imágenes y videos hasta 10MB
         ]);
 
+        $data_hora = $request->input('data_hora', now());
 
         $post_title = Str::slug($request->title); // Convierte el título en un formato adecuado para los nombres de archivo (sin espacios, etc.)
 
@@ -60,10 +61,10 @@ class PostController extends Controller
             'title' => $request->title,
             'location' => $request->location,
             'description' => $request->description,
-            'data_hora' => $request->data_hora,
+            'data_hora' => $data_hora,
             'caducidad' => $request->caducidad,
             'user_id' => $request->user_id,
-            'media' => !empty($media_files) ? $media_files : null, // Guarda null si no hay archivos
+            'media' => !empty($media_files) ? json_encode(array_values($media_files)): null, // Guarda null si no hay archivos
         ]);
 
         return response()->json([
