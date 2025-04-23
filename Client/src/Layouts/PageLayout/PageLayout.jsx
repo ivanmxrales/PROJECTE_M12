@@ -12,7 +12,7 @@ const PageLayout = ({ children }) => {
                     <div className='fixed left-0 top-0 w-60'>
                         <Sidebar/>
                     </div>
-                    <div className="fixed top-10 left-0 w-full z-10">
+                    <div className="fixed top-10 left-0 w-full z-[1000]">
                         <Navbar/>
                     </div>
                </>
