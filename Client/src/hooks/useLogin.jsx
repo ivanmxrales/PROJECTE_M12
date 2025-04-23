@@ -9,7 +9,6 @@ const useLogin = () => {
 
 	const login = async (inputs) => {
 		if (!inputs.email || !inputs.password) {
-			//showToast("Error", "Please fill all the fields", "error");
 			setError({ message: "El correu o la contrasenya són incorrecte" });
 			return;
 		}
@@ -25,17 +24,12 @@ const useLogin = () => {
 
 			const userData = response.data;
 			localStorage.setItem('user-info', JSON.stringify(userData));
-			//loginUser(userData);
 			console.log("User data:", userData);
 			console.log("LOGIN ATTEMPT:", inputs.email, inputs.password);
-
-
-			//showToast("Success", "Logged in successfully", "success");
-			navigate("/"); // Assuming userData has `id`
+			navigate("/"); 
 		} catch (err) {
 			const errMsg = err.response?.data?.message || "Error al iniciar sessió";
 			setError({ message: errMsg });
-			//showToast("Error", errMsg, "error");
 		} finally {
 			setLoading(false);
 		}
