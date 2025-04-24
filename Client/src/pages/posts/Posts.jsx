@@ -1,11 +1,11 @@
 import "../../styles/posts.css";
 import { Button } from "react-bootstrap";
 import React, { useState } from "react";
-import FetchPosts from "../../components/posts/FetchPosts";
+import FetchPosts from "../../components/Posts/FetchPosts";
 import FetchUsers from "../../components/users/FetchUsers";
 import Coments from "../coments/Coments";
-import PostImages from "../../components/posts/PostImages";
-import EditPostForm from "../../components/posts/EditPostForm";
+import PostImages from "../../components/Posts/PostImages";
+import EditPostForm from "../../components/Posts/EditPostForm";
 
 function Posts() {
   const { posts, loading, error, handleDelete } = FetchPosts();

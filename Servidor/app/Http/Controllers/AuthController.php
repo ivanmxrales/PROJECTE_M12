@@ -30,8 +30,19 @@ class AuthController extends Controller
             $user->role = 'user';
             $token = $user->createToken('token')->plainTextToken;
             $cookie = cookie('token', $token, 60 * 24 * 7);
-            return response(["id" =>$user->id, "token" => $token], Response::HTTP_OK)
-                ->withCookie($cookie);  //afegim la id al return per fer redirecció cap al perfil al fer login
+            $img_location = env('USERS_PROFILE_PICTURE');
+            return response([
+                "user" => [
+                    "id" => $user->id,
+                    "name" => $user->name,
+                    "surname" => $user->surname,
+                    "email" => $user->email,
+                    "username" => $user->username,
+                    "profile_picture" => url($img_location . '/' . $user->profile_picture),
+                    "role" => $user->role,
+                ],
+                "token" => $token
+            ], Response::HTTP_OK)->withCookie($cookie); //afegim la id al return per fer redirecció cap al perfil al fer login
         } else {
             return response(["message" => "Credencials invàlides."], Response::HTTP_UNAUTHORIZED);
         }

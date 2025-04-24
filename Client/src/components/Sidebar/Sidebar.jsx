@@ -1,8 +1,34 @@
-import { Link as RouterLink } from "react-router-dom";
+import { Router, Link as RouterLink } from "react-router-dom";
 import { CreatePostLogo, HomeLogo, InstagramLogo, InstagramMobileLogo, MessagesLogo, NotificationsLogo } from "../../assets/constants";
 import { SearchLogo } from "../../assets/constants";
+import { useState, useEffect } from "react";
 
 const Sidebar = () => {
+    const [user, setUser] = useState(null);
+  
+    /* useEffect(() => {
+      console.log("USUARI LOCALSTORAGE:", localStorage.getItem("user-info"));
+      const storedUser = localStorage.getItem("user-info");
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));
+        console.log("User loguejat:", JSON.parse(storedUser));
+      }
+    }, []); */
+
+    useEffect(() => {
+      const storedUser = localStorage.getItem("user-info");
+      if (storedUser) {
+        const parsed = JSON.parse(storedUser);
+        setUser(parsed.user); // <-- Only keep the nested user object
+      }
+    }, []);
+
+    const handleUsername = () => {
+      if (user.username.length > 10) {
+        return user.username.slice(0, 10) + "...";
+      }
+      return user.username;
+    };
 
   const sidebarItems = [
     {
@@ -32,7 +58,7 @@ const Sidebar = () => {
   ]
 
   return (
-    <div className="h-screen border-r border-white/30 py-8 px-2 md:px-4 sticky top-0 left-0">
+    <div className="h-screen border-r border-l border-white/30 py-8 px-2 md:px-4 sticky top-0 left-0">
       <div className="flex flex-col gap-10 w-full h-full">
 
         <RouterLink to="/" className="pl-2 hidden md:block cursor-pointer">
@@ -60,6 +86,20 @@ const Sidebar = () => {
             </RouterLink>
           ))}
         </div>
+
+        {user && (
+          <RouterLink
+            to={`/profile/${user.username}`}
+            className="flex items-center gap-3 p-2 rounded-md hover:bg-white/20"
+          >
+          <div className="flex items-center gap-3 p-2 rounded-md ">
+            <div className="w-8 h-8 border rounded-full overflow-hidden">
+              <img src={user.profile_picture} alt="profile" className="w-full h-full object-cover" />
+            </div>
+            <p className="hidden md:block text-white">{handleUsername()}</p>
+          </div>
+          </RouterLink>
+        )}
 
         <span className="absolute left-full ml-2 bg-gray-700 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 md:hidden">
           Logout
