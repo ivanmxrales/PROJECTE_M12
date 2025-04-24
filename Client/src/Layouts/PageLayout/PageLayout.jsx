@@ -17,7 +17,7 @@ const PageLayout = ({ children }) => {
 
     const { pathname } = useLocation();
     const showSidebar = (pathname !== '/auth');
-    const showNavbar = (pathname !== '/auth' && pathname !== '/posts' && pathname !== `/profile/${user?.username}`);
+    const showNavbar = (pathname !== '/auth' && pathname !== '/posts' && pathname !== `/${user?.username}`);
 
     return (
         <div className="flex">

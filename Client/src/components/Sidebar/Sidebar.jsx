@@ -89,7 +89,7 @@ const Sidebar = () => {
 
         {user && (
           <RouterLink
-            to={`/profile/${user.username}`}
+            to={`/${user.username}`}
             className="flex items-center gap-3 p-2 rounded-md hover:bg-white/20"
           >
           <div className="flex items-center gap-3 p-2 rounded-md ">

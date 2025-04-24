@@ -17,7 +17,7 @@ function App() {
         <Route path="/posts" element={<Posts />} />
         <Route path="/postnew" element={<CreatePostPage />} />
         <Route path="/auth" element={<Auth />} />
-        <Route path="/profile/:username" element={<Profile />} />
+        <Route path="/:username" element={<Profile />} />
       </Routes>
       </PageLayout>
     </>
