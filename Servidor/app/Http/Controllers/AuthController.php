@@ -26,7 +26,7 @@ class AuthController extends Controller
 
         if (Auth::attempt(['email' => $request->email, 
         'password' => $request->password])) {
-            $user = Auth::user();
+            /** @var \App\Models\User $user **/  $user = Auth::user();
             $user->role = 'user';
             $token = $user->createToken('token')->plainTextToken;
             $cookie = cookie('token', $token, 60 * 24 * 7);
@@ -42,7 +42,7 @@ class AuthController extends Controller
                     "role" => $user->role,
                 ],
                 "token" => $token
-            ], Response::HTTP_OK)->withCookie($cookie); //afegim la id al return per fer redirecció cap al perfil al fer login
+            ], Response::HTTP_OK)->withCookie($cookie); //retornem l'objecte per guadar sessió en el client
         } else {
             return response(["message" => "Credencials invàlides."], Response::HTTP_UNAUTHORIZED);
         }

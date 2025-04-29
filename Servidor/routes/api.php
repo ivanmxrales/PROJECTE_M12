@@ -24,6 +24,7 @@ Route::get('/post/{id}', [ApiController::class, 'searchPost']);
 Route::post('/post', [ApiController::class, 'createPost']);
 Route::post('/post/{id}', [ApiController::class, 'updatePost']);
 Route::delete('/post/{id}', [ApiController::class, 'deletePost']);
+Route::get('/posts/user/{id}', [ApiController::class, 'listPostsUser']);
 
 ///// USERS /////
 

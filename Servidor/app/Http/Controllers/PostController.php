@@ -64,7 +64,7 @@ class PostController extends Controller
             'data_hora' => $data_hora,
             'caducidad' => $request->caducidad,
             'user_id' => $request->user_id,
-            'media' => !empty($media_files) ? json_encode(array_values($media_files)): null, // Guarda null si no hay archivos
+            'media' => !empty($media_files) ? json_encode(array_values($media_files)) : null, // Guarda null si no hay archivos
         ]);
 
         return response()->json([
@@ -75,58 +75,58 @@ class PostController extends Controller
 
     //// EDITAR
 
-public function edit(Request $request, $id)
-{
-    $post = Post::findOrFail($id);
+    public function edit(Request $request, $id)
+    {
+        $post = Post::findOrFail($id);
 
-    $request->validate([
-        'title' => 'nullable|min:2|max:20',
-        'location' => 'nullable|min:2|max:20',
-        'description' => 'nullable|max:250',
-        'media' => 'nullable|array', // URLs de medios que el usuario quiere conservar
-        'media.*' => 'string',
-        'new_media' => 'nullable|array', // Nuevos archivos que el usuario sube
-        'new_media.*' => 'file|mimes:jpg,jpeg,png,mp4,mov,avi|max:10240',
-    ]);
+        $request->validate([
+            'title' => 'nullable|min:2|max:20',
+            'location' => 'nullable|min:2|max:20',
+            'description' => 'nullable|max:250',
+            'media' => 'nullable|array', // URLs de medios que el usuario quiere conservar
+            'media.*' => 'string',
+            'new_media' => 'nullable|array', // Nuevos archivos que el usuario sube
+            'new_media.*' => 'file|mimes:jpg,jpeg,png,mp4,mov,avi|max:10240',
+        ]);
 
-    $original_media = $post->media ? json_decode($post->media, true) : [];
-    $updated_media = $request->input('media', []);
+        $original_media = $post->media ? json_decode($post->media, true) : [];
+        $updated_media = $request->input('media', []);
 
-    // Detectar qué archivos se han eliminado
-    $deleted_media = array_diff($original_media, $updated_media);
+        // Detectar qué archivos se han eliminado
+        $deleted_media = array_diff($original_media, $updated_media);
 
-    foreach ($deleted_media as $url) {
-        // Quitar el prefijo /storage/ para obtener la ruta relativa dentro del disco 'public'
-        $relativePath = str_replace('/storage/', '', $url);
+        foreach ($deleted_media as $url) {
+            // Quitar el prefijo /storage/ para obtener la ruta relativa dentro del disco 'public'
+            $relativePath = str_replace('/storage/', '', $url);
 
-        if (Storage::disk('public')->exists($relativePath)) {
-            Storage::disk('public')->delete($relativePath);
+            if (Storage::disk('public')->exists($relativePath)) {
+                Storage::disk('public')->delete($relativePath);
+            }
         }
-    }
 
-    // Agregar nuevos archivos si se subieron
-    if ($request->hasFile('new_media')) {
-        foreach ($request->file('new_media') as $index => $file) {
-            $extension = $file->getClientOriginalExtension();
-            $filename = Str::slug($post->title) . '-' . (count($updated_media) + $index + 1) . '.' . $extension;
-            $path = $file->storeAs('uploads/media', $filename, 'public');
-            $updated_media[] = Storage::url($path);
+        // Agregar nuevos archivos si se subieron
+        if ($request->hasFile('new_media')) {
+            foreach ($request->file('new_media') as $index => $file) {
+                $extension = $file->getClientOriginalExtension();
+                $filename = Str::slug($post->title) . '-' . (count($updated_media) + $index + 1) . '.' . $extension;
+                $path = $file->storeAs('uploads/media', $filename, 'public');
+                $updated_media[] = Storage::url($path);
+            }
         }
+
+        // Actualizar los campos del post
+        $post->update([
+            'title' => $request->has('title') ? $request->title : $post->title,
+            'location' => $request->has('location') ? $request->location : $post->location,
+            'description' => $request->has('description') ? $request->description : $post->description,
+            'media' => !empty($updated_media) ? json_encode(array_values($updated_media)) : null,
+        ]);
+
+        return response()->json([
+            'message' => 'Post actualizado exitosamente',
+            'post' => $post
+        ], 200);
     }
-
-    // Actualizar los campos del post
-    $post->update([
-        'title' => $request->has('title') ? $request->title : $post->title,
-        'location' => $request->has('location') ? $request->location : $post->location,
-        'description' => $request->has('description') ? $request->description : $post->description,
-        'media' => !empty($updated_media) ? json_encode(array_values($updated_media)) : null,
-    ]);
-
-    return response()->json([
-        'message' => 'Post actualizado exitosamente',
-        'post' => $post
-    ], 200);
-}
 
     // Eliminar un post
     public function delete($id)
@@ -137,6 +137,18 @@ public function edit(Request $request, $id)
         return response()->json([
             'message' => 'Post eliminado correctamente'
         ]);
+    }
+
+    public function postsUser($user_id)
+    {
+        $posts = Post::where('user_id', $user_id)->get();
+        return response()->json($posts);
+    }
+    
+    public function postsCaducados()
+    {
+        $posts = Post::where('caducidad', '<', now())->get();
+        return response()->json($posts);
     }
 }
 

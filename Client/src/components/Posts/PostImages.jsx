@@ -43,4 +43,3 @@ const PostImages = ({ post }) => {
 };
 
 export default PostImages;
-

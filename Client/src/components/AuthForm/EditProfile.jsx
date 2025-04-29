@@ -1,16 +1,17 @@
 import { useState } from "react";
-import useSignup from "../../hooks/useEditProfile";
+import useEditProfile from "../../hooks/useEditProfile";
 
-const Signup = () => {
+const EditProfile = ({ user }) => {
 	const [inputs, setInputs] = useState({
-		name: "",
-		username: "",
-		birth_date: "",
-		email: "",
+		name: user?.name || "",
+		username: user?.username || "",
+		birth_date: user?.birth_date || "",
+		email: user?.email || "",
 		password: "",
 		confirmPassword: "",
 	});
-	const { loading, signup } = useSignup();
+
+	const { loading, editProfile } = useEditProfile();
 
 	const [errors, setErrors] = useState({});
 
@@ -65,7 +66,7 @@ const Signup = () => {
 		}
 
 		setErrors({});
-		signup(inputs);
+		editProfile(inputs);
 	};
 
 	return (
@@ -110,26 +111,6 @@ const Signup = () => {
 			/>
 			{errors.email && <div className="text-red-500 text-sm">{errors.email}</div>}
 
-			<input
-				type="password"
-				name="password"
-				placeholder="Contrasenya"
-				className="input"
-				value={inputs.password}
-				onChange={handleChange}
-			/>
-			{errors.password && <div className="text-red-500 text-sm">{errors.password}</div>}
-
-			<input
-				type="password"
-				name="confirmPassword"
-				placeholder="Repetir contrasenya"
-				className="input"
-				value={inputs.confirmPassword}
-				onChange={handleChange}
-			/>
-			{errors.confirmPassword && <div className="text-red-500 text-sm">{errors.confirmPassword}</div>}
-
 			<button
 				onClick={handleSubmit}
 				disabled={loading}
@@ -143,4 +124,4 @@ const Signup = () => {
 	);
 };
 
-export default Signup;
+export default EditProfile;

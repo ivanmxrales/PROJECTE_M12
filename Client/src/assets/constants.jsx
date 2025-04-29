@@ -32,6 +32,22 @@ export const InstagramMobileLogo = () => (
 	</svg>
 );
 
+export const LogoutIcon = () => (
+	<svg
+	  aria-label="Logout"
+	  color="rgb(245, 245, 245)"
+	  fill="rgb(245, 245, 245)"
+	  height="24"
+	  role="img"
+	  viewBox="0 0 24 24"
+	  width="24"
+	>
+	  <title>Logout</title>
+	  <path d="M10 2C10 1.447 10.447 1 11 1H19C19.553 1 20 1.447 20 2V10C20 10.553 19.553 11 19 11H14V14H19C19.553 14 20 14.447 20 15V23C20 23.553 19.553 24 19 24H11C10.447 24 10 23.553 10 23V15C10 14.447 10.447 14 11 14H16V11H10C9.447 11 9 10.553 9 10V2C9 1.447 9.447 1 10 1H10Z"></path>
+	</svg>
+  );
+  
+
 export const HomeLogo = () => (
 	<svg
 		aria-label='Home'

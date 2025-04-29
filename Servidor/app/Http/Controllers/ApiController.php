@@ -62,6 +62,11 @@ class ApiController extends Controller
         return $this->postController->list();
     }
 
+    public function listPostsUser($id)
+    {
+        return $this->postController->postsUser($id);
+    }
+
     public function searchPost($id)
     {
         return $this->postController->search($id);

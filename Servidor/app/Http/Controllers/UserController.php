@@ -23,13 +23,32 @@ class UserController extends Controller
         }
     }
 
-    function search($id)
+    /* function search($id)
     {
         $user = User::find($id);
         $img_location = env('USERS_PROFILE_PICTURE');
         $user->profile_picture = url($img_location . '/' . $user->profile_picture); //retornem la ruta de la imatge
         return response()->json($user);
+    } */
+
+    public function search($id)
+{
+    $user = User::with('posts')->find($id); // load user + posts
+
+    if (!$user) {
+        return response()->json(['message' => 'User not found'], 404);
     }
+
+    $img_location = env('USERS_PROFILE_PICTURE');
+
+    // If profile_picture already contains the filename, not the full URL
+    if ($user->profile_picture && !str_starts_with($user->profile_picture, 'http')) {
+        $user->profile_picture = url($img_location . '/' . $user->profile_picture);
+    }
+
+    return response()->json($user);
+}
+
 
     function edit(Request $request, $id)
     {
