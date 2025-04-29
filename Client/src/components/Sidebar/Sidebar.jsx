@@ -3,6 +3,7 @@ import { CreatePostLogo, HomeLogo, InstagramLogo, InstagramMobileLogo, MessagesL
 import { SearchLogo } from "../../assets/constants";
 import { useState, useEffect } from "react";
 import { LogoutIcon as Logout } from "../../assets/constants";
+import useLogout from "../../hooks/useLogout";
 
 const Sidebar = () => {
   const [user, setUser] = useState(null);
@@ -32,6 +33,7 @@ const Sidebar = () => {
   };
 
   const handleLogout = () => {
+    useLogout();
     localStorage.removeItem("user-info");
     setUser(null);
   };

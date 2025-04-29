@@ -28,6 +28,10 @@ class ApiController extends Controller
         return $this->authController->login($request);
     }
 
+    public function logout(Request $request) {
+        return $this->authController->logout($request);
+    }
+
     public function signup(Request $request)
     {
         return $this->authController->signup($request);

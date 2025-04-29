@@ -40,6 +40,7 @@ Route::post('/signup', [ApiController::class, 'signup']);
 Route::post('/user/{id}', [ApiController::class, 'updateUser']);
 Route::delete('/user/{id}', [ApiController::class, 'deleteUser']);
 Route::post('/login', [ApiController::class, 'login']);
+Route::delete('/logout', [ApiController::class, 'logout']);
 
 
 //// Comments /////

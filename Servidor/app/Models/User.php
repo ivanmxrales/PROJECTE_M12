@@ -12,6 +12,7 @@ use App\Models\Coment;
 use App\Models\Message;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use App\Models\Token;
 
 class User extends Authenticatable
 {

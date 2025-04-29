@@ -48,6 +48,13 @@ class AuthController extends Controller
         }
     }
 
+    function logout(Request $request)
+    {
+        $user = Auth::user();
+        /** @var \App\Models\User $user **/ $user->tokens()->delete();
+        return response()->json(['message' => 'Logout successful']);
+    }
+
     function signup(Request $request)
     {
         $user = new User;
