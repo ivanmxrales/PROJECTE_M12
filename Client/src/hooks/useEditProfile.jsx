@@ -2,47 +2,44 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const useSignup = () => {
+const editProfile = () => {
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
-	const[errorName, setErrorName] = useState(null);
-	const[errorUsername, setErrorUsername] = useState(null);
-	const[errorBirthDate, setErrorBirthDate] = useState(null);
-	const[errorEmail, setErrorEmail] = useState(null);
-	const[errorPassword, setErrorPassword] = useState(null);
-	const[errorConfirmPassword, setErrorConfirmPassword] = useState(null);
 	const navigate = useNavigate();
 
-	const signup = async (inputs) => {
-
+	const edit = async (id, inputs) => {
 		setLoading(true);
 		setError(null);
-
-		const data = {
-			email: inputs.email,
-			password: inputs.password,
-			name: inputs.name,
-			birth_date: inputs.birth_date,
-			username: inputs.username,
-			role: 'user',
-			surname: 'PROVA',
-		};
-
+	
+		const formData = new FormData();
+		formData.append('email', inputs.email);
+		formData.append('biography', inputs.biography);
+		formData.append('name', inputs.name);
+		formData.append('birth_date', inputs.birth_date);
+		formData.append('username', inputs.username);
+		formData.append('role', 'user');
+		formData.append('surname', 'PROVA');
+		formData.append('profile_picture', inputs.profile_picture);
+	
 		try {
-			const response = await axios.post(`http://127.0.0.1:8000/api/user/${id}`, data);
-
-			const userData = response.data;
-			localStorage.setItem('user-info', JSON.stringify(userData));
-			navigate(`/profile/${userData.id}`);
+			await axios.post(`http://127.0.0.1:8000/api/user/${id}`, formData, {
+				headers: { 'Content-Type': 'multipart/form-data' },
+			});
+			const response = await axios.get(`http://127.0.0.1:8000/api/user/${id}`);
+			const user = response.data;
+			localStorage.setItem('user-info', JSON.stringify(user));
+			console.log("User data:", user);
+			navigate('/');
 		} catch (err) {
-			const errMsg = err.response?.data?.message || "Login failed";
+			const errMsg = err.response?.data?.message || "Error al desar l'usuari";
 			setError({ message: errMsg });
 		} finally {
 			setLoading(false);
 		}
 	};
+	
 
-	return { loading, error, signup };
+	return { loading, error, edit };
 };
 
-export default useSignup;
+export default editProfile;

@@ -1,76 +1,77 @@
 import { useState } from "react";
 import useEditProfile from "../../hooks/useEditProfile";
 
-const EditProfile = ({ user }) => {
+const EditProfileForm = ({ user, onCancel }) => {
 	const [inputs, setInputs] = useState({
 		name: user?.name || "",
 		username: user?.username || "",
+		biography: user?.biography || "",
 		birth_date: user?.birth_date || "",
 		email: user?.email || "",
-		password: "",
-		confirmPassword: "",
+		profile_picture: user?.profile_picture || ""
 	});
 
-	const { loading, editProfile } = useEditProfile();
-
+	const { loading, edit, error } = useEditProfile();
 	const [errors, setErrors] = useState({});
 
 	const handleChange = (e) => {
-		setInputs({ ...inputs, [e.target.name]: e.target.value });
+		if (e.target.name === 'profile_picture') {
+			setInputs({ ...inputs, profile_picture: e.target.files[0] });
+		} else {
+			setInputs({ ...inputs, [e.target.name]: e.target.value });
+		}
 	};
+	
 
-	const handleSubmit = () => {
+	const validate = () => {
 		const newErrors = {};
-
 		if (!inputs.name || inputs.name.length <= 3)
 			newErrors.name = "El nom ha de tenir almenys 3 caràcters";
 
 		if (!inputs.username || inputs.username.length <= 3)
 			newErrors.username = "El nom d'usuari ha de tenir almenys 3 caràcters";
 
-		if (!inputs.birth_date){
+		if (!inputs.birth_date) {
 			newErrors.birth_date = "La data de naixement és necessària";
+		} else {
+			const dob = new Date(inputs.birth_date);
+			const age = new Date().getFullYear() - dob.getFullYear();
+			if (age < 16) newErrors.birth_date = "Has de tenir 16 anys com a mínim";
 		}
-		 else {
-            const inputDate = new Date(inputs.birth_date);
 
-            const today = new Date();
-            let age = today.getFullYear() - inputDate.getFullYear();
-            const monthDiff = today.getMonth() - inputDate.getMonth();
-            const dayDiff = today.getDate() - inputDate.getDate();
+		if (!inputs.email) newErrors.email = "El correu electrònic és necessari";
 
-            if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
-                age--;
-            }
-
-            if (age < 16) {
-                newErrors.birth_date = "Has de tenir 16 anys com a mínim per registrar-te";
-            }
-        }
-
-		if (!inputs.email)
-			newErrors.email = "El correu electrònic és necessari";
-
-		if (!inputs.password || inputs.password.length < 8)
+		if (inputs.password && inputs.password.length < 8)
 			newErrors.password = "La contrasenya ha de tenir almenys 8 caràcters";
-
-		if (!inputs.confirmPassword || inputs.confirmPassword.length < 8)
-			newErrors.confirmPassword = "Les contrasenyes no coincideixen";
 
 		if (inputs.password !== inputs.confirmPassword)
 			newErrors.confirmPassword = "Les contrasenyes no coincideixen";
 
+		return newErrors;
+	};
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		const newErrors = validate();
 		if (Object.keys(newErrors).length > 0) {
 			setErrors(newErrors);
 			return;
 		}
-
 		setErrors({});
-		editProfile(inputs);
+		edit(user.id, inputs);
 	};
 
 	return (
-		<>
+		<form onSubmit={handleSubmit} className="flex flex-col gap-4">
+			<input 
+				type="file" 
+				name="profile_picture"
+				placeholder="Imatge"
+				className={inputs.profile_picture}
+				onChange={handleChange}
+			/>
+			{errors.profile_picture && <div className="text-red-500 text-sm">{errors.profile_picture}</div>}
+
 			<input
 				type="text"
 				name="name"
@@ -92,6 +93,16 @@ const EditProfile = ({ user }) => {
 			{errors.username && <div className="text-red-500 text-sm">{errors.username}</div>}
 
 			<input
+				type="text"
+				name="biography"
+				placeholder="Biografía"
+				className="input"
+				value={inputs.biography}
+				onChange={handleChange}
+			/>
+			{errors.biography && <div className="text-red-500 text-sm">{errors.biography}</div>}
+
+			<input
 				type="date"
 				name="birth_date"
 				placeholder="Data de naixement"
@@ -110,18 +121,16 @@ const EditProfile = ({ user }) => {
 				onChange={handleChange}
 			/>
 			{errors.email && <div className="text-red-500 text-sm">{errors.email}</div>}
-
-			<button
-				onClick={handleSubmit}
-				disabled={loading}
-				className={`w-full text-sm px-4 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-600 transition duration-200 ${
-					loading ? "opacity-50 cursor-not-allowed" : ""
-				}`}
-			>
-				{loading ? "Enviant..." : "Registrar-se"}
-			</button>
-		</>
+			<div className="flex justify-end gap-2">
+				<button type="button" onClick={onCancel}>Cancel·la</button>
+				<button type="submit" disabled={loading}>
+					{loading ? "Desant..." : "Desa"}
+				</button>
+			</div>
+			{error && <div className="text-red-500 text-sm">{error.message}</div>}
+		</form>
 	);
 };
 
-export default EditProfile;
+export default EditProfileForm;
+

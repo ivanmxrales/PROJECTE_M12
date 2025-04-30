@@ -40,6 +40,8 @@ class AuthController extends Controller
                     "username" => $user->username,
                     "profile_picture" => url($img_location . '/' . $user->profile_picture),
                     "role" => $user->role,
+                    "biography" => $user->biography,
+                    "birth_date" => $user->birth_date
                 ],
                 "token" => $token
             ], Response::HTTP_OK)->withCookie($cookie); //retornem l'objecte per guadar sessió en el client

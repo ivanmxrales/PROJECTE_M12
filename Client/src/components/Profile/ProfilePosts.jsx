@@ -10,7 +10,7 @@ const ProfilePosts = () => {
         const storedUser = localStorage.getItem("user-info");
         if (storedUser) {
           const parsed = JSON.parse(storedUser);
-          setUser(parsed.user); // <-- Only keep the nested user object
+          setUser(parsed.user); 
         }
       }, []);
 

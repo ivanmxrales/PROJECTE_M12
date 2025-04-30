@@ -32,22 +32,21 @@ class UserController extends Controller
     } */
 
     public function search($id)
-{
-    $user = User::with('posts')->find($id); // load user + posts
+    {
+        $user = User::with('posts')->find($id); 
 
-    if (!$user) {
-        return response()->json(['message' => 'User not found'], 404);
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+
+        $img_location = env('USERS_PROFILE_PICTURE');
+
+        if ($user->profile_picture && !str_starts_with($user->profile_picture, 'http')) {
+            $user->profile_picture = url($img_location . '/' . $user->profile_picture);
+        }
+
+        return response()->json($user);
     }
-
-    $img_location = env('USERS_PROFILE_PICTURE');
-
-    // If profile_picture already contains the filename, not the full URL
-    if ($user->profile_picture && !str_starts_with($user->profile_picture, 'http')) {
-        $user->profile_picture = url($img_location . '/' . $user->profile_picture);
-    }
-
-    return response()->json($user);
-}
 
 
     function edit(Request $request, $id)
@@ -65,7 +64,7 @@ class UserController extends Controller
                     'min:2',
                     'max:20',
                     Rule::unique('users')->ignore($user->id)
-],
+                ],
                 'email' => 'required|email',
                 'password' => 'nullable|min:8|max:20'
             ]);
@@ -81,11 +80,11 @@ class UserController extends Controller
                 if ($request->filled('password')) {
                     $user->password = Hash::make($request->password);
                 }
-                
+
                 $user->role = $request->role;
                 if ($request->hasFile('profile_picture')) {
                     $file = $request->file('profile_picture');
-                    $file_name = $user->name . '_' . $user->surname .  '.' . $file->getClientOriginalExtension();
+                    $file_name = $user->name . '_' . $user->surname . '.' . $file->getClientOriginalExtension();
                     $file_location = env('USERS_PROFILE_PICTURE');
                     $file->move(public_path($file_location), $file_name);
                     $user->profile_picture = $file_name;

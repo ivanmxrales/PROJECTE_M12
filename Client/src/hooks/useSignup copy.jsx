@@ -33,7 +33,7 @@ const useSignup = () => {
 
 			const userData = response.data;
 			localStorage.setItem('user-info', JSON.stringify(userData));
-			navigate(`/profile/${userData.id}`);
+			navigate('/');
 		} catch (err) {
 			const errMsg = err.response?.data?.message || "Login failed";
 			setError({ message: errMsg });

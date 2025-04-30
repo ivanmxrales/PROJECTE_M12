@@ -25,7 +25,7 @@ const useLogin = () => {
 			const userData = response.data;
 			localStorage.setItem('user-info', JSON.stringify(userData));
 			console.log("User data:", userData);
-			console.log("LOGIN ATTEMPT:", inputs.email, inputs.password);
+			//console.log("LOGIN ATTEMPT:", inputs.email, inputs.password);
 			navigate("/"); 
 		} catch (err) {
 			const errMsg = err.response?.data?.message || "Error al iniciar sessió";

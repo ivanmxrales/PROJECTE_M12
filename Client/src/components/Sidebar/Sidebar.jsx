@@ -7,6 +7,7 @@ import useLogout from "../../hooks/useLogout";
 
 const Sidebar = () => {
   const [user, setUser] = useState(null);
+  const { logout } = useLogout();
 
   /* useEffect(() => {
     console.log("USUARI LOCALSTORAGE:", localStorage.getItem("user-info"));
@@ -32,8 +33,8 @@ const Sidebar = () => {
     return user.username;
   };
 
-  const handleLogout = () => {
-    useLogout();
+  const handleLogout = async () => {
+    await logout();
     localStorage.removeItem("user-info");
     setUser(null);
   };
