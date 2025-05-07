@@ -14,15 +14,23 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function likes(): HasMany
-    {
-        return $this->hasMany(User::class,'likes');
-    }
+    // public function likes(): HasMany
+    // {
+    //     return $this->hasMany(User::class,'likes');
+    // }
 
     public function coments()
     {
         return $this->hasMany(Coment::class);
     }
+
+    public function likedByUsers()
+{
+    return $this->belongsToMany(User::class, 'likes', 'post_id', 'user_id')
+                ->withTimestamps();
+}
+
+
 
     protected $guarded = ['id'];
 

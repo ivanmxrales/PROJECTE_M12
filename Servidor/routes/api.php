@@ -3,6 +3,7 @@
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ApiController;
+use App\Http\Controllers\LikeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -48,3 +49,14 @@ Route::get('/coment/{id}', [ApiController::class, 'searchComent']);
 Route::post('/coment', [ApiController::class, 'createComent']);
 Route::post('/coment/{id}', [ApiController::class, 'updateComent']);
 Route::delete('/coment/{id}', [ApiController::class, 'deleteComent']);
+
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/posts/{postId}/like', [LikeController::class, 'likePost']);
+    Route::delete('/posts/{postId}/like', [LikeController::class, 'unlikePost']);
+    Route::get('/posts/{id}/liked', [LikeController::class, 'hasLiked']);
+    Route::get('/posts/{id}/likes', [LikeController::class, 'likeCount']);
+    Route::get('/likes', [LikeController::class, 'list']);
+});
+
+

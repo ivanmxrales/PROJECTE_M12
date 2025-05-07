@@ -26,7 +26,7 @@ class AuthController extends Controller
 
         if (Auth::attempt(['email' => $request->email, 
         'password' => $request->password])) {
-            $user = Auth::user();
+            /** @var \App\Models\User $user **/ $user = Auth::user();
             $user->role = 'user';
             $token = $user->createToken('token')->plainTextToken;
             $cookie = cookie('token', $token, 60 * 24 * 7);
