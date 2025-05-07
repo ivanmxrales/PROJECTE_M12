@@ -12,12 +12,19 @@ use Illuminate\Support\Facades\Route;
 
 ///// POSTS /////
 
-Route::get('/posts', [PostController::class, 'list']);
-Route::match(['get', 'post'], '/post/{id}', [PostController::class, 'edit']);
-// Route::put('/posts/{id}', [PostController::class, 'edit']);
-Route::post('/post', [PostController::class, 'new']);
-Route::get('/post/{id}', [PostController::class, 'search']);
-Route::delete('/posts/{id}', [PostController::class, 'delete']);
+// Route::get('/posts', [PostController::class, 'list']);
+// Route::match(['get', 'post'], '/post/{id}', [PostController::class, 'edit']);
+// // Route::put('/posts/{id}', [PostController::class, 'edit']);
+// Route::post('/post', [PostController::class, 'new']);
+// Route::get('/post/{id}', [PostController::class, 'search']);
+// Route::delete('/posts/{id}', [PostController::class, 'delete']);
+
+Route::get('/posts', [ApiController::class, 'listPosts']);
+Route::get('/post/{id}', [ApiController::class, 'searchPost']);
+Route::post('/post', [ApiController::class, 'createPost']);
+Route::post('/post/{id}', [ApiController::class, 'updatePost']);
+Route::delete('/post/{id}', [ApiController::class, 'deletePost']);
+Route::get('/posts/user/{id}', [ApiController::class, 'listPostsUser']);
 
 ///// USERS /////
 
@@ -29,7 +36,17 @@ Route::delete('/user/{id}', [UserController::class, 'delete']); */
 
 Route::get('/users', [ApiController::class, 'listUsers']);
 Route::get('/user/{id}', [ApiController::class, 'searchUser']);
-Route::post('/user', [ApiController::class, 'createUser']);
+Route::post('/signup', [ApiController::class, 'signup']);
 Route::post('/user/{id}', [ApiController::class, 'updateUser']);
 Route::delete('/user/{id}', [ApiController::class, 'deleteUser']);
 Route::post('/login', [ApiController::class, 'login']);
+Route::delete('/logout', [ApiController::class, 'logout']);
+
+
+//// Comments /////
+
+Route::get('/coments', [ApiController::class, 'listComents']);
+Route::get('/coment/{id}', [ApiController::class, 'searchComent']);
+Route::post('/coment', [ApiController::class, 'createComent']);
+Route::post('/coment/{id}', [ApiController::class, 'updateComent']);
+Route::delete('/coment/{id}', [ApiController::class, 'deleteComent']);

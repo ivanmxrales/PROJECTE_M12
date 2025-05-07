@@ -11,6 +11,8 @@ use App\Models\Post;
 use App\Models\Coment;
 use App\Models\Message;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use App\Models\Token;
 
 class User extends Authenticatable
 {
@@ -51,19 +53,34 @@ class User extends Authenticatable
         ];
     }
 
-    public function posts(): HasMany{
-        return $this->hasMany(Post::class, 'posts');
+    public function posts(): HasMany
+    {
+        return $this->hasMany(Post::class, 'user_id')->withTimestamps();
     }
 
-    public function coments(): HasMany{
-        return $this->hasMany(Coment::class, 'coments');
+    public function likedPosts()
+    {
+        return $this->belongsToMany(Post::class, 'likes', 'user_id', 'post_id')
+            ->withTimestamps();
     }
 
-    public function followers(): HasMany{
+   /*  public function likedPosts(): BelongsToMany
+    {
+        return $this->belongsToMany(Post::class, 'likes', 'user_id', 'post_id');
+    } */
+
+    public function coments(): HasMany
+    {
+        return $this->hasMany(Coment::class, 'user_id');
+    }
+
+    public function followers(): HasMany
+    {
         return $this->hasMany(Coment::class);
     }
 
-    public function messages(): HasMany{
+    public function messages(): HasMany
+    {
         return $this->hasMany(related: Message::class);
     }
 }

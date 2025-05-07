@@ -7,19 +7,34 @@ use Illuminate\Http\Request;
 class ApiController extends Controller
 {
     protected $userController;
+    protected $postController;
     protected $authController;
+    protected $comentController;
+    
 
-    public function __construct(UserController $userController, AuthController $authController)
+    public function __construct(UserController $userController,PostController $postController ,AuthController $authController, ComentController $comentController)
     {
         $this->authController = $authController;
         $this->userController = $userController;
+        $this->postController = $postController;
+        $this->comentController = $comentController;
     }
+
 
     // Controller Users
 
     public function login(Request $request)
     {
         return $this->authController->login($request);
+    }
+
+    public function logout(Request $request) {
+        return $this->authController->logout($request);
+    }
+
+    public function signup(Request $request)
+    {
+        return $this->authController->signup($request);
     }
     public function listUsers()
     {
@@ -31,10 +46,6 @@ class ApiController extends Controller
         return $this->userController->search($id);
     }
 
-    public function createUser(Request $request)
-    {
-        return $this->userController->new($request);
-    }
 
     public function updateUser(Request $request, $id)
     {
@@ -46,30 +57,73 @@ class ApiController extends Controller
         return $this->userController->delete($id);
     }
 
-    //Controller Posts
+    
 
+    //Controller Posts
     public function listPosts()
     {
-        return $this->userController->list();
+        
+        return $this->postController->list();
+    }
+
+    public function listPostsUser($id)
+    {
+        return $this->postController->postsUser($id);
     }
 
     public function searchPost($id)
     {
-        return $this->userController->search($id);
+        return $this->postController->search($id);
     }
 
     public function createPost(Request $request)
     {
-        return $this->userController->new($request);
+        return $this->postController->new($request);
+        
     }
 
+    // public function createPost(Request $request)
+    // {
+    // return $this->userController->register($request);
+    // }
     public function updatePost(Request $request, $id)
     {
-        return $this->userController->edit($request, $id);
+        return $this->postController->edit($request, $id);
     }
 
     public function deletePost($id)
     {
-        return $this->userController->delete($id);
+        return $this->postController->delete($id);
+    }
+
+    //Controller Coments
+    public function listComents()
+    {
+        return $this->comentController->list();
+    }
+
+    public function listComentsPost()
+    {
+        return $this->comentController->list();
+    }
+
+    public function searchComent($id)
+    {
+        return $this->comentController->search($id);
+    }
+
+    public function createComent(Request $request)
+    {
+        return $this->comentController->new($request);
+    }
+
+    public function updateComent(Request $request, $id)
+    {
+        return $this->comentController->edit($request, $id);
+    }
+
+    public function deleteComent($id)
+    {
+        return $this->comentController->delete($id);
     }
 }
