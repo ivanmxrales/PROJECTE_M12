@@ -1,41 +1,73 @@
-import axios from 'axios';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+/* import api from "../lib/axios";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+const useLogin = () => {
+	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState(null);
+
+	const navigate = useNavigate();
+
+	const login = async (inputs) => {
+		setLoading(true);
+		setError(null);
+		try {
+			await api.get("/sanctum/csrf-cookie");
+			const res = await api.post("/api/login", {
+				email: inputs.email,
+				password: inputs.password
+			});
+			const userData = res.data;
+			localStorage.setItem('user-info', JSON.stringify(userData));
+			navigate("/");
+			console.log("Usuari:", res.data);
+			return res.data;
+		} catch (err) {
+			setError(err.response?.data?.message || "Login failed");
+		  }
+		finally {
+			setLoading(false);
+		}
+	};
+
+	return { login, loading, error };
+};
+
+export default useLogin; */
+
+
+import api from "../lib/axios";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const useLogin = () => {
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
 	const navigate = useNavigate();
+	const { login: setAuthUser } = useAuth();
 
 	const login = async (inputs) => {
-		if (!inputs.email || !inputs.password) {
-			setError({ message: "El correu o la contrasenya són incorrecte" });
-			return;
-		}
-
 		setLoading(true);
 		setError(null);
-
 		try {
-			const response = await axios.post('http://127.0.0.1:8000/api/login', {
+			await api.get("/sanctum/csrf-cookie");
+			const res = await api.post("/api/login", {
 				email: inputs.email,
 				password: inputs.password
 			});
-
-			const userData = response.data;
-			localStorage.setItem('user-info', JSON.stringify(userData));
-			console.log("User data:", userData);
-			//console.log("LOGIN ATTEMPT:", inputs.email, inputs.password);
-			navigate("/"); 
+			const userData = res.data;
+			setAuthUser(userData);
+			navigate("/");
+			return res.data;
 		} catch (err) {
-			const errMsg = err.response?.data?.message || "Error al iniciar sessió";
-			setError({ message: errMsg });
+			setError(err.response?.data?.message || "Login failed");
 		} finally {
 			setLoading(false);
 		}
 	};
 
-	return { loading, error, login };
+	return { login, loading, error };
 };
 
 export default useLogin;

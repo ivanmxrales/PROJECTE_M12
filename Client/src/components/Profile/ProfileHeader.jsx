@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import EditProfile from './EditProfile';
+import { SettingsLogo } from "../../assets/constants";
+import { GearLogo } from '../../assets/constants';
+import UserSettings from './USettings/UserSettings';
 
 const ProfileHeader = () => {
     const [user, setUser] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isModalOpenSettings, setIsModalOpenSettings] = useState(false);
 
     useEffect(() => {
         const storedUser = localStorage.getItem("user-info");
@@ -17,6 +21,14 @@ const ProfileHeader = () => {
         setIsModalOpen(true);
     };
 
+    const handleUserSettings = () => {
+        setIsModalOpenSettings(true);
+    }
+
+    const handleCloseSettings = () => {
+        setIsModalOpenSettings(false);
+    };
+
     const handleCloseModal = () => {
         setIsModalOpen(false);
     };
@@ -25,7 +37,6 @@ const ProfileHeader = () => {
         const updatedUser = { ...user, ...updatedData };
         setUser(updatedUser);
 
-        // Save to localStorage (if desired)
         const storedUser = JSON.parse(localStorage.getItem("user-info"));
         storedUser.user = updatedUser;
         localStorage.setItem("user-info", JSON.stringify(storedUser));
@@ -53,6 +64,15 @@ const ProfileHeader = () => {
                             Editar perfil
                         </button>
                     </div>
+                    <div className="flex gap-4 items-center justify-center">
+                        <button className="bg-transparent text-black hover:bg-opacity-80 text-xs sm:text-sm px-4 py-2 rounded"
+                             onClick={handleUserSettings}>
+                            <GearLogo />
+                        </button>
+                    </div>
+                    <div>
+
+                    </div>
                 </div>
 
                 <div className="flex items-center gap-2 sm:gap-4">
@@ -74,6 +94,16 @@ const ProfileHeader = () => {
                     onSave={handleSaveProfile}
                 />
             )}
+
+            {isModalOpenSettings && (
+                <UserSettings className="z-9999"
+                    user={user}
+                    onClose={handleCloseSettings}
+                    onSave={handleSaveProfile}
+                />
+            )}
+
+
         </div>
     );
 };

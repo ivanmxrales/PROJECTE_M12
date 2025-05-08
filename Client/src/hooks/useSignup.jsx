@@ -1,16 +1,12 @@
 import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import api from '../lib/axios';
+import useLogin from './useLogin';
 
 const useSignup = () => {
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
-	const[errorName, setErrorName] = useState(null);
-	const[errorUsername, setErrorUsername] = useState(null);
-	const[errorBirthDate, setErrorBirthDate] = useState(null);
-	const[errorEmail, setErrorEmail] = useState(null);
-	const[errorPassword, setErrorPassword] = useState(null);
-	const[errorConfirmPassword, setErrorConfirmPassword] = useState(null);
 	const navigate = useNavigate();
 
 	const signup = async (inputs) => {
@@ -29,11 +25,10 @@ const useSignup = () => {
 		};
 
 		try {
-			const response = await axios.post('http://127.0.0.1:8000/api/signup', data);
+			const response = await api.post('/api/signup', data);
 
 			const userData = response.data;
-			localStorage.setItem('user-info', JSON.stringify(userData));
-			navigate('/');
+			useLogin(userData);
 		} catch (err) {
 			const errMsg = err.response?.data?.message || "Login failed";
 			setError({ message: errMsg });

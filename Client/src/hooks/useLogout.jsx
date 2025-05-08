@@ -1,4 +1,4 @@
-import axios from 'axios';
+/* import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -32,6 +32,27 @@ const useLogout = () => {
 	};
 
 	return { logout, loading, error };
+};
+
+export default useLogout;
+ */
+
+
+
+
+
+import api from "../lib/axios";
+
+const useLogout = () => {
+  const logout = async () => {
+    await api.delete("/api/logout", {
+		withCredentials: true,
+	});
+	localStorage.removeItem("user-info");
+	window.location.href = "/auth";
+  };
+
+  return logout;
 };
 
 export default useLogout;

@@ -7,21 +7,28 @@ import CreatePostPage from './pages/posts/CreatePostPage';
 import Auth from './pages/Auth/Auth';
 import PageLayout from './Layouts/PageLayout/PageLayout';
 import Profile from './pages/Profile/Profile';
+import ProtectedRoutes from './components/AuthRoutes/ProtectedRoutes';
 
 function App() {
   return (
-    <>
-      <PageLayout>
+    <PageLayout>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/posts" element={<Posts />} />
-        <Route path="/postnew" element={<CreatePostPage />} />
+        <Route path="/postnew" element={
+          <ProtectedRoutes>
+            <CreatePostPage />
+          </ProtectedRoutes>
+        } />
         <Route path="/auth" element={<Auth />} />
-        <Route path="/:username" element={<Profile />} />
+        <Route path="/:username" element={
+          <ProtectedRoutes>
+            <Profile />
+          </ProtectedRoutes>
+        } />
       </Routes>
-      </PageLayout>
-    </>
-  )
+    </PageLayout>
+  );
 }
 
-export default App
+export default App;

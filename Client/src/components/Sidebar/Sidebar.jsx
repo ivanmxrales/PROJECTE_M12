@@ -4,6 +4,7 @@ import { SearchLogo } from "../../assets/constants";
 import { useState, useEffect } from "react";
 import { LogoutIcon as Logout } from "../../assets/constants";
 import useLogout from "../../hooks/useLogout";
+import api from "../../lib/axios";
 
 const Sidebar = () => {
   const [user, setUser] = useState(null);
@@ -22,7 +23,7 @@ const Sidebar = () => {
     const storedUser = localStorage.getItem("user-info");
     if (storedUser) {
       const parsed = JSON.parse(storedUser);
-      setUser(parsed.user); // <-- Only keep the nested user object
+      setUser(parsed.user);
     }
   }, []);
 
@@ -34,7 +35,7 @@ const Sidebar = () => {
   };
 
   const handleLogout = async () => {
-    await logout();
+    await useLogout();
     localStorage.removeItem("user-info");
     setUser(null);
   };
