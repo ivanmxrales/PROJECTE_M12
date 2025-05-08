@@ -10,9 +10,11 @@ class ApiController extends Controller
     protected $postController;
     protected $authController;
     protected $comentController;
+
+    protected $likeController;
     
 
-    public function __construct(UserController $userController,PostController $postController ,AuthController $authController, ComentController $comentController)
+    public function __construct(UserController $userController,PostController $postController ,AuthController $authController, ComentController $comentController, LikeController $likeController)
     {
         $this->authController = $authController;
         $this->userController = $userController;
@@ -125,5 +127,12 @@ class ApiController extends Controller
     public function deleteComent($id)
     {
         return $this->comentController->delete($id);
+    }
+
+    // likes
+
+    public function listLikes()
+    {
+        return $this->likeController->list();
     }
 }

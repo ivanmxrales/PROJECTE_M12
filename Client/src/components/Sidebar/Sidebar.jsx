@@ -34,10 +34,11 @@ const Sidebar = () => {
     return user.username;
   };
 
+  
   const handleLogout = async () => {
-    await useLogout();
+    await logout();
     localStorage.removeItem("user-info");
-    setUser(null);
+    //setUser(null);;
   };
 
   const sidebarItems = [
@@ -117,7 +118,7 @@ const Sidebar = () => {
 
               <div className="flex items-center gap-3 p-2 rounded-md ">
                 <div className="w-8 h-8 border rounded-full overflow-hidden">
-                  <Logout/>
+                  <Logout />
                 </div>
                 <p className="hidden md:block text-white">Tancar sessió</p>
               </div>

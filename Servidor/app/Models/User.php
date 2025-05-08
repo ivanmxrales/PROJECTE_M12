@@ -60,8 +60,8 @@ class User extends Authenticatable
 
     public function likedPosts()
     {
-        return $this->belongsToMany(Post::class, 'likes', 'user_id', 'post_id')
-            ->withTimestamps();
+    return $this->belongsToMany(Post::class, 'likes', 'user_id', 'post_id')
+                ->withTimestamps();
     }
 
    /*  public function likedPosts(): BelongsToMany
@@ -83,6 +83,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(related: Message::class);
     }
+    
 
     public function followers(): BelongsToMany
     {

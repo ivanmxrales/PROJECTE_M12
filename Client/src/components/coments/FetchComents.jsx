@@ -6,13 +6,22 @@ const FetchComents = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const getAuthHeader = () => {
+    const token = JSON.parse(localStorage.getItem("user-info"))?.token;
+    return {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+  };
+
   useEffect(() => {
     fetchComents();
   }, []);
 
   const fetchComents = async () => {
     try {
-      const response = await axios.get("http://127.0.0.1:8000/api/coments");
+      const response = await axios.get("http://127.0.0.1:8000/api/coments", getAuthHeader());
       setComents(response.data);
       console.log("Comentaris carregats:", response.data);
     } catch (error) {
@@ -28,7 +37,7 @@ const FetchComents = () => {
     if (!confirmDelete) return;
 
     try {
-      await axios.delete(`http://127.0.0.1:8000/api/coments/${id}`);
+      await axios.delete(`http://127.0.0.1:8000/api/coments/${id}`, getAuthHeader());
       setComents((prevComents) =>
         prevComents.filter((coment) => coment.id !== id)
       );

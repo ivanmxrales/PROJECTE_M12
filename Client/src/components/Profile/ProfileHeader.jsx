@@ -3,6 +3,7 @@ import EditProfile from './EditProfile';
 import { SettingsLogo } from "../../assets/constants";
 import { GearLogo } from '../../assets/constants';
 import UserSettings from './USettings/UserSettings';
+import api from '../../lib/axios';
 
 const ProfileHeader = () => {
     const [user, setUser] = useState(null);
@@ -42,6 +43,38 @@ const ProfileHeader = () => {
         localStorage.setItem("user-info", JSON.stringify(storedUser));
     };
 
+
+    const [followers, setFollowers] = useState([]);
+    const [following, setFollowing] = useState([]);
+
+    useEffect(() => {
+        const fetchFollowData = async () => {
+            const token = JSON.parse(localStorage.getItem("user-info"))?.token;
+
+            try {
+                const resFollowers = await api.get("/api/followers", {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+                const resFollowing = await api.get("/api/following", {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+
+                setFollowers(resFollowers.data);
+                setFollowing(resFollowing.data);
+            } catch (error) {
+                console.error("Error fetching followers/following:", error.response?.data || error.message);
+            }
+        };
+
+
+        fetchFollowData();
+    }, []);
+
+
     return (
         <div className='flex gap-4 py-10 '>
             <div className="flex justify-center">
@@ -66,7 +99,7 @@ const ProfileHeader = () => {
                     </div>
                     <div className="flex gap-4 items-center justify-center">
                         <button className="bg-transparent text-black hover:bg-opacity-80 text-xs sm:text-sm px-4 py-2 rounded"
-                             onClick={handleUserSettings}>
+                            onClick={handleUserSettings}>
                             <GearLogo />
                         </button>
                     </div>
@@ -77,8 +110,8 @@ const ProfileHeader = () => {
 
                 <div className="flex items-center gap-2 sm:gap-4">
                     <p><span className="font-bold mr-1">4</span>Publicacions</p>
-                    <p><span className="font-bold mr-1">400</span>Seguidors</p>
-                    <p><span className="font-bold mr-1">40</span>Seguint</p>
+                    <p><span className="font-bold mr-1">{followers.length}</span>Seguidors</p>
+                    <p><span className="font-bold mr-1">{following.length}</span>Seguint</p>
                 </div>
                 <br />
                 <div className="flex flex-col items-start gap-4">

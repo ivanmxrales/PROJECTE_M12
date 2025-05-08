@@ -1,12 +1,7 @@
 /* export const Logout = ({ onClose }) => (
-    const handleLogout = async () => {
-        await useLogout();
-        localStorage.removeItem("user-info");
-        setUser(null);
-      };
     <button
         className="bg-transparent text-white text-sm border-b-gray-600 hover:bg-opacity-80 sm:text-xl px-4 py-2 rounded"
-        onClick={handleLogout}
+        onClick={onClose}
     >
         Tancar sessió
     </button>

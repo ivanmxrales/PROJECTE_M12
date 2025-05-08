@@ -1,18 +1,29 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import api from "../../lib/axios";
 
 const FetchPosts = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const getAuthHeader = () => {
+    const token = JSON.parse(localStorage.getItem("user-info"))?.token;
+    return {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+  };
+
   useEffect(() => {
     fetch();
   }, []);
-
+  
   const fetch = async () => {
     try {
-      const response = await axios.get("http://127.0.0.1:8000/api/posts");
+      await api.get("/sanctum/csrf-cookie");
+      const response = await api.get("/api/posts", getAuthHeader());
       setPosts(response.data);
       console.log("Publicacions carregats:", response.data);
     } catch (error) {

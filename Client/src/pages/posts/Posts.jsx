@@ -72,6 +72,7 @@ function Posts({}) {
                     <UnlikeLogo className="mt-5"></UnlikeLogo>
                     <CommentLogo className="mt-5"></CommentLogo>
                     <ShareLogo className="mt-5"></ShareLogo>
+                    {/* <Coments PostId={post.id}></Coments> */}
                   </div>
                   <p className='mt-4 text-lg text-gray-400'>{post.description}</p>
                   <p>{post.data_hora}</p>

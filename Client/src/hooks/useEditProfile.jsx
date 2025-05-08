@@ -7,6 +7,15 @@ const editProfile = () => {
 	const [error, setError] = useState(null);
 	const navigate = useNavigate();
 
+	const getAuthHeader = () => {
+		const token = JSON.parse(localStorage.getItem("user-info"))?.token;
+		return {
+		  headers: {
+			Authorization: `Bearer ${token}`,
+		  },
+		};
+	  };
+
 	const edit = async (id, inputs) => {
 		setLoading(true);
 		setError(null);
@@ -22,7 +31,7 @@ const editProfile = () => {
 		formData.append('profile_picture', inputs.profile_picture);
 	
 		try {
-			await axios.post(`http://127.0.0.1:8000/api/user/${id}`, formData, {
+			await axios.post(`http://127.0.0.1:8000/api/user/${id}`, getAuthHeader(), formData, {
 				headers: { 'Content-Type': 'multipart/form-data' },
 			});
 			const response = await axios.get(`http://127.0.0.1:8000/api/user/${id}`);

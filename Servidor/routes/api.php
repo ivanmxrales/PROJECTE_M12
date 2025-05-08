@@ -1,5 +1,6 @@
     <?php
 
+    use App\Http\Controllers\LikeController;
     use App\Http\Middleware\ApiAuthenticate;
     use App\Http\Middleware\CorsMiddleware;
     use Illuminate\Support\Facades\Route;
@@ -44,6 +45,16 @@
         Route::post('/coment', [ApiController::class, 'createComent']);
         Route::post('/coment/{id}', [ApiController::class, 'updateComent']);
         Route::delete('/coment/{id}', [ApiController::class, 'deleteComent']);
+
+        // LIKES
+        Route::get('/likes', [ApiController::class, 'listLikes']);
+        //  Route::post('/posts/{postId}/like', [LikeController::class, 'likePost']);
+        //  Route::delete('/posts/{postId}/like', [LikeController::class, 'unlikePost']);
+        //  Route::get('/posts/{id}/liked', [LikeController::class, 'hasLiked']);
+        //  Route::get('/posts/{id}/likes', [LikeController::class, 'likeCount']);
+        //  Route::get('/likes', [LikeController::class, 'list']);
+
     });
+    
 
 
