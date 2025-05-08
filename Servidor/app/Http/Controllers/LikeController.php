@@ -30,5 +30,13 @@ class LikeController extends Controller
 
         return response()->json(['message' => 'Post unliked']);
     }
+
+    public function getLikedPosts()
+    {
+        $user = Auth::user();
+        $likedPosts = $user->likedPosts->with('user')->latest()->get();
+
+        return response()->json($likedPosts);
+    }
 }
 

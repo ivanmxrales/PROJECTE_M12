@@ -1,52 +1,49 @@
-<?php
+    <?php
 
-use App\Http\Controllers\PostController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\ApiController;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
+    use App\Http\Middleware\ApiAuthenticate;
+    use App\Http\Middleware\CorsMiddleware;
+    use Illuminate\Support\Facades\Route;
+    use Illuminate\Http\Request;
+    use App\Http\Controllers\ApiController;
+    use App\Http\Controllers\FollowController;
+    
+    Route::post('/signup', [ApiController::class, 'signup']);
+    Route::post('/login', [ApiController::class, 'login']);
 
-// Route::get('/user', function (Request $request) {
-//     return $request->user();
-// })->middleware('auth:sanctum');
+    Route::middleware(['auth:sanctum', ApiAuthenticate::class, /* CorsMiddleware::class */])->group(function () {
+        Route::get('/me', function (Request $request) {
+            return $request->user();
+        });
 
-///// POSTS /////
+        //// POSTS /////
+        Route::get('/posts', [ApiController::class, 'listPosts']);
+        Route::get('/post/{id}', [ApiController::class, 'searchPost']);
+        Route::post('/post', [ApiController::class, 'createPost']);
+        Route::post('/post/{id}', [ApiController::class, 'updatePost']);
+        Route::delete('/post/{id}', [ApiController::class, 'deletePost']);
+        Route::get('/posts/user/{id}', [ApiController::class, 'listPostsUser']);
+        Route::get('/posts/liked', [ApiController::class, 'getLikedPosts']);
 
-// Route::get('/posts', [PostController::class, 'list']);
-// Route::match(['get', 'post'], '/post/{id}', [PostController::class, 'edit']);
-// // Route::put('/posts/{id}', [PostController::class, 'edit']);
-// Route::post('/post', [PostController::class, 'new']);
-// Route::get('/post/{id}', [PostController::class, 'search']);
-// Route::delete('/posts/{id}', [PostController::class, 'delete']);
+        //// USERS /////
+        Route::get('/users', [ApiController::class, 'listUsers']);
+        Route::get('/user/{id}', [ApiController::class, 'searchUser']);
+        Route::post('/user/{id}', [ApiController::class, 'updateUser']);
+        Route::delete('/user/{id}', [ApiController::class, 'deleteUser']);
+        Route::delete('/logout', [ApiController::class, 'logout']);
 
-Route::get('/posts', [ApiController::class, 'listPosts']);
-Route::get('/post/{id}', [ApiController::class, 'searchPost']);
-Route::post('/post', [ApiController::class, 'createPost']);
-Route::post('/post/{id}', [ApiController::class, 'updatePost']);
-Route::delete('/post/{id}', [ApiController::class, 'deletePost']);
-Route::get('/posts/user/{id}', [ApiController::class, 'listPostsUser']);
+        //// FOLLOW /////
+        Route::post('/follow/{userId}', [FollowController::class, 'follow']);
+        Route::delete('/unfollow/{userId}', [FollowController::class, 'unfollow']);
+        Route::get('/isFollowing/{userId}', [FollowController::class, 'isFollowing']);
+        Route::get('/followers', [FollowController::class, 'followers']);
+        Route::get('/following', [FollowController::class, 'following']);
 
-///// USERS /////
-
-/* Route::get('/users', [UserController::class, 'list']);
-Route::match(['get', 'post'], '/user/{id}', [UserController::class, 'edit']);
-Route::post('/user', [UserController::class, 'new']);
-Route::get('/user/{id}', [UserController::class, 'search']);
-Route::delete('/user/{id}', [UserController::class, 'delete']); */
-
-Route::get('/users', [ApiController::class, 'listUsers']);
-Route::get('/user/{id}', [ApiController::class, 'searchUser']);
-Route::post('/signup', [ApiController::class, 'signup']);
-Route::post('/user/{id}', [ApiController::class, 'updateUser']);
-Route::delete('/user/{id}', [ApiController::class, 'deleteUser']);
-Route::post('/login', [ApiController::class, 'login']);
-Route::delete('/logout', [ApiController::class, 'logout']);
+        //// COMMENTS /////
+        Route::get('/coments', [ApiController::class, 'listComents']);
+        Route::get('/coment/{id}', [ApiController::class, 'searchComent']);
+        Route::post('/coment', [ApiController::class, 'createComent']);
+        Route::post('/coment/{id}', [ApiController::class, 'updateComent']);
+        Route::delete('/coment/{id}', [ApiController::class, 'deleteComent']);
+    });
 
 
-//// Comments /////
-
-Route::get('/coments', [ApiController::class, 'listComents']);
-Route::get('/coment/{id}', [ApiController::class, 'searchComent']);
-Route::post('/coment', [ApiController::class, 'createComent']);
-Route::post('/coment/{id}', [ApiController::class, 'updateComent']);
-Route::delete('/coment/{id}', [ApiController::class, 'deleteComent']);

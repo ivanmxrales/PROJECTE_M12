@@ -17,7 +17,8 @@ class Post extends Model
     public function likes(): HasMany
     {
         return $this->hasMany(User::class,'likes');
-    }
+    } 
+
 
     public function coments()
     {

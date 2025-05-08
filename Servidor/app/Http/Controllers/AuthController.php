@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
-    public function login(Request $request)
+    /* public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
@@ -26,7 +26,7 @@ class AuthController extends Controller
 
         if (Auth::attempt(['email' => $request->email, 
         'password' => $request->password])) {
-            /** @var \App\Models\User $user **/  $user = Auth::user();
+            $user = Auth::user();
             $user->role = 'user';
             $token = $user->createToken('token')->plainTextToken;
             $cookie = cookie('token', $token, 60 * 24 * 7);
@@ -48,12 +48,57 @@ class AuthController extends Controller
         } else {
             return response(["message" => "Credencials invàlides."], Response::HTTP_UNAUTHORIZED);
         }
+    } */
+
+    /* public function login(Request $request)
+    {
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|min:8|max:20'
+        ]);
+
+        if (!Auth::attempt($credentials)) {
+            return response()->json(['message' => 'Credencials invàlides'], Response::HTTP_UNAUTHORIZED);
+        }
+
+        $request->session()->regenerate();
+
+        return response()->json(Auth::user());
+    } */
+
+
+    public function login(Request $request)
+{
+    
+    $credentials = $request->validate([
+        'email' => 'required|email',
+        'password' => 'required|min:8|max:20'
+    ]);
+
+    if (!Auth::attempt($credentials)) {
+        return response()->json(['message' => 'Credencials invàlides'], Response::HTTP_UNAUTHORIZED);
     }
+
+    $user = Auth::user();
+    $token = $user->createToken('YourAppName')->plainTextToken;
+    $img_location = env('USERS_PROFILE_PICTURE');
+    $user->profile_picture = url($img_location . '/' . $user->profile_picture);
+    $user->role = 'user';
+
+    return response()->json([
+        'user' => $user,
+
+        'token' => $token
+    ]);
+}
 
     function logout(Request $request)
     {
-        $user = Auth::user();
-        /** @var \App\Models\User $user **/ $user->tokens()->delete();
+        //$user = Auth::user();
+        //$user->tokens()->delete();
+        Auth::guard('web')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
         return response()->json(['message' => 'Logout successful']);
     }
 
