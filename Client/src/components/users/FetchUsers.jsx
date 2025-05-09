@@ -1,5 +1,15 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import api from "../../lib/axios";
+
+const getAuthHeader = () => {
+  const token = JSON.parse(localStorage.getItem("user-info"))?.token;
+  return {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+};
 
 const FetchUsers = () => {
   const [users, setUsers] = useState([]);
@@ -12,7 +22,8 @@ const FetchUsers = () => {
 
   const fetch = async () => {
     try {
-      const response = await axios.get("http://127.0.0.1:8000/api/users");
+      await api.get("/sanctum/csrf-cookie");
+      const response = await api.get("/api/users", getAuthHeader());
       setUsers(response.data);
       console.log("Usuaris carregats:", response.data);
     } catch (error) {

@@ -20,6 +20,7 @@ class ApiController extends Controller
         $this->userController = $userController;
         $this->postController = $postController;
         $this->comentController = $comentController;
+        $this->likeController = $likeController;
     }
 
 

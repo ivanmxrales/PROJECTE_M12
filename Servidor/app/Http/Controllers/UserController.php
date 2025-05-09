@@ -25,7 +25,7 @@ class UserController extends Controller
 
     /* function search($id)
     {
-        $user = User::find($id);
+        $user = User::with('posts')->find($id);
         $img_location = env('USERS_PROFILE_PICTURE');
         $user->profile_picture = url($img_location . '/' . $user->profile_picture); //retornem la ruta de la imatge
         return response()->json($user);

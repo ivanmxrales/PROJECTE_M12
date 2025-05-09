@@ -2,7 +2,7 @@
 
     use App\Http\Controllers\LikeController;
     use App\Http\Middleware\ApiAuthenticate;
-    use App\Http\Middleware\CorsMiddleware;
+    use App\Http\Middleware\Middleware;
     use Illuminate\Support\Facades\Route;
     use Illuminate\Http\Request;
     use App\Http\Controllers\ApiController;
@@ -11,7 +11,7 @@
     Route::post('/signup', [ApiController::class, 'signup']);
     Route::post('/login', [ApiController::class, 'login']);
 
-    Route::middleware(['auth:sanctum', ApiAuthenticate::class, /* CorsMiddleware::class */])->group(function () {
+    Route::middleware(['auth:sanctum', /* ApiAuthenticate::class */])->group(function () {
         Route::get('/me', function (Request $request) {
             return $request->user();
         });
@@ -48,11 +48,11 @@
 
         // LIKES
         Route::get('/likes', [ApiController::class, 'listLikes']);
-        //  Route::post('/posts/{postId}/like', [LikeController::class, 'likePost']);
-        //  Route::delete('/posts/{postId}/like', [LikeController::class, 'unlikePost']);
-        //  Route::get('/posts/{id}/liked', [LikeController::class, 'hasLiked']);
-        //  Route::get('/posts/{id}/likes', [LikeController::class, 'likeCount']);
-        //  Route::get('/likes', [LikeController::class, 'list']);
+        // Route::post('/posts/{postId}/like', [LikeController::class, 'likePost']);
+        // Route::delete('/posts/{postId}/like', [LikeController::class, 'unlikePost']);
+        // Route::get('/posts/{id}/liked', [LikeController::class, 'hasLiked']);
+        // Route::get('/posts/{id}/likes', [LikeController::class, 'likeCount']);
+        // Route::get('/likes', [LikeController::class, 'list']);
 
     });
     

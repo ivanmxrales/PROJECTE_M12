@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import api from '../lib/axios';
 
 const editProfile = () => {
 	const [loading, setLoading] = useState(false);
@@ -9,6 +10,7 @@ const editProfile = () => {
 
 	const getAuthHeader = () => {
 		const token = JSON.parse(localStorage.getItem("user-info"))?.token;
+		console.log("Token being used:", token); 
 		return {
 		  headers: {
 			Authorization: `Bearer ${token}`,
@@ -31,10 +33,19 @@ const editProfile = () => {
 		formData.append('profile_picture', inputs.profile_picture);
 	
 		try {
-			await axios.post(`http://127.0.0.1:8000/api/user/${id}`, getAuthHeader(), formData, {
-				headers: { 'Content-Type': 'multipart/form-data' },
-			});
-			const response = await axios.get(`http://127.0.0.1:8000/api/user/${id}`);
+			await api.post(
+				`/api/user/${id}`,
+				formData,
+				{
+					...getAuthHeader(),
+					headers: {
+						...getAuthHeader().headers,
+						'Content-Type': 'multipart/form-data',
+					},
+				}
+			);
+			
+			const response = await api.get(`/api/user/${id}`, getAuthHeader());
 			const user = response.data;
 			localStorage.setItem('user-info', JSON.stringify(user));
 			console.log("User data:", user);

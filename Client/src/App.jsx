@@ -21,6 +21,7 @@ function App() {
           </ProtectedRoutes>
         } />
         <Route path="/auth" element={<Auth />} />
+        {/* <Route path="/:username" element={ */}
         <Route path="/:username" element={
           <ProtectedRoutes>
             <Profile />
