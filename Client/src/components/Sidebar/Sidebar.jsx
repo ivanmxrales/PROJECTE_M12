@@ -69,7 +69,8 @@ const Sidebar = () => {
   ]
 
   return (
-    <div className="h-screen border-r border-l border-white/30 py-8 px-2 md:px-4 sticky top-0 left-0">
+    // <div className="h-screen border-r border-l border-white/30 py-8 px-2 md:px-4 sticky top-0 left-0">
+    <div className="w-20 sm:w-24 md:w-48 h-screen border-r border-l border-white/30 py-8 px-2 md:px-4 sticky top-0 left-0 bg-black">
       <div className="flex flex-col gap-10 w-full h-full">
 
         <RouterLink to="/" className="pl-2 hidden md:block cursor-pointer">
@@ -88,7 +89,7 @@ const Sidebar = () => {
             <RouterLink
               key={index}
               to={item.link}
-              className="flex items-center gap-3 p-2 hover:bg-white/20"
+              className="flex items-center gap-3 p-2 rounded-md hover:bg-white/20"
             >
               <br />
               <br />

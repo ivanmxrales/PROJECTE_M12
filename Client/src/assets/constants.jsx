@@ -214,7 +214,7 @@ export const UnlikeLogo = () => (
 export const LikeLogo = () => (
 	<svg
 	  aria-label="Like"
-	  color="rgb(0, 0, 0)"  // Set color for the stroke (you can change this if needed)
+	  color="rgb(0, 0, 0)" 
 	  fill="transparent"
 	  height="24"
 	  role="img"
@@ -356,5 +356,37 @@ export const ShareLogo = () => (
 	  ></path>
 	</svg>
   );
-  
-  
+
+  export const CameraIcon = () => (
+    <svg
+        aria-label="Camera"
+        color="rgb(245, 245, 245)"
+        fill="rgb(245, 245, 245)"
+        height="29"
+        role="img"
+        viewBox="0 0 24 24"
+        width="29"
+    >
+        <path
+            fill="currentColor"
+            d="M12 7a5 5 0 100 10 5 5 0 000-10zm0 8.2a3.2 3.2 0 110-6.4 3.2 3.2 0 010 6.4zM21 6h-3.2l-1.3-2.2c-.2-.4-.6-.8-1.1-.8H8.6c-.5 0-.9.3-1.1.8L6.2 6H3c-.6 0-1 .4-1 1v12c0 .6.4 1 1 1h18c.6 0 1-.4 1-1V7c0-.6-.4-1-1-1zm-9 11c-3.3 0-6-2.7-6-6s2.7-6 6-6 6 2.7 6 6-2.7 6-6 6z"
+        ></path>
+    </svg>
+);
+
+export const UserIcon = () => (
+    <svg
+        aria-label="User"
+        color="rgb(245, 245, 245)"
+        fill="rgb(245, 245, 245)"
+        height="29"
+        role="img"
+        viewBox="0 0 24 24"
+        width="29"
+    >
+        <path
+            fill="currentColor"
+            d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 1.6c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"
+        ></path>
+    </svg>
+);

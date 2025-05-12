@@ -2,21 +2,12 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../lib/axios';
+import getAuthUser from '../utility/getAuthUserToken';
 
 const editProfile = () => {
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
 	const navigate = useNavigate();
-
-	const getAuthHeader = () => {
-		const token = JSON.parse(localStorage.getItem("user-info"))?.token;
-		console.log("Token being used:", token); 
-		return {
-		  headers: {
-			Authorization: `Bearer ${token}`,
-		  },
-		};
-	  };
 
 	const edit = async (id, inputs) => {
 		setLoading(true);
@@ -37,15 +28,15 @@ const editProfile = () => {
 				`/api/user/${id}`,
 				formData,
 				{
-					...getAuthHeader(),
+					...getAuthUser(),
 					headers: {
-						...getAuthHeader().headers,
+						...getAuthUser().headers,
 						'Content-Type': 'multipart/form-data',
 					},
 				}
 			);
 			
-			const response = await api.get(`/api/user/${id}`, getAuthHeader());
+			const response = await api.get(`/api/user/${id}`, getAuthUser());
 			const user = response.data;
 			localStorage.setItem('user-info', JSON.stringify(user));
 			console.log("User data:", user);

@@ -35,7 +35,6 @@ function Home({ }) {
 
   return (
     <div>
-      <h2>Listado de Publicaciones</h2>
       <div className="posts-list">
         <div className="flex flex-col items-center justify-center gap-10  w-[800px] mt-[20%]">
           {filteredPosts.map((post) => {

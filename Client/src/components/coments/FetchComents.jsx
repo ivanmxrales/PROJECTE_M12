@@ -1,19 +1,11 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import getAuthUser from "../../utility/getAuthUserToken";
 
 const FetchComents = () => {
   const [coments, setComents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  const getAuthHeader = () => {
-    const token = JSON.parse(localStorage.getItem("user-info"))?.token;
-    return {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
-  };
 
   useEffect(() => {
     fetchComents();
@@ -21,7 +13,7 @@ const FetchComents = () => {
 
   const fetchComents = async () => {
     try {
-      const response = await axios.get("http://127.0.0.1:8000/api/coments", getAuthHeader());
+      const response = await axios.get("http://127.0.0.1:8000/api/coments", getAuthUser());
       setComents(response.data);
       console.log("Comentaris carregats:", response.data);
     } catch (error) {
@@ -37,7 +29,7 @@ const FetchComents = () => {
     if (!confirmDelete) return;
 
     try {
-      await axios.delete(`http://127.0.0.1:8000/api/coments/${id}`, getAuthHeader());
+      await axios.delete(`http://127.0.0.1:8000/api/coments/${id}`, getAuthUser());
       setComents((prevComents) =>
         prevComents.filter((coment) => coment.id !== id)
       );

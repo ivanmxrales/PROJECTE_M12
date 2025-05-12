@@ -49,6 +49,16 @@ class ApiController extends Controller
         return $this->userController->search($id);
     }
 
+    public function searchUsername($username)
+    {
+        return $this->userController->searchUsername($username);
+    }
+
+    function getPostsUser($id)
+    {
+        return $this->userController->getPostsByUser($id);
+    }
+
 
     public function updateUser(Request $request, $id)
     {

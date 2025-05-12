@@ -27,10 +27,13 @@
 
         //// USERS /////
         Route::get('/users', [ApiController::class, 'listUsers']);
+        Route::get('/username/{username}', [ApiController::class, 'searchUsername']);
         Route::get('/user/{id}', [ApiController::class, 'searchUser']);
         Route::post('/user/{id}', [ApiController::class, 'updateUser']);
         Route::delete('/user/{id}', [ApiController::class, 'deleteUser']);
         Route::delete('/logout', [ApiController::class, 'logout']);
+        Route::get('/user/{id}/posts', [ApiController::class, 'getPostsUser']);
+        
 
         //// FOLLOW /////
         Route::post('/follow/{userId}', [FollowController::class, 'follow']);
@@ -38,6 +41,9 @@
         Route::get('/isFollowing/{userId}', [FollowController::class, 'isFollowing']);
         Route::get('/followers', [FollowController::class, 'followers']);
         Route::get('/following', [FollowController::class, 'following']);
+        Route::get('/user/{id}/followers', [FollowController::class, 'getUserFollowers']);
+        Route::get('/user/{id}/following', [FollowController::class, 'getUserFollowing']);
+
 
         //// COMMENTS /////
         Route::get('/coments', [ApiController::class, 'listComents']);
@@ -48,11 +54,11 @@
 
         // LIKES
         Route::get('/likes', [ApiController::class, 'listLikes']);
-        // Route::post('/posts/{postId}/like', [LikeController::class, 'likePost']);
-        // Route::delete('/posts/{postId}/like', [LikeController::class, 'unlikePost']);
-        // Route::get('/posts/{id}/liked', [LikeController::class, 'hasLiked']);
-        // Route::get('/posts/{id}/likes', [LikeController::class, 'likeCount']);
-        // Route::get('/likes', [LikeController::class, 'list']);
+        Route::post('/posts/{postId}/like', [LikeController::class, 'likePost']);
+        Route::delete('/posts/{postId}/like', [LikeController::class, 'unlikePost']);
+        Route::get('/posts/{id}/liked', [LikeController::class, 'hasLiked']);
+        Route::get('/posts/{id}/likes', [LikeController::class, 'likeCount']);
+        Route::get('/likes', [LikeController::class, 'list']);
 
     });
     

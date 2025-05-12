@@ -34,7 +34,7 @@ const PageLayout = ({ children }) => {
                     ) : null}
 
                     {showNavbar && (
-                        <div className="fixed left-60 w-[calc(100%-240px)] z-[1000]">
+                        <div className="fixed left-60 top-0 w-[calc(100%-240px)] z-[9999] bg-black shadow-md">
                             <Navbar />
                         </div>
                     )}

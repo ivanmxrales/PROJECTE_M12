@@ -19,7 +19,7 @@ class UserController extends Controller
             }
             return response()->json($users);
         } else {
-            return response()->json(['message' => 'No hay usuarios registrados']);
+            return response()->json(['error' => 'No hay usuarios registrados']);
         }
     }
 
@@ -36,11 +36,25 @@ class UserController extends Controller
         $user = User::with('posts')->find($id); 
 
         if (!$user) {
-            return response()->json(['message' => 'User not found'], 404);
+            return response()->json(['error' => "No s'ha trobat l'usuari"], 404);
         }
 
         $img_location = env('USERS_PROFILE_PICTURE');
 
+        if ($user->profile_picture && !str_starts_with($user->profile_picture, 'http')) {
+            $user->profile_picture = url($img_location . '/' . $user->profile_picture);
+        }
+
+        return response()->json($user);
+    }
+
+    public function searchUsername($username) {
+        $user = User::with('posts')->where('username', $username)->first();
+        if (!$user) {
+            return response()->json(['error' => "No s'ha trobat l'usuari"], 404);
+        }
+
+        $img_location = env('USERS_PROFILE_PICTURE');
         if ($user->profile_picture && !str_starts_with($user->profile_picture, 'http')) {
             $user->profile_picture = url($img_location . '/' . $user->profile_picture);
         }
@@ -100,5 +114,16 @@ class UserController extends Controller
         $user = User::find($id);
         $user->delete();
         return $user;
+    }
+
+    function getPostsByUser($id)
+    {
+        $user = User::find($id);
+        if ($user) {
+            $posts = $user->posts;
+            return response()->json($posts);
+        } else {
+            return response()->json(['error' => 'No s\'ha trobat l\'usuari'], 404);
+        }
     }
 }

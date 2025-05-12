@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import axios from "axios";
+import getAuthUserToken from "../../utility/getAuthUserToken";
 
 function CreatePostForm({ userId, onPostCreated }) {
   const [formData, setFormData] = useState({
@@ -35,7 +36,7 @@ function CreatePostForm({ userId, onPostCreated }) {
     });
 
     try {
-      await axios.post("http://127.0.0.1:8000/api/post", data, {
+      await axios.post("http://127.0.0.1:8000/api/post", getAuthUserToken() , data, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

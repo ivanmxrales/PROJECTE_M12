@@ -45,4 +45,21 @@ class FollowController extends Controller
     public function following() {
         return response()->json(Auth::user()->following);
     }
+
+    public function getUserFollowers($id)
+    {
+        $user = User::find($id);
+        if (!$user) {
+            return response()->json(['error' => 'Usuari no trobat'], 404);
+        }
+        return response()->json($user->followers);
+    }
+    public function getUserFollowing($id)
+    {
+        $user = User::find($id);
+        if (!$user) {
+            return response()->json(['error' => 'Usuari no trobat'], 404);
+        }
+        return response()->json($user->following);
+    }
 }

@@ -5,20 +5,7 @@ import PostsFiltrado from '../../pages/posts/PostsFiltrado';
 
 
 const ProfilePosts = () => {
-    const [user, setUser] = useState(null);
-    useEffect(() => {
-        const storedUser = localStorage.getItem("user-info");
-        if (storedUser) {
-          const parsed = JSON.parse(storedUser);
-          setUser(parsed.user); 
-        }
-      }, []);
-
-
-      return (
-      <PostsFiltrado id={user?.id} />
-    );
-    /* const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(true);
     const { id } = useParams();
 
     const { posts, loading, error, handleDelete } = FetchUserPosts(id); 
@@ -56,7 +43,7 @@ const ProfilePosts = () => {
                 </div>
             ))}
         </div>
-    ); */
+    ); 
 };
 
 export default ProfilePosts;
