@@ -9,6 +9,7 @@ import PostImages from "../../components/Posts/PostImages";
 import EditPostForm from "../../components/Posts/EditPostForm";
 import { useNavigate, useParams } from "react-router-dom";
 import { Link as RouterLink } from "react-router-dom";
+import Likes from "../../components/likes/Likes";
 
 
 function Home({ }) {
@@ -67,7 +68,8 @@ function Home({ }) {
 
                 </div>
                 <div className='flex w-full h-24 border-t gap-5 '>
-                  <LikeLogo className="mt-5"></LikeLogo>
+                  <Likes postId={post.id}/>
+                  {/* <LikeLogo className="mt-5"></LikeLogo> */}
                   <UnlikeLogo className="mt-5"></UnlikeLogo>
                   <CommentLogo className="mt-5"></CommentLogo>
                   <ShareLogo className="mt-5"></ShareLogo>

@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home/Home';
 import Posts from './pages/posts/Posts'
 import CreatePostPage from './pages/posts/CreatePostPage';
+import SearchUsers from './pages/search/SearchUsers';
 import Auth from './pages/Auth/Auth';
 import PageLayout from './Layouts/PageLayout/PageLayout';
 import Profile from './pages/Profile/Profile';
@@ -15,7 +16,11 @@ function App() {
     <PageLayout>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/posts" element={<Posts />} />
+        <Route path="/search" element={
+          <ProtectedRoutes>
+            <SearchUsers />
+          </ProtectedRoutes>
+        } />
         <Route path="/postnew" element={
           <ProtectedRoutes>
             <CreatePostPage />

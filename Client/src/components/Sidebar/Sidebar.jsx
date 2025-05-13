@@ -50,7 +50,7 @@ const Sidebar = () => {
     {
       icon: SearchLogo,
       text: 'Buscar',
-      link: '/posts',
+      link: '/search',
     },
     {
       icon: MessagesLogo,

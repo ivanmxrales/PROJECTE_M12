@@ -17,8 +17,8 @@ function Coments({ postId }) {
   
   
   return (
-    <div className="coments-list">
-      <h4>Comentarios</h4>
+    <div className="coments-list top-0 w-full max-w-screen-xl mx-auto border z-50">
+      {/* <h4>Comentarios</h4> */}
       {filteredComents.length === 0 ? (
         <p>No hay comentarios para esta publicación.</p>
       ) : (
@@ -36,11 +36,17 @@ function Coments({ postId }) {
                   />
                 ) : (
                   <>
-                    <p><strong>Autor:</strong> {author ? author.name : "Desconocido"}</p>
+                    <div className="p-4 flex flex-wrap -mx-2 gap-4">
+                      <div className="ml-8 w-8 h-8 border rounded-full overflow-hidden mt-2">
+                      <img src={author?.profile_picture} alt="profile" className="w-full h-full object-cover" />
+                      
+                      </div>
+                      <div className="text-left">
+                    <p><strong> {author ? author.name : "Desconocido"}</strong> {coment.coment}</p>
                     <p className="coment-data_hora"><em>{coment.dataCom}</em></p>
-                    <p className="coment-text"><strong>Comentario: </strong>{coment.coment}</p>
-  
-                    {/* <div className="buttons">
+                      </div>
+                    </div>
+                    {/* <div className="buttons" formInputC>
                       <Button className="btn btn-primary" onClick={() => setEditingComent(coment)}>
                         Editar
                       </Button>

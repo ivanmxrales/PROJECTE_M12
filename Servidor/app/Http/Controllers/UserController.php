@@ -33,7 +33,7 @@ class UserController extends Controller
 
     public function search($id)
     {
-        $user = User::with('posts')->find($id); 
+        $user = User::with('posts')->find($id);
 
         if (!$user) {
             return response()->json(['error' => "No s'ha trobat l'usuari"], 404);
@@ -48,7 +48,8 @@ class UserController extends Controller
         return response()->json($user);
     }
 
-    public function searchUsername($username) {
+    public function searchUsername($username)
+    {
         $user = User::with('posts')->where('username', $username)->first();
         if (!$user) {
             return response()->json(['error' => "No s'ha trobat l'usuari"], 404);
@@ -60,6 +61,15 @@ class UserController extends Controller
         }
 
         return response()->json($user);
+    }
+
+    public function getIdByUsername($username)
+    {
+        $user = User::with('posts')->where('username', $username)->first();
+        if (!$user) {
+            return response()->json(['error' => "No s'ha trobat l'usuari"], 404);
+        }
+        return response()->json($user->id);
     }
 
 
@@ -126,4 +136,17 @@ class UserController extends Controller
             return response()->json(['error' => 'No s\'ha trobat l\'usuari'], 404);
         }
     }
+
+
+    public function searchUsers(Request $request)
+    {
+        $query = $request->input('query');
+
+        $users = User::where('name', 'LIKE', "%{$query}%")
+            ->orWhere('username', 'LIKE', "%{$query}%")
+            ->get();
+
+        return response()->json($users);
+    }
+
 }

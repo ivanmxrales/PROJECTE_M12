@@ -11,7 +11,7 @@
     Route::post('/signup', [ApiController::class, 'signup']);
     Route::post('/login', [ApiController::class, 'login']);
 
-    Route::middleware(['auth:sanctum', /* ApiAuthenticate::class */])->group(function () {
+    Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/me', function (Request $request) {
             return $request->user();
         });
@@ -33,11 +33,13 @@
         Route::delete('/user/{id}', [ApiController::class, 'deleteUser']);
         Route::delete('/logout', [ApiController::class, 'logout']);
         Route::get('/user/{id}/posts', [ApiController::class, 'getPostsUser']);
+        Route::get('/user/username/{username}', [ApiController::class, 'getIdByUsername']);
+        Route::get('/users/search', [ApiController::class, 'searchUsers']);
         
 
         //// FOLLOW /////
         Route::post('/follow/{userId}', [FollowController::class, 'follow']);
-        Route::delete('/unfollow/{userId}', [FollowController::class, 'unfollow']);
+        Route::post('/unfollow/{userId}', [FollowController::class, 'unfollow']);
         Route::get('/isFollowing/{userId}', [FollowController::class, 'isFollowing']);
         Route::get('/followers', [FollowController::class, 'followers']);
         Route::get('/following', [FollowController::class, 'following']);

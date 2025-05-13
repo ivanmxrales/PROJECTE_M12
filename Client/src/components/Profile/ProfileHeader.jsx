@@ -3,6 +3,7 @@ import EditProfile from './EditProfile';
 import UserSettings from './USettings/UserSettings';
 import api from '../../lib/axios';
 import { GearLogo } from '../../assets/constants';
+import useFollow from '../../hooks/useFollow';
 
 const ProfileHeader = ({ user: profileUser }) => {
     const [authUser, setAuthUser] = useState(null);
@@ -56,6 +57,9 @@ const ProfileHeader = ({ user: profileUser }) => {
     const handleUserSettings = () => setIsModalOpenSettings(true);
     const handleCloseSettings = () => setIsModalOpenSettings(false);
     const handleCloseModal = () => setIsModalOpen(false);
+    const { isFollowing, toggleFollow, loading } = useFollow(profileUser.id);
+
+
 
     const handleSaveProfile = (updatedData) => {
         if (!authUser) return;
@@ -68,7 +72,7 @@ const ProfileHeader = ({ user: profileUser }) => {
 
     return (
         <div className="flex flex-col sm:flex-row gap-4 py-10 w-full">
-            
+
             <div className="flex justify-center sm:justify-start">
                 <div className="relative w-24 h-24">
                     <img
@@ -80,7 +84,7 @@ const ProfileHeader = ({ user: profileUser }) => {
             </div>
 
             <div className="flex flex-col items-start gap-2 w-full">
-                
+
                 <div className="flex flex-col sm:flex-row items-center justify-between w-full gap-4">
                     <h2 className="text-2xl font-semibold">{profileUser.username}</h2>
 
@@ -92,9 +96,15 @@ const ProfileHeader = ({ user: profileUser }) => {
                             </button>
                         </div>
                     ) : (
-                        <button className="bg-blue-500 text-white px-4 py-1 rounded">
-                            Seguir
+                        <button
+                            className="bg-blue-500 text-white px-4 py-1 rounded"
+                            onClick={toggleFollow}
+                            disabled={loading}
+                        >
+                            {isFollowing ? "Deixar de seguir" : "Seguir"}
                         </button>
+
+
                     )}
                 </div>
 

@@ -5,30 +5,14 @@ import ProfileHeader from '../../components/Profile/ProfileHeader';
 import ProfilePosts from '../../components/Profile/ProfilePosts';
 import LikedPosts from '../../components/Profile/LikedPosts';
 import getAuthUser from '../../utility/getAuthUserToken';
+import FetchUser from '../../hooks/useGetUserByUsername';
 import { CameraIcon, UnlikeLogo, UserIcon } from '../../assets/constants';
+import Seguint from '../../components/Profile/Seguint';
 
 const Profile = () => {
     const { username } = useParams();
-    const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const { user, loading, error } = FetchUser(username);
     const [activeTab, setActiveTab] = useState('posts');
-
-    useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                await api.get("/sanctum/csrf-cookie");
-                const res = await api.get(`/api/username/${username}`, getAuthUser());
-                setUser(res.data);
-            } catch (error) {
-                console.error("Usuari no trobat:", error);
-                setUser(null);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchUser();
-    }, [username]);
 
     if (loading) return <p className="text-center mt-10">Carregant perfil...</p>;
     if (!user) return <p className="text-center mt-10 text-red-500">Usuari no trobat</p>;
