@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import api from '../../lib/axios';
 import getAuthUserToken from '../../utility/getAuthUserToken';
+import { Link as RouterLink } from 'react-router-dom'
 
 const SearchUsers = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -44,20 +45,19 @@ const SearchUsers = () => {
       <div className='flex justify-center border-2'>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
           {users.map((user) => (
-            <div
+            <RouterLink
+              to={`/${user.username}`}
               key={user.id}
               className="w-48 h-56 border rounded flex flex-col justify-center items-center"
             >
               <img
-                src={user.profile_picture}
-                alt="User"
-                className="w-10 h-10 object-cover border rounded-full"
+                src={user.profile_picture} alt="User" className="w-10 h-10 object-cover border rounded-full"
               />
               <div className="flex flex-col items-center mt-2">
                 <h2 className="text-lg font-semibold">{user.name}</h2>
                 <p className="text-gray-500">{user.username}</p>
               </div>
-            </div>
+            </RouterLink>
           ))}
         </div>
       </div>

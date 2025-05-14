@@ -3,6 +3,7 @@ import Sidebar from '../../components/Sidebar/Sidebar';
 import Navbar from '../../components/Navbar/Navbar';
 import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import Userbar from '../../components/Userbar/Userbar';
 
 const PageLayout = ({ children }) => {
     const [user, setUser] = useState(null);
@@ -29,7 +30,7 @@ const PageLayout = ({ children }) => {
 
                     {pathname === '/posts' || showNavbar ? (
                         <div className="fixed right-0 top-0 w-60">
-                            <Sidebar />
+                            <Userbar />
                         </div>
                     ) : null}
 

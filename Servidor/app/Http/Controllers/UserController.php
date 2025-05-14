@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -142,9 +143,43 @@ class UserController extends Controller
     {
         $query = $request->input('query');
 
-        $users = User::where('name', 'LIKE', "%{$query}%")
+        $img_location = env('USERS_PROFILE_PICTURE');
+
+        $users = User::select('id', 'name', 'username', 'profile_picture')
+            ->where('name', 'LIKE', "%{$query}%")
             ->orWhere('username', 'LIKE', "%{$query}%")
             ->get();
+
+
+        foreach ($users as $user) {
+            if ($user->profile_picture && !str_starts_with($user->profile_picture, 'http')) {
+                $user->profile_picture = url($img_location . '/' . $user->profile_picture);
+            }
+        }
+
+        return response()->json($users);
+    }
+
+
+    public function randomUsers()
+    {
+        $currentUser = Auth::user();
+
+        $excludedIds = $currentUser->following()->pluck('users.id')->toArray();
+        $excludedIds[] = $currentUser->id; 
+
+        $users = User::whereNotIn('id', $excludedIds)
+            ->inRandomOrder()
+            ->take(5)
+            ->select('id', 'name', 'username', 'profile_picture')
+            ->get();
+            
+        $img_location = env('USERS_PROFILE_PICTURE');
+        foreach ($users as $user) {
+            if ($user->profile_picture && !str_starts_with($user->profile_picture, 'http')) {
+                $user->profile_picture = url($img_location . '/' . $user->profile_picture);
+            }
+        }
 
         return response()->json($users);
     }

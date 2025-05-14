@@ -59,6 +59,14 @@ class ApiController extends Controller
         return $this->userController->searchUsers($request);
     }
 
+    public function randomUsers()
+    {
+        return $this->userController->randomUsers();
+    }
+
+
+    //// POSTS
+
     function getPostsUser($id)
     {
         return $this->userController->getPostsByUser($id);
