@@ -36,6 +36,7 @@
         Route::get('/user/username/{username}', [ApiController::class, 'getIdByUsername']);
         Route::get('/users/search', [ApiController::class, 'searchUsers']);
         Route::get('/users/random', [ApiController::class, 'randomUsers']);
+        Route::get('/users/followed/{id}', [ApiController::class, 'followedUsers']);
 
         
 

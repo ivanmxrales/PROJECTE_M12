@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('description')->nullable();
             $table->json('media');
             $table->string('location');
-            $table->datetime('caducidad');
+            $table->datetime('caducidad')->nullable();
         });
     }
 

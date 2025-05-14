@@ -64,6 +64,10 @@ class ApiController extends Controller
         return $this->userController->randomUsers();
     }
 
+    public function followedUsers($id) {
+        return $this->userController->followedUsers($id);
+    }
+
 
     //// POSTS
 

@@ -146,8 +146,8 @@ class UserController extends Controller
         $img_location = env('USERS_PROFILE_PICTURE');
 
         $users = User::select('id', 'name', 'username', 'profile_picture')
-            ->where('name', 'LIKE', "%{$query}%")
-            ->orWhere('username', 'LIKE', "%{$query}%")
+            ->where('name', 'LIKE', "%$query%")
+            ->orWhere('username', 'LIKE', "%$query%")
             ->get();
 
 
@@ -182,6 +182,21 @@ class UserController extends Controller
         }
 
         return response()->json($users);
+    }
+
+    public function followedUsers($id) {
+        $user = User::find($id);
+
+        $followedUsers = $user->following()->select('id', 'username', 'profile_picture')->get();
+
+        $img_location = env('USERS_PROFILE_PICTURE');
+        foreach ($followedUsers as $user) {
+            if ($user->profile_picture && !str_starts_with($user->profile_picture, 'http')) {
+                $user->profile_picture = url($img_location . '/' . $user->profile_picture);
+            }
+        }
+
+        return response()->json($followedUsers);
     }
 
 }

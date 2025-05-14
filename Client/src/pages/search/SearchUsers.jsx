@@ -1,29 +1,28 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 import api from '../../lib/axios';
 import getAuthUserToken from '../../utility/getAuthUserToken';
 import { Link as RouterLink } from 'react-router-dom'
 
 const SearchUsers = () => {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchUser, setSearchUser] = useState('');
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    if (searchTerm.length === 0) {
+    if (searchUser.length === 0) {
       setUsers([])
       return
     }
 
-    const delayDebounceFn = setTimeout(() => {
+    const delay = setTimeout(() => {
       api.get('/api/users/search', getAuthUserToken(), {
-        params: { query: searchTerm }
+        params: { query: searchUser }
       })
         .then(response => setUsers(response.data))
         .catch(error => console.error('Error fetching users:', error))
     }, 300)
 
-    return () => clearTimeout(delayDebounceFn)
-  }, [searchTerm])
+    return () => clearTimeout(delay)
+  }, [searchUser])
 
   return (
     <div>
@@ -34,24 +33,24 @@ const SearchUsers = () => {
         <div className="flex items-center justify-center mb-4">
           <input
             type="text"
-            placeholder="Buscar persones..."
+            placeholder="Buscar per nom / username..."
             className="w-96 p-2 border border-gray-300 rounded"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            value={searchUser}
+            onChange={(e) => setSearchUser(e.target.value)}
           />
         </div>
       </div>
 
-      <div className='flex justify-center border-2'>
+      <div className='flex justify-center border-0'>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
           {users.map((user) => (
             <RouterLink
               to={`/${user.username}`}
               key={user.id}
-              className="w-48 h-56 border rounded flex flex-col justify-center items-center"
+              className="w-48 h-56 border rounded flex flex-col justify-center items-center hover:scale-105 transition-transform duration-200 ease-in-out  backdrop-blur-sm shadow-lg"
             >
               <img
-                src={user.profile_picture} alt="User" className="w-10 h-10 object-cover border rounded-full"
+                src={user.profile_picture} alt="User" className="w-20 h-20 object-cover border rounded-full"
               />
               <div className="flex flex-col items-center mt-2">
                 <h2 className="text-lg font-semibold">{user.name}</h2>

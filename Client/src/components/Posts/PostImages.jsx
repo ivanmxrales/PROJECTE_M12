@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import api from "../../lib/axios";
 
 const PostImages = ({ post }) => {
   // Asegúrate de que 'media' es un array con las URLs de las imágenes
   const media = JSON.parse(post.media);  // Suponiendo que 'media' está en formato JSON
-  const baseUrl = 'http://127.0.0.1:8000';
+  
 
   // Estado para el índice de la imagen activa
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -18,6 +19,7 @@ const PostImages = ({ post }) => {
     setCurrentIndex((prevIndex) => (prevIndex - 1 + media.length) % media.length);
   };
 
+  console.log("res" + api + media[0]);
   return (
     <div className="carousel-container">
       {media && media.length > 0 ? (
@@ -27,7 +29,7 @@ const PostImages = ({ post }) => {
           
           {/* Imagen actual */}
           <img
-            src={baseUrl + media[currentIndex]}
+            src={api + media[currentIndex]}
             alt={`post-image-${currentIndex}`}
             className="post-image"
           />
