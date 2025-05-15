@@ -19,7 +19,8 @@ const PostImages = ({ post }) => {
     setCurrentIndex((prevIndex) => (prevIndex - 1 + media.length) % media.length);
   };
 
-  console.log("res" + api + media[0]);
+  console.log("media:" + api );
+  console.log("media:" + media[0] );
   return (
     <div className="carousel-container">
       {media && media.length > 0 ? (
@@ -33,6 +34,7 @@ const PostImages = ({ post }) => {
             alt={`post-image-${currentIndex}`}
             className="post-image"
           />
+          
           
           {/* Botón siguiente */}
           <button className="next" onClick={nextImage}>›</button>

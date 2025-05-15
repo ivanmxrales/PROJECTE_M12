@@ -125,7 +125,7 @@ const ProfileHeader = ({ user: profileUser }) => {
             )}
 
             {isModalOpenSettings && (
-                <UserSettings onClose={handleCloseSettings} />
+                <UserSettings onClose={handleCloseSettings} user={authUser} />
             )}
         </div>
     );

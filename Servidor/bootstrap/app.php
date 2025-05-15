@@ -13,18 +13,11 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        /* $middleware->alias([
-            'auth' => \Illuminate\Auth\Middleware\Authenticate::class,
-            'auth:sanctum' => \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
-        ]); */
-        //$middleware->push(ApiAuthenticate::class);
-        $middleware = [
-            /* \App\Http\Middleware\CorsMiddleware::class, */
-            \Illuminate\Http\Middleware\HandleCors::class,
-        ];
-    })
+    $middleware->append(\Illuminate\Http\Middleware\HandleCors::class);
+})
+
     ->withExceptions(function (Exceptions $exceptions) {
         //
     })->create();
 
-    
+$app->configure('cors');

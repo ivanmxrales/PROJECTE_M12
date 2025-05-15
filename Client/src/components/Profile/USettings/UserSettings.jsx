@@ -2,24 +2,52 @@ import React from "react";
 import useLogout from "../../../hooks/useLogout";
 import { Close, ChangeEmail, ChangePassword, DeleteAccount } from "./UserOptions";
 import { Logout } from "./Logout";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import ChangeEmailForm from './ChangeEmailForm';
+import ChangePasswordForm from './ChangePasswordForm';
+
 
 const UserSettings = ({ user, onClose }) => {
+    const [showChangeEmail, setShowChangeEmail] = useState(false);
+    const [showChangePassword, setShowChangePassword] = useState(false);
 
-	const { logout } = useLogout();
-	return (
-		<div className="fixed inset-0 flex items-center justify-center bg-white/50 z-[9999]">
-			<div className="bg-black p-6 rounded-lg w-96 h-96">
-				<h2 className="text-lg font-bold mb-4 tcolor">Opcions </h2>
-				<div className="mt-10 flex flex-col gap-7">
-					<Close onClose={onClose}
-					/>
-					<Logout/>
-					<ChangeEmail/>
-					<ChangePassword/>
-					<DeleteAccount/>
-				</div>
-			</div>
-		</div>);
+    return (
+        <div className="fixed inset-0 flex items-center justify-center bg-white/50 z-[9999]">
+            <div className="bg-black p-6 rounded-lg w-96 max-h-[90vh] overflow-y-auto">
+                <h2 className="text-lg font-bold mb-4 tcolor">Opcions</h2>
+                <div className="mt-6 flex flex-col gap-6">
+                    {!showChangeEmail && !showChangePassword && (
+                        <>
+                            <Close onClose={onClose} />
+                            <Logout />
+                            <button
+                                className="bg-transparent text-white text-sm border-b-gray-600 hover:bg-opacity-80 sm:text-xl px-4 py-2 rounded"
+                                onClick={() => setShowChangeEmail(true)}
+                            >
+                                Canviar email
+                            </button>
+                            <button
+                                className="bg-transparent text-white text-sm border-b-gray-600 hover:bg-opacity-80 sm:text-xl px-4 py-2 rounded"
+                                onClick={() => setShowChangePassword(true)}
+                            >
+                                Canviar contrasenya
+                            </button>
+                            <DeleteAccount />
+                        </>
+                    )}
+
+                    {showChangeEmail && (
+                        <ChangeEmailForm onClose={() => setShowChangeEmail(false)} user={user}/>
+                    )}
+
+                    {showChangePassword && (
+                        <ChangePasswordForm onClose={() => setShowChangePassword(false)} user={user}/>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
 };
 
 export default UserSettings;

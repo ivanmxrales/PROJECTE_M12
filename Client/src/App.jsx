@@ -6,6 +6,7 @@ import Home from './pages/Home/Home';
 import Posts from './pages/posts/Posts'
 import CreatePostPage from './pages/posts/CreatePostPage';
 import SearchUsers from './pages/search/SearchUsers';
+import UserConfig from './pages/userConfig/UserConfig';
 import Auth from './pages/Auth/Auth';
 import PageLayout from './Layouts/PageLayout/PageLayout';
 import Profile from './pages/Profile/Profile';
@@ -19,6 +20,11 @@ function App() {
         <Route path="/search" element={
           <ProtectedRoutes>
             <SearchUsers />
+          </ProtectedRoutes>
+        } />
+        <Route path="/config" element={
+          <ProtectedRoutes>
+            <UserConfig />
           </ProtectedRoutes>
         } />
         <Route path="/postnew" element={

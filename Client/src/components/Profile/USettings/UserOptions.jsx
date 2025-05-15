@@ -1,12 +1,3 @@
-/* export const Logout = ({ onClose }) => (
-    <button
-        className="bg-transparent text-white text-sm border-b-gray-600 hover:bg-opacity-80 sm:text-xl px-4 py-2 rounded"
-        onClick={onClose}
-    >
-        Tancar sessió
-    </button>
-); */
-
 export const DeleteAccount = ({ onClose }) => (
     <button
         className="bg-transparent text-white text-sm border-b-gray-600 hover:bg-opacity-80 sm:text-xl px-4 py-2 rounded"

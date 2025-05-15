@@ -42,6 +42,7 @@ class PostController extends Controller
         $post_title = Str::slug($request->title); // Convierte el título en un formato adecuado para los nombres de archivo (sin espacios, etc.)
 
         $media_files = [];
+        $file_location = env('POST_PICTURES');
 
         if ($request->hasFile('media')) {
             foreach ($request->file('media') as $index => $file) {
@@ -50,8 +51,10 @@ class PostController extends Controller
                 $new_file_name = $post_title . '-' . ($index + 1) . '.' . $file_extension; // Nombre basado en el título y el índice del archivo
 
                 // Almacenar el archivo con el nuevo nombre
-                $file_path = $file->storeAs('uploads/media', $new_file_name, 'public'); // Usa storeAs para especificar el nombre del archivo
+                $file_path = $file->storeAs($file_location, $new_file_name); // Usa storeAs para especificar el nombre del archivo
 
+                
+                $file->move(public_path($file_location), $new_file_name);
                 // Guardar la URL pública del archivo
                 $media_files[] = Storage::url($file_path);
             }

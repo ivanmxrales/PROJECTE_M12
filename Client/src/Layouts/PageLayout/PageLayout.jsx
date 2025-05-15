@@ -34,11 +34,11 @@ const PageLayout = ({ children }) => {
                         </div>
                     ) : null}
 
-                    {showNavbar && (
+                    {/* {showNavbar && (
                         <div className="fixed left-60 top-0 w-[calc(100%-240px)] z-[9999] bg-black shadow-md">
                             <Navbar />
                         </div>
-                    )}
+                    )} */}
                 </>
             )}
             <div className="flex-1 mx-auto w-[calc(100%-70px)] md:w-[calc(100%-240px)]">

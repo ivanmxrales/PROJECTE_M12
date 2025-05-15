@@ -14,7 +14,7 @@ const Userbar = () => {
 
   return (
     <div className="w-20 sm:w-24 md:w-48 h-screen border-r border-l border-white/30 py-8 px-2 md:px-4 sticky top-0 left-0 bg-black">
-      <h2 className="mt-20 w-full text-white font-semibold text-sm">Usuaris recomenats</h2>
+      <h2 className="mt-4 w-full text-white font-semibold text-sm">Usuaris recomenats</h2>
 
       <div className="mt-10 ">
         {recommendedUsers.map(user => (
