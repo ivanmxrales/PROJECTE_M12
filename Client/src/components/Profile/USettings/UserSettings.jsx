@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import ChangeEmailForm from './ChangeEmailForm';
 import ChangePasswordForm from './ChangePasswordForm';
+import EditEmail from "../../AuthForm/EditEmail";
 
 
 const UserSettings = ({ user, onClose }) => {
@@ -38,7 +39,7 @@ const UserSettings = ({ user, onClose }) => {
                     )}
 
                     {showChangeEmail && (
-                        <ChangeEmailForm onClose={() => setShowChangeEmail(false)} user={user}/>
+                        <EditEmail onClose={() => setShowChangeEmail(false)} user={user}/>
                     )}
 
                     {showChangePassword && (

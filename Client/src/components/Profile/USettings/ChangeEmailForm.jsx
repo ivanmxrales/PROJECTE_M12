@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import useAccountSecurity from '../../../hooks/useAccountSecurity'; 
+import { useNavigate } from 'react-router-dom';
 
 const ChangeEmailForm = ({ onClose, user }) => {
     const [currentPassword, setCurrentPassword] = useState('');
     const [newEmail, setNewEmail] = useState('');
     const [confirmEmail, setConfirmEmail] = useState('');
-    const [localError, setLocalError] = useState(null); // Local validation error
+    const [localError, setLocalError] = useState(null);
+    const navigate = useNavigate();
 
     const { updateEmail, loading, error, message } = useAccountSecurity();
 
@@ -17,12 +19,11 @@ const ChangeEmailForm = ({ onClose, user }) => {
         }
 
         await updateEmail(user.id, currentPassword, newEmail);
-
-        // Optional: Clear fields on success
         if (!error) {
             setCurrentPassword('');
             setNewEmail('');
             setConfirmEmail('');
+            navigate(`/${user.username}`);
         }
     };
 
@@ -36,6 +37,7 @@ const ChangeEmailForm = ({ onClose, user }) => {
                 value={currentPassword}
                 onChange={(e) => setCurrentPassword(e.target.value)}
             />
+            
 
             <label className="text-white text-sm">Nou correu electrònic</label>
             <input
