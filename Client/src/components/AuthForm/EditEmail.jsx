@@ -26,9 +26,6 @@ const EditEmail = ({ user, onClose }) => {
 		if (inputs.password && inputs.password.length < 8)
 			newErrors.password = "La contrasenya ha de tenir almenys 8 caràcters";
 
-		if (inputs.password !== user.password)
-			newErrors.confirmPassword = "Contrasenya incorrecta";
-
 		return newErrors;
 	};
 
@@ -50,7 +47,7 @@ const EditEmail = ({ user, onClose }) => {
 	return (
 		<form onSubmit={handleSubmit} className="flex flex-col gap-4">
 
-			<label className="text-white text-sm">Contrasenya actual</label>
+			<label name="password" className="text-white text-sm">Contrasenya actual</label>
 			<input
 				type="password"
 				name="password"
@@ -61,7 +58,7 @@ const EditEmail = ({ user, onClose }) => {
 			/>
 			{errors.password && <div className="text-red-500 text-sm">{errors.password}</div>}
 
-			<label className="text-white text-sm">Nou email</label>
+			<label name="email" className="text-white text-sm">Nou email</label>
 			<input
 				type="email"
 				name="email"
@@ -71,7 +68,8 @@ const EditEmail = ({ user, onClose }) => {
 				onChange={handleChange}
 			/>
 			{errors.email && <div className="text-red-500 text-sm">{errors.email}</div>}
-			<label className="text-white text-sm">Confirma el nou email</label>
+
+			<label name="email2" className="text-white text-sm">Confirma el nou email</label>
 			<input
 				type="email"
 				name="email2"

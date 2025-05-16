@@ -120,6 +120,29 @@ class UserController extends Controller
         }
     }
 
+    function editEmail(Request $request, $id)
+    {
+        $user = User::find($id);
+
+        if ($request->isMethod('post')) {
+            $validate = $request->validate([
+                'email' => 'required|email',
+                'password' => 'nullable|min:8|max:20'
+            ]);
+
+            if ($validate) {
+                $user->email = $request->email;
+                $password = $request->password;
+
+                if ($password != $user->password) {
+                    return response()->json(['error' => 'La contrasenya no coincideix amb la contrasenya actual'], 401);
+                }
+                $user->save();
+                return response()->json($user);
+            }
+        }
+    }
+
     function delete($id)
     {
         $user = User::find($id);

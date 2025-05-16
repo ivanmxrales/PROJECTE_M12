@@ -4,7 +4,7 @@ import api from '../lib/axios';
 import getAuthUser from '../utility/getAuthUserToken';
 import { useAuth } from '../context/AuthContext';
 
-const editProfile = () => {
+const editProfileEmail = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ const editProfile = () => {
     formData.append('email', inputs.email);
 
     try {
-      await api.post(`/api/user/${id}`, formData, {
+      await api.post(`/api/user/email/${id}`, formData, {
         ...getAuthUser(),
         headers: {
           ...getAuthUser().headers,
@@ -51,4 +51,4 @@ const editProfile = () => {
   return { loading, error, edit };
 };
 
-export default editProfile;
+export default editProfileEmail;

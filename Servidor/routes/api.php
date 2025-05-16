@@ -30,6 +30,7 @@
         Route::get('/username/{username}', [ApiController::class, 'searchUsername']);
         Route::get('/user/{id}', [ApiController::class, 'searchUser']);
         Route::post('/user/{id}', [ApiController::class, 'updateUser']);
+        Route::post('/user/email/{id}', [ApiController::class, 'updateEmail']);
         Route::delete('/user/{id}', [ApiController::class, 'deleteUser']);
         Route::delete('/logout', [ApiController::class, 'logout']);
         Route::get('/user/{id}/posts', [ApiController::class, 'getPostsUser']);

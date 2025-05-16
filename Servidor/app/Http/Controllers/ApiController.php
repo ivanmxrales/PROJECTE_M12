@@ -68,6 +68,10 @@ class ApiController extends Controller
         return $this->userController->followedUsers($id);
     }
 
+    public function updateEmail(Request $request, $id)
+    {
+        return $this->userController->editEmail($request, $id);
+    }
 
     //// POSTS
 
