@@ -16,11 +16,10 @@ const Seguint = ({ userId: id }) => {
     <div>
       <div className='mt-10 flex flex-col items-center justify-center gap-2 scrollable'>
         {followedUsers.map(user => ( 
-        <div className="mt-0 flex items-center justify-center">
+        <div key={user.id} className="mt-0 flex items-center justify-center">
           <div className='flex flex-col gap-2 border-b w-96 justify-center items-center'>
             <RouterLink
               to={`/${user.username}`}
-              key={user.id}
               className="bg-transparent w-full h-14 py-2 mt-4 hover:bg-white/20 rounded-md p-3">
               <div className="flex gap-2 justify-center items-center">
                 <img

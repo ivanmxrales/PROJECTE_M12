@@ -7,6 +7,7 @@ import { useState } from "react";
 import ChangeEmailForm from './ChangeEmailForm';
 import ChangePasswordForm from './ChangePasswordForm';
 import EditEmail from "../../AuthForm/EditEmail";
+import EditPassword from "../../AuthForm/EditPassword";
 
 
 const UserSettings = ({ user, onClose }) => {
@@ -43,7 +44,7 @@ const UserSettings = ({ user, onClose }) => {
                     )}
 
                     {showChangePassword && (
-                        <ChangePasswordForm onClose={() => setShowChangePassword(false)} user={user}/>
+                        <EditPassword onClose={() => setShowChangePassword(false)} user={user}/>
                     )}
                 </div>
             </div>

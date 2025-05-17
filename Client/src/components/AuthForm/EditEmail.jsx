@@ -1,5 +1,7 @@
 import { useState } from "react";
 import useEditEmail from "../../hooks/useEditEmail";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const EditEmail = ({ user, onClose }) => {
 	const [inputs, setInputs] = useState({
@@ -11,10 +13,18 @@ const EditEmail = ({ user, onClose }) => {
 	const { loading, edit, error } = useEditEmail();
 	const [errors, setErrors] = useState({});
 
+	useEffect(() => {
+		setInputs((prev) => ({
+			...prev,
+			email: user?.email || "",
+		}));
+	}, [user?.email]);
+
 	const handleChange = (e) => {
 		setInputs({ ...inputs, [e.target.name]: e.target.value });
 	};
 	
+	const navigate = useNavigate();
 
 	const validate = () => {
 		const newErrors = {};
@@ -40,7 +50,9 @@ const EditEmail = ({ user, onClose }) => {
 		edit(user.id, {
 			...user,
 			email: inputs.email,
+			password: inputs.password,
 		});
+		navigate(`/${user.username}`);
 		  
 	};
 

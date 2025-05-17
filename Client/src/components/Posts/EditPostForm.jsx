@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import axios from "axios";
+import getAuthUserTokenMultimedia from "../../utility/getAuthUserTokenMultimedia";
+import api from "../../lib/axios";
 
 function EditPostForm({ post, onCancel }) {
   const [formData, setFormData] = useState({
@@ -55,11 +57,13 @@ function EditPostForm({ post, onCancel }) {
     });
 
     try {
-      await axios.post(`http://127.0.0.1:8000/api/post/${post.id}`, data, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      
+      await api.post(`/api/post/${post.id}`,data ,getAuthUserTokenMultimedia());
+      // await axios.post(`http://127.0.0.1:8000/api/post/${post.id}`, data, {
+      //   headers: {
+      //     "Content-Type": "multipart/form-data",
+      //   },
+      // });
 
       alert("Post actualizado correctamente");
       onCancel();

@@ -134,9 +134,33 @@ class UserController extends Controller
                 $user->email = $request->email;
                 $password = $request->password;
 
-                if ($password != $user->password) {
+                if (!Hash::check($password, $user->password)) {
                     return response()->json(['error' => 'La contrasenya no coincideix amb la contrasenya actual'], 401);
                 }
+                $user->save();
+                return response()->json($user);
+            }
+        }
+    }
+
+    function editPassword(Request $request, $id)
+    {
+        $user = User::find($id);
+
+        if ($request->isMethod('post')) {
+            $validate = $request->validate([
+                'OldPassword' => 'min:8|max:20',
+                'password' => 'min:8|max:20'
+            ]);
+
+            if ($validate) {
+                $password = $request->password;
+                $OldPassword = $request->OldPassword;
+
+                if (!Hash::check($OldPassword, $user->password)) {
+                    return response()->json(['error' => 'La contrasenya no coincideix amb la contrasenya actual'], 401);
+                }
+                $user->password = Hash::make($password);
                 $user->save();
                 return response()->json($user);
             }

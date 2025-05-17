@@ -6,7 +6,6 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use DateTime;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -51,12 +50,12 @@ class PostController extends Controller
                 $new_file_name = $post_title . '-' . ($index + 1) . '.' . $file_extension; // Nombre basado en el título y el índice del archivo
 
                 // Almacenar el archivo con el nuevo nombre
-                $file_path = $file->storeAs($file_location, $new_file_name); // Usa storeAs para especificar el nombre del archivo
+                $file_path = $file->storeAs($file_location, $new_file_name,"public"); // Usa storeAs para especificar el nombre del archivo
 
                 
-                $file->move(public_path($file_location), $new_file_name);
-                // Guardar la URL pública del archivo
-                $media_files[] = Storage::url($file_path);
+                 $file->move(public_path($file_location), $new_file_name,"public"); // Mueve el archivo a la carpeta especificada
+                // // Guardar la URL pública del archivo
+                 $media_files[] = $file_path;
             }
         }
 
@@ -79,68 +78,90 @@ class PostController extends Controller
     //// EDITAR
 
     public function edit(Request $request, $id)
-    {
-        $post = Post::findOrFail($id);
+{
+    $post = Post::findOrFail($id);
 
-        $request->validate([
-            'title' => 'nullable|min:2|max:20',
-            'location' => 'nullable|min:2|max:20',
-            'description' => 'nullable|max:250',
-            'media' => 'nullable|array', // URLs de medios que el usuario quiere conservar
-            'media.*' => 'string',
-            'new_media' => 'nullable|array', // Nuevos archivos que el usuario sube
-            'new_media.*' => 'file|mimes:jpg,jpeg,png,mp4,mov,avi|max:10240',
-        ]);
+    $request->validate([
+        'title' => 'nullable|min:2|max:20',
+        'location' => 'nullable|min:2|max:20',
+        'description' => 'nullable|max:250',
+        'media' => 'nullable|array', // URLs de medios que el usuario quiere conservar
+        'media.*' => 'string',
+        'new_media' => 'nullable|array', // Nuevos archivos que el usuario sube
+        'new_media.*' => 'file|mimes:jpg,jpeg,png,mp4,mov,avi|max:10240',
+    ]);
 
-        $original_media = $post->media ? json_decode($post->media, true) : [];
-        $updated_media = $request->input('media', []);
+    $file_location = env('POST_PICTURES', 'uploads/media'); // fallback si la variable no está definida
+    $public_path = public_path($file_location);
 
-        // Detectar qué archivos se han eliminado
-        $deleted_media = array_diff($original_media, $updated_media);
-
-        foreach ($deleted_media as $url) {
-            // Quitar el prefijo /storage/ para obtener la ruta relativa dentro del disco 'public'
-            $relativePath = str_replace('/storage/', '', $url);
-
-            if (Storage::disk('public')->exists($relativePath)) {
-                Storage::disk('public')->delete($relativePath);
-            }
-        }
-
-        // Agregar nuevos archivos si se subieron
-        if ($request->hasFile('new_media')) {
-            foreach ($request->file('new_media') as $index => $file) {
-                $extension = $file->getClientOriginalExtension();
-                $filename = Str::slug($post->title) . '-' . (count($updated_media) + $index + 1) . '.' . $extension;
-                $path = $file->storeAs('uploads/media', $filename, 'public');
-                $updated_media[] = Storage::url($path);
-            }
-        }
-
-        // Actualizar los campos del post
-        $post->update([
-            'title' => $request->has('title') ? $request->title : $post->title,
-            'location' => $request->has('location') ? $request->location : $post->location,
-            'description' => $request->has('description') ? $request->description : $post->description,
-            'media' => !empty($updated_media) ? json_encode(array_values($updated_media)) : null,
-        ]);
-
-        return response()->json([
-            'message' => 'Post actualizado exitosamente',
-            'post' => $post
-        ], 200);
+    // Asegurarse de que la carpeta exista
+    if (!file_exists($public_path)) {
+        mkdir($public_path, 0755, true);
     }
+
+    $original_media = $post->media ? json_decode($post->media, true) : [];
+    $updated_media = $request->input('media', []);
+
+    // Detectar qué archivos se han eliminado
+    $deleted_media = array_diff($original_media, $updated_media);
+
+    foreach ($deleted_media as $url) {
+        $absolutePath = public_path($url); // Elimina desde public/
+        if (file_exists($absolutePath)) {
+            unlink($absolutePath);
+        }
+    }
+
+    // Agregar nuevos archivos
+    if ($request->hasFile('new_media')) {
+        foreach ($request->file('new_media') as $index => $file) {
+            $extension = $file->getClientOriginalExtension();
+            $filename = Str::slug($request->input('title', $post->title)) . '-' . (count($updated_media) + $index + 1) . '.' . $extension;
+
+            $file->move($public_path, $filename); // Mueve el archivo al sistema de archivos real
+            $updated_media[] = $file_location . '/' . $filename; // Ruta accesible desde el navegador
+        }
+    }
+
+    // Actualizar el post
+    $post->update([
+        'title' => $request->has('title') ? $request->title : $post->title,
+        'location' => $request->has('location') ? $request->location : $post->location,
+        'description' => $request->has('description') ? $request->description : $post->description,
+        'media' => !empty($updated_media) ? json_encode(array_values($updated_media)) : null,
+    ]);
+
+    return response()->json([
+        'message' => 'Post actualizado exitosamente',
+        'post' => $post
+    ], 200);
+}
 
     // Eliminar un post
-    public function delete($id)
-    {
-        $post = Post::findOrFail($id);
-        $post->delete();
+public function delete($id)
+{
+    $post = Post::findOrFail($id);
 
-        return response()->json([
-            'message' => 'Post eliminado correctamente'
-        ]);
+    // Eliminar archivos vinculados si existen
+    if ($post->media) {
+    $mediaFiles = json_decode($post->media, true);
+
+    foreach ($mediaFiles as $url) {
+        $absolutePath = public_path($url); // $url es algo como /uploads/media/archivo.jpg
+
+        if (file_exists($absolutePath)) {
+            unlink($absolutePath); // Elimina el archivo del disco
+        }
     }
+}
+
+    // Eliminar el post de la base de datos
+    $post->delete();
+
+    return response()->json([
+        'message' => 'Post e imatges eliminades correctament'
+    ]);
+}
 
     public function postsUser($user_id)
     {

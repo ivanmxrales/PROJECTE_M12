@@ -25,7 +25,8 @@ const useLogin = () => {
 			navigate("/");
 			return res.data;
 		} catch (err) {
-			setError(err.response?.data?.message || "Login failed");
+			//setError(err.response?.data?.message || "Login failed");
+			setError({ message: "Credencials incorrectes!" });
 		} finally {
 			setLoading(false);
 		}

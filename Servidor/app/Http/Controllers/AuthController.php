@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
@@ -13,45 +14,9 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
-    /* public function login(Request $request)
+    public function login(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email',
-            'password' => 'required|min:8|max:20'
-        ]);
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
-        }
-
-        if (Auth::attempt(['email' => $request->email, 
-        'password' => $request->password])) {
-            $user = Auth::user();
-            $user->role = 'user';
-            $token = $user->createToken('token')->plainTextToken;
-            $cookie = cookie('token', $token, 60 * 24 * 7);
-            $img_location = env('USERS_PROFILE_PICTURE');
-            return response([
-                "user" => [
-                    "id" => $user->id,
-                    "name" => $user->name,
-                    "surname" => $user->surname,
-                    "email" => $user->email,
-                    "username" => $user->username,
-                    "profile_picture" => url($img_location . '/' . $user->profile_picture),
-                    "role" => $user->role,
-                    "biography" => $user->biography,
-                    "birth_date" => $user->birth_date
-                ],
-                "token" => $token
-            ], Response::HTTP_OK)->withCookie($cookie); //retornem l'objecte per guadar sessió en el client
-        } else {
-            return response(["message" => "Credencials invàlides."], Response::HTTP_UNAUTHORIZED);
-        }
-    } */
-
-    /* public function login(Request $request)
-    {
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required|min:8|max:20'
@@ -61,36 +26,33 @@ class AuthController extends Controller
             return response()->json(['message' => 'Credencials invàlides'], Response::HTTP_UNAUTHORIZED);
         }
 
-        $request->session()->regenerate();
+        $user = Auth::user();
 
-        return response()->json(Auth::user());
-    } */
+        if ($user->email_verified_at == null) {
+            return response()->json(['message' => 'El teu compte no està verificat'], Response::HTTP_UNAUTHORIZED);
+        }
 
+        if ($user->is_blocked) {
+            return response()->json(['message' => 'El teu compte ha estat bloquejat'], Response::HTTP_UNAUTHORIZED);
+        }
+        if ($user->is_deleted) {
+            return response()->json(['message' => 'El teu compte ha estat eliminat'], Response::HTTP_UNAUTHORIZED);
+        }
+        if ($user->is_banned) {
+            return response()->json(['message' => 'El teu compte ha estat prohibit'], Response::HTTP_UNAUTHORIZED);
+        }
 
-    public function login(Request $request)
-{
-    
-    $credentials = $request->validate([
-        'email' => 'required|email',
-        'password' => 'required|min:8|max:20'
-    ]);
+        $token = $user->createToken('YourAppName')->plainTextToken;
+        $img_location = env('USERS_PROFILE_PICTURE');
+        $user->profile_picture = url($img_location . '/' . $user->profile_picture);
+        $user->role = 'user';
 
-    if (!Auth::attempt($credentials)) {
-        return response()->json(['message' => 'Credencials invàlides'], Response::HTTP_UNAUTHORIZED);
+        return response()->json([
+            'user' => $user,
+
+            'token' => $token
+        ]);
     }
-
-    $user = Auth::user();
-    $token = $user->createToken('YourAppName')->plainTextToken;
-    $img_location = env('USERS_PROFILE_PICTURE');
-    $user->profile_picture = url($img_location . '/' . $user->profile_picture);
-    $user->role = 'user';
-
-    return response()->json([
-        'user' => $user,
-
-        'token' => $token
-    ]);
-}
 
     function logout(Request $request)
     {
@@ -113,7 +75,7 @@ class AuthController extends Controller
                 'surname' => 'nullable|min:2|max:20',
                 'birth_date' => 'nullable|date',
                 'username' => 'required|min:2|max:20|unique:users,username',
-                'email' => 'required|email',
+                'email' => 'required|email|unique:users,email',
                 'password' => 'required|min:8|max:20'
             ]);
 
@@ -131,12 +93,15 @@ class AuthController extends Controller
                 $user->role = $request->role;
                 if ($request->hasFile('profile_picture')) {
                     $file = $request->file('profile_picture');
-                    $file_name = $user->name . '_' . $user->surname .  '.' . $file->getClientOriginalExtension();
+                    $file_name = $user->name . '_' . $user->surname . '.' . $file->getClientOriginalExtension();
                     $file_location = env('USERS_PROFILE_PICTURE');
                     $file->move(public_path($file_location), $file_name);
                     $user->profile_picture = $file_name;
                 }
                 $user->save();
+
+                event(new Registered($user));
+
                 return response()->json($user);
             }
         }

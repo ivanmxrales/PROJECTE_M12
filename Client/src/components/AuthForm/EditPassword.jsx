@@ -1,47 +1,33 @@
 import { useState } from "react";
-import useEditProfile from "../../hooks/useEditProfile";
+import useEditEmail from "../../hooks/useEditEmail";
+import useEditPassword from "../../hooks/useEditPassword";
+import { useNavigate } from "react-router-dom";
 
-const EditPassword = ({ user, onCancel }) => {
+const EditPassword = ({ user, onClose }) => {
 	const [inputs, setInputs] = useState({
+		OldPassword: "",
 		password: "",
-		password2:  ""
+		password2: "",
 	});
 
-	const { loading, edit, error } = useEditProfile();
+	const { loading, edit, error } = useEditPassword();
 	const [errors, setErrors] = useState({});
 
 	const handleChange = (e) => {
-		if (e.target.name === 'profile_picture') {
-			setInputs({ ...inputs, profile_picture: e.target.files[0] });
-		} else {
-			setInputs({ ...inputs, [e.target.name]: e.target.value });
-		}
+		setInputs({ ...inputs, [e.target.name]: e.target.value });
 	};
-	
+
+	const navigate = useNavigate();
 
 	const validate = () => {
 		const newErrors = {};
-		if (!inputs.name || inputs.name.length <= 3)
-			newErrors.name = "El nom ha de tenir almenys 3 caràcters";
-
-		if (!inputs.username || inputs.username.length <= 3)
-			newErrors.username = "El nom d'usuari ha de tenir almenys 3 caràcters";
-
-		if (!inputs.birth_date) {
-			newErrors.birth_date = "La data de naixement és necessària";
-		} else {
-			const dob = new Date(inputs.birth_date);
-			const age = new Date().getFullYear() - dob.getFullYear();
-			if (age < 16) newErrors.birth_date = "Has de tenir 16 anys com a mínim";
-		}
-
-		if (!inputs.email) newErrors.email = "El correu electrònic és necessari";
+		if (!inputs.OldPassword) newErrors.OldPassword = "La contrasenya actual és necessària";
 
 		if (inputs.password && inputs.password.length < 8)
 			newErrors.password = "La contrasenya ha de tenir almenys 8 caràcters";
 
-		if (inputs.password !== inputs.confirmPassword)
-			newErrors.confirmPassword = "Les contrasenyes no coincideixen";
+		if (!inputs.password2 || (inputs.password !== inputs.password2)) newErrors.password2 = "Les contrasenyes no coincideixen";
+		if (!inputs.password) newErrors.password = "La contrasenya és necessària";
 
 		return newErrors;
 	};
@@ -54,42 +40,54 @@ const EditPassword = ({ user, onCancel }) => {
 			return;
 		}
 		setErrors({});
-		edit(user.id, inputs);
+		edit(user.id, {
+			...user,
+			OldPassword: inputs.OldPassword,
+			password: inputs.password,
+		});
+		navigate(`/${user.username}`);
+
 	};
 
 	return (
 		<form onSubmit={handleSubmit} className="flex flex-col gap-4">
+
+			<label htmlFor="OldPassword" className="text-white text-sm">Contrasenya actual</label>
 			<input
-				type="email"
-				name="email"
-				placeholder="Correu electrònic"
-				className="input"
-				value={inputs.email}
+				type="password"
+				name="OldPassword"
+				placeholder="Contrasenya actual"
+				className="bg-white/10 border border-white/20 text-white p-2 rounded"
+				value={inputs.OldPassword}
 				onChange={handleChange}
 			/>
-			{errors.email && <div className="text-red-500 text-sm">{errors.email}</div>}
-			<input
-				type="email"
-				name="email2"
-				placeholder="Correu electrònic"
-				className="input"
-				value={inputs.email2}
-				onChange={handleChange}
-			/>
-			{errors.email2 && <div className="text-red-500 text-sm">{errors.email2}</div>}
+			{errors.OldPassword && <div className="text-red-500 text-sm">{errors.OldPassword}</div>}
+
+			<label htmlFor="password" className="text-white text-sm">Nova contrasenya</label>
 			<input
 				type="password"
 				name="password"
-				placeholder="Contrasenya actual"
-				className="input"
+				placeholder="Nova contrasenya"
+				className="bg-white/10 border border-white/20 text-white p-2 rounded"
 				value={inputs.password}
 				onChange={handleChange}
 			/>
 			{errors.password && <div className="text-red-500 text-sm">{errors.password}</div>}
 
+			<label htmlFor="password2" className="text-white text-sm">Confirma la contrasenya</label>
+			<input
+				type="password"
+				name="password2"
+				placeholder="Confirma la contrasenya"
+				className="bg-white/10 border border-white/20 text-white p-2 rounded"
+				value={inputs.password2}
+				onChange={handleChange}
+			/>
+			{errors.password2 && <div className="text-red-500 text-sm">{errors.password2}</div>}
+
 			<div className="flex justify-end gap-2">
-				<button type="button" onClick={onCancel}>Cancel·la</button>
-				<button type="submit" disabled={loading}>
+				<button type="button" onClick={onClose}>Cancel·la</button>
+				<button type="submit" onClick={handleSubmit} disabled={loading}>
 					{loading ? "Desant..." : "Desa"}
 				</button>
 			</div>

@@ -96,13 +96,25 @@ const ProfileHeader = ({ user: profileUser }) => {
                             </button>
                         </div>
                     ) : (
-                        <button
-                            className="bg-blue-500 text-white px-4 py-1 rounded"
-                            onClick={toggleFollow}
-                            disabled={loading}
-                        >
-                            {isFollowing ? "Deixar de seguir" : "Seguir"}
-                        </button>
+                        <div>
+                            <button
+                                className="bg-blue-500 text-white px-4 py-1 rounded"
+                                onClick={toggleFollow}
+                                disabled={loading}
+                            >
+                                {isFollowing ? "Deixar de seguir" : "Seguir"}
+                            </button>
+                            &nbsp;&nbsp;
+                            {isFollowing ? (
+                                <button className="bg-blue-500 text-white px-4 py-1 rounded"
+                                    onClick={() => navigate(`/chat/${profileUser.id}`)}
+                                >
+                                    Enviar missatge
+                                </button>
+                            ) : null}
+
+
+                        </div>
 
 
                     )}

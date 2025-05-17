@@ -5,11 +5,10 @@ import getAuthUser from '../utility/getAuthUserToken';
 import { useAuth } from '../context/AuthContext';
 import useLogout from './useLogout';
 
-const editProfileEmail = () => {
+const editProfilePassword = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  const { login } = useAuth();
   const { logout } = useLogout();
 
   const edit = async (id, inputs) => {
@@ -17,11 +16,11 @@ const editProfileEmail = () => {
     setError(null);
 
     const formData = new FormData();
-    formData.append('email', inputs.email);
+    formData.append('OldPassword', inputs.OldPassword),
     formData.append('password', inputs.password);
 
     try {
-      await api.post(`/api/user/email/${id}`, formData, {
+      await api.post(`/api/user/password/${id}`, formData, {
         ...getAuthUser(),
         headers: {
           ...getAuthUser().headers,
@@ -29,16 +28,15 @@ const editProfileEmail = () => {
         },
       });
 
-      await logout();
-      localStorage.removeItem("user-info");
-      navigate('/auth');
-      
-
-      /* const response = await api.get(`/api/user/${id}`, getAuthUser());
+      const response = await api.get(`/api/user/${id}`, getAuthUser());
 
       const oldUser = JSON.parse(localStorage.getItem("user-info") || "{}");
+      
+      localStorage.removeItem("user-info");
 
-      const updatedUser = {
+      navigate('/auth');
+
+      /* const updatedUser = {
         ...oldUser,
         ...response.data,
         token: oldUser.token, 
@@ -60,4 +58,4 @@ const editProfileEmail = () => {
   return { loading, error, edit };
 };
 
-export default editProfileEmail;
+export default editProfilePassword;

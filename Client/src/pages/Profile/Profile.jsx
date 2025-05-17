@@ -14,6 +14,11 @@ const Profile = () => {
     const { user, loading, error } = FetchUser(username);
     const [activeTab, setActiveTab] = useState('posts');
 
+    useEffect(() => {
+        setActiveTab('posts');
+    }, [username]);
+    
+
     if (loading) return <p className="text-center mt-10">Carregant perfil...</p>;
     if (!user) return <p className="text-center mt-10 text-red-500">Usuari no trobat</p>;
 

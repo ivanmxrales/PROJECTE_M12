@@ -73,6 +73,11 @@ class ApiController extends Controller
         return $this->userController->editEmail($request, $id);
     }
 
+    public function updatePassword(Request $request, $id)
+    {
+        return $this->userController->editPassword($request, $id);
+    }
+
     //// POSTS
 
     function getPostsUser($id)
@@ -171,5 +176,25 @@ class ApiController extends Controller
     public function listLikes()
     {
         return $this->likeController->list();
+    }
+
+    public function Liking($postId)
+    {
+        return $this->likeController->likePost($postId);
+    }
+
+    public function unLiking($postId)
+    {
+        return $this->likeController->unlikePost($postId);
+    }
+
+    public function hasLiked($postId)
+    {
+        return $this->likeController->hasLiked($postId);
+    }
+
+    public function likeCount($postId)
+    {
+        return $this->likeController->likeCount($postId);
     }
 }

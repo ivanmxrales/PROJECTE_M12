@@ -8,6 +8,7 @@ const useSignup = () => {
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
 	const navigate = useNavigate();
+	const {login} = useLogin();
 
 	const signup = async (inputs) => {
 
@@ -25,12 +26,13 @@ const useSignup = () => {
 		};
 
 		try {
-			const response = await api.post('/api/signup', data);
+			await api.post('/api/signup', data);
+			await login({ email: inputs.email, password: inputs.password });
 
 			const userData = response.data;
 			useLogin(userData);
 		} catch (err) {
-			const errMsg = err.response?.data?.message || "Login failed";
+			const errMsg = err.response?.data?.message || "Signup failed";
 			setError({ message: errMsg });
 		} finally {
 			setLoading(false);
