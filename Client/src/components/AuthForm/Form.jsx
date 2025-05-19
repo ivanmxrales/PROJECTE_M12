@@ -7,27 +7,12 @@ const Form = () => {
     const [isLogin, setIsLogin] = useState(true);
     return (
         <>
-          {/* Main box */}
           <div className="border border-gray-400 rounded-lg p-5">
             <div className="flex flex-col items-center space-y-4">
-              {/* Logo */}
               <img src="/imgs/logo.png" alt="Instagram" className="h-24 cursor-pointer" />
-      
-              {/* Auth Component */}
               {isLogin ? <Login /> : <Signup />}
-      
-              
-      
-              {/* Google Auth */}
-             {/*  <GoogleAuth prefix={isLogin ? "Log in" : "Sign up"} /> */}
             </div>
           </div>
-          
-          <div className="flex items-center justify-center my-4 w-full gap-1">
-                <div className="flex-1 h-px bg-gray-400" />
-                    <p className="mx-1 text-white">O</p>
-                <div className="flex-1 h-px bg-gray-400" />
-            </div>
 
           <div className="border border-gray-400 rounded-lg p-5 mt-4">
             <div className="flex items-center justify-center text-sm">

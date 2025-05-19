@@ -27,10 +27,11 @@ const useSignup = () => {
 
 		try {
 			await api.post('/api/signup', data);
-			await login({ email: inputs.email, password: inputs.password });
+			/* await login({ email: inputs.email, password: inputs.password });
 
 			const userData = response.data;
-			useLogin(userData);
+			useLogin(userData); */
+			navigate('/verify');
 		} catch (err) {
 			const errMsg = err.response?.data?.message || "Signup failed";
 			setError({ message: errMsg });

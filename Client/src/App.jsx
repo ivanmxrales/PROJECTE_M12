@@ -11,12 +11,18 @@ import Auth from './pages/Auth/Auth';
 import PageLayout from './Layouts/PageLayout/PageLayout';
 import Profile from './pages/Profile/Profile';
 import ProtectedRoutes from './components/AuthRoutes/ProtectedRoutes';
+import Verify from './pages/Auth/Verify';
+import ResetPassword from './pages/Auth/ResetPassword';
+import NewPassword from './pages/Auth/NewPassword';
 
 function App() {
   return (
     <PageLayout>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/verify" element={<Verify />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/new-password" element={<NewPassword />} />
         <Route path="/search" element={
           <ProtectedRoutes>
             <SearchUsers />

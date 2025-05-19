@@ -8,7 +8,7 @@ const Auth = () => {
             <div className="flex justify-center items-center gap-10">
 
               <div className="hidden md:block">
-                <img src='/imgs/auth.png' className="h-[650px]" alt='Phone img' />
+                <img src='/imgs/auth.png' className="h-[650px] rounded-2xl" alt='Phone img' />
               </div>
 
               <div className="flex flex-col items-stretch space-y-4">

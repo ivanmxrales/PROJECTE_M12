@@ -14,6 +14,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Token;
+use App\Notifications\CustomResetPassword;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -61,14 +62,14 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function likedPosts()
     {
-    return $this->belongsToMany(Post::class, 'likes', 'user_id', 'post_id')
-                ->withTimestamps();
+        return $this->belongsToMany(Post::class, 'likes', 'user_id', 'post_id')
+            ->withTimestamps();
     }
 
-   /*  public function likedPosts(): BelongsToMany
-    {
-        return $this->belongsToMany(Post::class, 'likes', 'user_id', 'post_id');
-    } */
+    /*  public function likedPosts(): BelongsToMany
+     {
+         return $this->belongsToMany(Post::class, 'likes', 'user_id', 'post_id');
+     } */
 
     public function coments(): HasMany
     {
@@ -84,17 +85,22 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(related: Message::class);
     }
-    
+
 
     public function followers(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'followers', 'user_id', 'follower_id')
-            ->withTimestamps(); 
+            ->withTimestamps();
     }
 
     public function following(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'followers', 'follower_id', 'user_id')
             ->withTimestamps();
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new CustomResetPassword($token));
     }
 }

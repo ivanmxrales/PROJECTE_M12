@@ -25,7 +25,7 @@ const Login = () => {
 				onChange={(e) => setInputs({ ...inputs, password: e.target.value })}
 			/>
 			{error && <div className="text-red-500 text-sm mt-1">{error.message}</div>}
-			
+
 			<button
 				onClick={() => login(inputs)}
 				disabled={loading}
@@ -34,6 +34,15 @@ const Login = () => {
 			>
 				{loading ? "Iniciant sessió..." : "Iniciar sessió"}
 			</button>
+
+			<div className="flex items-center justify-center mt-4">
+				<p className="text-sm text-gray-500">
+					Has oblidat la contrasenya?{" "}
+					<a href="/reset-password" className="text-blue-500 hover:underline">
+						Restablir contrasenya
+					</a>
+				</p>
+			</div>
 		</>
 	);
 };

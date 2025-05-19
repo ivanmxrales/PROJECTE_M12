@@ -2,17 +2,20 @@ import React from "react";
 import useLogout from "../../../hooks/useLogout";
 import { Close, ChangeEmail, ChangePassword, DeleteAccount } from "./UserOptions";
 import { Logout } from "./Logout";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import ChangeEmailForm from './ChangeEmailForm';
 import ChangePasswordForm from './ChangePasswordForm';
 import EditEmail from "../../AuthForm/EditEmail";
 import EditPassword from "../../AuthForm/EditPassword";
+import { Link } from "react-router-dom";
 
 
 const UserSettings = ({ user, onClose }) => {
     const [showChangeEmail, setShowChangeEmail] = useState(false);
     const [showChangePassword, setShowChangePassword] = useState(false);
+    const navigate = useNavigate();
+    const location = useLocation();
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-white/50 z-[9999]">
@@ -29,9 +32,20 @@ const UserSettings = ({ user, onClose }) => {
                             >
                                 Canviar email
                             </button>
+                            {/* <button
+                                className="bg-transparent text-white hover:text-white text-sm border-b 
+                                hover:border border-b-gray-600 hover:bg-opacity-80 sm:text-xl px-4 py-2 rounded"
+                                onClick={() => navigate(`/reset-password?email=${user.email}`)}
+
+                            >
+                                Canviar contrasenya
+                            </button> */}
                             <button
-                                className="bg-transparent text-white text-sm border-b-gray-600 hover:bg-opacity-80 sm:text-xl px-4 py-2 rounded"
-                                onClick={() => setShowChangePassword(true)}
+                                className="bg-transparent text-white hover:text-white text-sm border-b 
+                                hover:border border-b-gray-600 hover:bg-opacity-80 sm:text-xl px-4 py-2 rounded"
+                                onClick={() =>
+                                    navigate(`/reset-password?email=${encodeURIComponent(user.email)}&from=${encodeURIComponent(location.pathname)}`)
+                                }
                             >
                                 Canviar contrasenya
                             </button>
@@ -40,11 +54,11 @@ const UserSettings = ({ user, onClose }) => {
                     )}
 
                     {showChangeEmail && (
-                        <EditEmail onClose={() => setShowChangeEmail(false)} user={user}/>
+                        <EditEmail onClose={() => setShowChangeEmail(false)} user={user} />
                     )}
 
                     {showChangePassword && (
-                        <EditPassword onClose={() => setShowChangePassword(false)} user={user}/>
+                        <EditPassword onClose={() => setShowChangePassword(false)} user={user} />
                     )}
                 </div>
             </div>

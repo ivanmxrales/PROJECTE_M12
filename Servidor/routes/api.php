@@ -10,6 +10,43 @@ use App\Http\Controllers\ApiController;
 use App\Http\Controllers\FollowController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\ApiEmailVerifyController;
+use Illuminate\Support\Facades\Password;
+
+Route::post('/forgot-password', function (Request $request) {
+    $request->validate(['email' => 'required|email']);
+
+    $status = Password::sendResetLink(
+        $request->only('email')
+    );
+
+    return $status === Password::RESET_LINK_SENT
+        ? response()->json(['message' => __($status)])
+        : response()->json(['message' => __($status)], 422);
+});
+
+Route::post('/reset-password', function (Request $request) {
+    $request->validate([
+        'token' => 'required',
+        'email' => 'required|email',
+        'password' => 'required|min:8|confirmed',
+    ]);
+
+    $status = Password::reset(
+        $request->only('email', 'password', 'password_confirmation', 'token'),
+        function ($user, $password) {
+            $user->forceFill([
+                'password' => bcrypt($password),
+            ])->save();
+
+            event(new \Illuminate\Auth\Events\PasswordReset($user));
+        }
+    );
+
+    return $status === Password::PASSWORD_RESET
+        ? response()->json(['message' => __($status)])
+        : response()->json(['message' => __($status)], 422);
+});
+
 
 Route::post('/signup', [ApiController::class, 'signup']);
 Route::post('/login', [ApiController::class, 'login']);
@@ -28,9 +65,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // Verification link handler
     // In api.php
-    Route::get('/email/verify/{id}/{hash}', [App\Http\Controllers\ApiEmailVerifyController::class, 'verify'])
+    /* Route::get('/email/verify/{id}/{hash}', [App\Http\Controllers\ApiEmailVerifyController::class, 'verify'])
         ->middleware('signed')
-        ->name('verification.verify');
+        ->$request->fulfill()
+        ->name('verification.verify'); */
+    Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+        $request->fulfill();
+        return redirect(env('FRONTEND_URL') . '/email-verified');
+    })->middleware(['signed'])->name('verification.verify');
 
 
     // Resend verification email

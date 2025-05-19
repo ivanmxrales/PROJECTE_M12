@@ -17,6 +17,32 @@ export const InstagramLogo = () => (
 	</svg>
 );
 
+export const LuminaLogo = () => (
+	<svg
+		aria-label='Lumina'
+		role='img'
+		viewBox='0 0 200 50'
+		width='150'
+		height='50'
+		xmlns='http://www.w3.org/2000/svg'
+	>
+		<rect width='200' height='50' fill='#181818' rx='8' />
+		<text
+			x='50%'
+			y='50%'
+			dominantBaseline='middle'
+			textAnchor='middle'
+			fill='white'
+			fontSize='24'
+			fontFamily='Arial, sans-serif'
+		>
+			Lumina
+		</text>
+	</svg>
+);
+
+
+
 export const InstagramMobileLogo = () => (
 	<svg
 		aria-label='Instagram'

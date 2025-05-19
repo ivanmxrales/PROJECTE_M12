@@ -123,7 +123,9 @@ const EditProfileForm = ({ user, onCancel }) => {
 			{errors.email && <div className="text-red-500 text-sm">{errors.email}</div>}
 			<div className="flex justify-end gap-2">
 				<button type="button" onClick={onCancel}>Cancel·la</button>
-				<button type="submit" disabled={loading}>
+				<button type="submit" disabled={loading} className= "button bg-blue-500 text-white hover:bg-blue-600 transition duration-200"
+					onClick={onCancel}
+				>
 					{loading ? "Desant..." : "Desa"}
 				</button>
 			</div>

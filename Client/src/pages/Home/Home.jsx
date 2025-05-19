@@ -68,7 +68,7 @@ function Home({ }) {
 
                 </div>
                 <div className='flex w-full h-24 border-t gap-5 '>
-                  <Likes postId={post.id}/>
+                  {/* <Likes postId={post.id}/> */}
                   {/* <LikeLogo className="mt-5"></LikeLogo> */}
                   <UnlikeLogo className="mt-5"></UnlikeLogo>
                   <CommentLogo className="mt-5"></CommentLogo>

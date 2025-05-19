@@ -1,5 +1,5 @@
 import { Router, Link as RouterLink } from "react-router-dom";
-import { CreatePostLogo, HomeLogo, InstagramLogo, InstagramMobileLogo, MessagesLogo, NotificationsLogo } from "../../assets/constants";
+import { CreatePostLogo, HomeLogo, InstagramLogo, InstagramMobileLogo, MessagesLogo, NotificationsLogo, LuminaLogo } from "../../assets/constants";
 import { SearchLogo } from "../../assets/constants";
 import { useState, useEffect } from "react";
 import { LogoutIcon as Logout } from "../../assets/constants";
@@ -74,7 +74,7 @@ const Sidebar = () => {
       <div className="flex flex-col gap-10 w-full h-full">
 
         <RouterLink to="/" className="pl-2 hidden md:block cursor-pointer">
-          <InstagramLogo />
+          <LuminaLogo />
         </RouterLink>
 
         <RouterLink
