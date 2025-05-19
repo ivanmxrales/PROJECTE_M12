@@ -101,6 +101,7 @@ class AuthController extends Controller
                 $user->save();
 
                 event(new Registered($user));
+                $user->sendEmailVerificationNotification();
 
                 return response()->json($user);
             }

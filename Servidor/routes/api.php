@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\FollowController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use App\Http\Controllers\ApiEmailVerifyController;
 
 Route::post('/signup', [ApiController::class, 'signup']);
 Route::post('/login', [ApiController::class, 'login']);
@@ -26,10 +27,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     })->middleware('auth:sanctum')->name('verification.notice');
 
     // Verification link handler
-    Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-        $request->fulfill();  // Marks email as verified
-        return response()->json(['message' => 'Correu electrònic verificat correctament.']);
-    })->middleware(['auth:sanctum', 'signed'])->name('verification.verify');
+    // In api.php
+    Route::get('/email/verify/{id}/{hash}', [App\Http\Controllers\ApiEmailVerifyController::class, 'verify'])
+        ->middleware('signed')
+        ->name('verification.verify');
+
 
     // Resend verification email
     Route::post('/email/verification-notification', function (Request $request) {

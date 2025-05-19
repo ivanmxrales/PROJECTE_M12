@@ -19,9 +19,14 @@ Route::middleware('guest')->group(function () {
     Route::post('register', [RegisteredUserController::class, 'store']);
 
     /* Route::get('login', [AuthenticatedSessionController::class, 'create'])
-        ->name('login');
+        ->redirect(env('FRONTEND_URL') . '/auth')
+        ->name('login'); */
+        Route::get('login', function () {
+            return redirect(env('FRONTEND_URL') . '/auth');
+        })->name('login');
+        
 
-    Route::post('login', [AuthenticatedSessionController::class, 'store']); */
+    Route::post('login', [AuthenticatedSessionController::class, 'store']);
 
     Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
         ->name('password.request');
@@ -60,3 +65,4 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::post('/login', [ApiController::class, 'login']);
+Route::post(env('FRONTEND_URL') . '/auth', [ApiController::class, 'login']);
