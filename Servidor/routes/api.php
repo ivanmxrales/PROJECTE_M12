@@ -95,6 +95,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/posts/user/{id}', [ApiController::class, 'listPostsUser']);
     Route::get('/posts/liked', [ApiController::class, 'getLikedPosts']);
     Route::post('/posts/followers', [ApiController::class, 'listPostsFollowers']);
+    Route::get('/user/posts/{id}', [ApiController::class, 'countPosts']);
 
     //// USERS /////
     Route::get('/users', [ApiController::class, 'listUsers']);

@@ -13,8 +13,10 @@ const SearchUsers = () => {
       return
     }
 
+    console.log('Fetching users for search:', searchUser)
     const delay = setTimeout(() => {
-      api.get('/api/users/search', getAuthUserToken(), {
+      api.get('/api/users/search', {
+        ...getAuthUserToken(),
         params: { query: searchUser }
       })
         .then(response => setUsers(response.data))

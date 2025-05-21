@@ -19,18 +19,21 @@ import Pusher from 'pusher-js';
 import api from './lib/axios.js';
 import Messages from './components/Messages/Messages.jsx';
 import Chat from './pages/Chat/Chat.jsx';
+import getAuthUserId from './utility/getAuthUserId.jsx';
+
 
 window.Pusher = Pusher;
 //window.pusher = require('pusher-js');
 window.Echo = new Echo({
   broadcaster: 'reverb',
   key: '381rlxplslmo6mwe5eiy',
-  wsHost: 'localhost',
+  wsHost: '127.0.0.1',
   wsPort: 8080,
+  wssPort: 8080,
   forceTLS: false,
   encrypted: false,
   enabledTransports: ['ws', 'wss'],
-  authEndpoint: api + '/broadcasting/auth',
+  authEndpoint: 'http://127.0.0.1:8000/broadcasting/auth',
   auth: {
     headers: {
       Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -39,7 +42,15 @@ window.Echo = new Echo({
 })
 
 function App() {
-  window.Echo.channel('test-channel');
+  /* const id = getAuthUserId();
+  window.Echo.private(`chat.${id}`)
+    .listen('.App\\Events\\MessageSent', (e) => {
+      console.log("Missatge rebut via: ", e)
+    }); */
+    window.Echo.channel('test-channel')
+    .listen('MessageSent', (e) => {
+        console.log('Evento recibido:', e.message);
+    });
 
   return (
     <PageLayout>

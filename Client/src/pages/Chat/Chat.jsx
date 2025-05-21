@@ -51,7 +51,6 @@ const Chat = () => {
       })
       .catch((err) => {
         console.error(err);
-        // handle error state here if needed
       })
       .finally(() => setIsLoading(false));
   };

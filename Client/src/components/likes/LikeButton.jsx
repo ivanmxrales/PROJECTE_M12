@@ -3,20 +3,20 @@ import FetchLikes from "./FetchLikes";
 import { useState } from "react";
 
 const LikeButton = ({ postId, userId }) => {
-    const { hasUserLiked, likePost , unlikePost, errorLikes } = FetchLikes({ id: postId });
+    const { hasUserLiked, likePost , unlikePost, errorLikes ,getLikeCount} = FetchLikes({ id: postId });
 
     const handleLikeToggle = () => {
         if (hasUserLiked(userId)) {
-          console.log("Quitar like");
           unlikePost(postId);
           // Aquí puedes llamar a la función para quitar el like
         } else {
-          console.log("Dar like");
           likePost(postId)
 
           // Aquí puedes llamar a la función para dar el like
         }
       };
+
+    
 
   
 
@@ -45,6 +45,7 @@ const LikeButton = ({ postId, userId }) => {
               </svg>
             )}
           </button>
+          {getLikeCount()} 
           {errorLikes && <p style={{ color: "red" }}>{errorLikes}</p>}
         </div>
       );

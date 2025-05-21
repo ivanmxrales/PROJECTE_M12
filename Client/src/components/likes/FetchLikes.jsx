@@ -1,52 +1,74 @@
-// components/likes/Likes.js
-import React from "react";
-import FetchLikes from "./FetchLikes";
-import { useState, useEffect } from "react";
-import LikeButton from "./LikeButton";
+import { useState, useEffect, useCallback } from "react";
+import api from "../../lib/axios";
+import getAuthUserToken from "../../utility/getAuthUserToken";
 
+const FetchLikes = ({ id }) => {
+  const [likes, setLikes] = useState([]);
+  const [loadingLikes, setLoadingLikes] = useState(true);
+  const [errorLikes, setErrorLikes] = useState(null);
 
-const Likes = ({ postId }) => {
-  const [user, setUser] = useState(null);
-    useEffect(() => {
-        const storedUser = localStorage.getItem("user-info");
-        if (storedUser) {
-          const parsed = JSON.parse(storedUser);
-          setUser(parsed.user); // <-- Only keep the nested user object
-          
-        }
-      }, []);
-  const {
+  // 💡 Extraemos esta función para reutilizarla
+  const fetchLikes = useCallback(async () => {
+    setLoadingLikes(true);
+    try {
+      await api.get("/sanctum/csrf-cookie");
+      const response = await api.get(`/api/likes`, getAuthUserToken());
+      setLikes(response.data);
+    } catch (error) {
+      setErrorLikes("No se pudieron cargar los likes. Inténtalo de nuevo más tarde.");
+    } finally {
+      setLoadingLikes(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchLikes();
+  }, [id, fetchLikes]);
+
+  const likesdepost = id
+    ? likes.filter((like) => like.post_id?.toString() === id?.toString())
+    : likes;
+
+  const getLikeCount = () => likesdepost.length;
+
+  const hasUserLiked = (userId) => {
+    return likesdepost.some((like) => like.user_id === userId);
+  };
+
+  const likePost = async (postId) => {
+    try {
+      await api.get("/sanctum/csrf-cookie");
+      const response = await api.post(`/api/posts/${postId}/like`, {}, getAuthUserToken());
+      await fetchLikes();
+      return response.data;
+    } catch (error) {
+      throw new Error("Error al dar like al post.");
+    }
+  };
+
+  const unlikePost = async (postId) => {
+    try {
+      const response = await api.delete(`/api/posts/${postId}/like`, getAuthUserToken());
+      await fetchLikes();
+      return response.data;
+    } catch (error) {
+      throw new Error("Error al quitar like del post.");
+    }
+  };
+
+  return {
     likes,
     loadingLikes,
     errorLikes,
     getLikeCount,
     hasUserLiked,
-  } = FetchLikes({ id: postId});
-//   console.log("post:", postId);
-// console.log("user:", userId);
-
-  
-      
-      
-      // console.log("Likes:", likes);
-      // console.log("Usuario dio like:", hasUserLiked(user?.id));
-      // console.log("Total de likes:", getLikeCount());
-  
-  if (loadingLikes) return <span>Cargando likes...</span>;
-  if (errorLikes) return <span>Error al cargar likes</span>;
-  
-
-  return (
-    <div className="text-white">
-      <LikeButton postId={postId} userId={user?.id} />
-      {/* <img src="../../iconos/like.svg" alt="" /> */}
-      <br />
-      
-    </div>
-  );
+    likePost,
+    unlikePost,
+    refreshLikes: fetchLikes,
+  };
 };
 
-export default Likes;
+export default FetchLikes;
 
 
 // useEffect(() => {

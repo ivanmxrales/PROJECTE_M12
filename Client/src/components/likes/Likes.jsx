@@ -40,9 +40,8 @@ const Likes = ({ postId }) => {
     <div className="text-white">
       <LikeButton postId={postId} userId={user?.id} />
       {/* <img src="../../iconos/like.svg" alt="" /> */}
-      <span>{getLikeCount()} Likes</span>
       <br />
-      <span>{hasUserLiked(user?.id) ? "Te gusta este post" : "No has dado like"}</span>
+      
     </div>
   );
 };

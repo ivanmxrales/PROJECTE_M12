@@ -5,6 +5,7 @@ import api from '../../lib/axios';
 import { GearLogo } from '../../assets/constants';
 import useFollow from '../../hooks/useFollow';
 import { Link } from 'react-router';
+import getAuthUserToken from '../../utility/getAuthUserToken';
 
 const ProfileHeader = ({ user: profileUser }) => {
     const [authUser, setAuthUser] = useState(null);
@@ -38,12 +39,15 @@ const ProfileHeader = ({ user: profileUser }) => {
                         Authorization: `Bearer ${token}`
                     }
                 });
-                //const resPostsCount = await api.get(`/api/users/${profileUser.id}/posts/count`);
+                
+                const resPostsCount = await api.get(`/api/user/posts/${profileUser.id}`
+                    , getAuthUserToken()
+                );
 
                 setFollowers(resFollowers.data);
                 setFollowing(resFollowing.data);
-                //setPostsCount(resPostsCount.data.count);
-                setPostsCount(3)
+                setPostsCount(resPostsCount.data);
+                //setPostsCount(3)
             } catch (error) {
                 console.error("Error fetching followers/following/posts:", error);
             }
@@ -99,7 +103,7 @@ const ProfileHeader = ({ user: profileUser }) => {
                     ) : (
                         <div>
                             <button
-                                className="bg-blue-500 text-white px-4 py-1 rounded"
+                                className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-700"
                                 onClick={toggleFollow}
                                 disabled={loading}
                             >
@@ -108,7 +112,7 @@ const ProfileHeader = ({ user: profileUser }) => {
                             &nbsp;&nbsp;
                             {isFollowing ? (
                                 <Link to={`/chat/${profileUser.username}`} 
-                                    className="bg-blue-500 text-white px-4 py-1 rounded"
+                                    className="bg-blue-500 text-white px-4 py-1 rounded hover:text-white hover:bg-blue-700 inline-block"
                                 >
                                     Enviar missatge
                                 </Link>

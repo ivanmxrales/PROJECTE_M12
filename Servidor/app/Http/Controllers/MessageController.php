@@ -29,6 +29,7 @@ class MessageController extends Controller
     ->orderBy('created_at', 'asc')
     ->get();
 
+
     return response()->json($messages);
 }
 

@@ -17,13 +17,14 @@ const PageLayout = ({ children }) => {
         }, []);
 
     const { pathname } = useLocation();
+
     const showSidebar = (pathname !== '/auth' && pathname !== '/verify' && 
-        pathname !== '/new-password' && pathname !== '/reset-password');
+        pathname !== '/new-password' && pathname !== '/reset-password' && pathname !== '/chat/:username');
 
     const showNavbar = (pathname !== '/auth' && pathname !== '/posts' && 
         pathname!=='/postnew' &&pathname !== '/search' && pathname !== `/${user?.username}` 
         && pathname !== '/messages' && pathname !== '/config' && pathname !== '/profile' && 
-        pathname !== '/messages' && pathname !== '/chat/*');
+        pathname !== '/messages' && !pathname.startsWith('/chat/'));
     
 
     return (

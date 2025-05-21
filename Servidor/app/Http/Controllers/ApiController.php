@@ -90,6 +90,10 @@ class ApiController extends Controller
         return $this->userController->getPostsByUser($id);
     }
 
+    function countPosts($id) {
+        return $this->postController->countPosts($id);
+    }
+
     function getIdByUsername($username)
     {
         return $this->userController->getIdByUsername($username);

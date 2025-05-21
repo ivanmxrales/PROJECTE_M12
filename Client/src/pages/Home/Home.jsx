@@ -27,11 +27,11 @@ function Home({ }) {
   if (error) return <div>Error cargando datos: {error.message}</div>;
 
   const toggleComents = (postId) => {
-  setVisibleComents((prev) => ({
-    ...prev,
-    [postId]: !prev[postId],
-  }));
-};
+    setVisibleComents((prev) => ({
+      ...prev,
+      [postId]: !prev[postId],
+    }));
+  };
 
 
   let filteredPosts = posts;
@@ -50,7 +50,7 @@ function Home({ }) {
           {filteredPosts.map((post) => {
             const isEditing = editingPost && editingPost._id === post._id;
             const author = users.find((user) => user.id === post.user_id);
-            
+
             return (
 
 
@@ -76,37 +76,37 @@ function Home({ }) {
                   <PostImages post={post} />
 
                 </div>
-                <div className='flex w-full h-24 border-t gap-5 '>
-                  {/* <Likes postId={post.id}/> */}
+                <div className='flex w-full h-12 border-t gap-5 pt-2 '>
+                  <Likes postId={post.id}/>
                   {/* <LikeLogo className="mt-5"></LikeLogo> */}
                   
                   <Button
-  variant="outline-primary"
-  onClick={() => toggleComents(post.id)}
-  className="ml-4"
->
-  {/* {visibleComents[post.id] ? "Ocultar comentarios" : "Mostrar comentarios"} */}
-  <CommentLogo className="mt-5"></CommentLogo>
-</Button>
-                  {/* <CommentLogo className="mt-5"></CommentLogo> */}
-                  <ShareLogo className="mt-5"></ShareLogo>
+                    variant="outline-primary"
+                    onClick={() => toggleComents(post.id)}
+                    className="ml-4"
+                  >
+                    <CommentLogo className="mt-0"></CommentLogo>
+                  </Button>
+
+                  <Button><ShareLogo className="mt-5"></ShareLogo></Button>
+                  
                   {/* <EditPostForm post={post}></EditPostForm> */}
                   
-                  <Button
+                  {/* <Button
                         variant="danger"
                         onClick={() => handleDelete(post.id)}
                       >
                         Eliminar
-                      </Button>
+                      </Button> */}
                 </div>
                 <p className='mt-4 text-lg text-gray-400'>{post.description}</p>
                 <p>{post.data_hora}</p>
                 {/* <Coments postId={post.id} /> */}
-                
 
-{visibleComents[post.id] && <Coments postId={post.id} />}
+
+                {visibleComents[post.id] && <Coments postId={post.id} />}
               </div>
-              
+
 
             );
           })}

@@ -169,6 +169,11 @@ public function delete($id)
         $posts = Post::where('user_id', $user_id)->get();
         return response()->json($posts);
     }
+
+    public function countPosts($user_id) {
+        $posts = Post::where('user_id', $user_id)->get();
+        return count($posts);
+    }
     
     public function postsSearch($title)
     {
@@ -196,6 +201,21 @@ public function delete($id)
     {
         $posts = Post::where('caducidad', '<', now())->get();
         return response()->json($posts);
+    }
+
+    public function getUserPosts($id)
+    {
+        $user = User::find($id);
+        if (!$user) {
+            return response()->json(['error' => 'Usuari no trobat'], 404);
+        }
+        $followed = $user->following;
+        $img_location = env('USERS_PROFILE_PICTURE');
+        foreach ($followed as $user) {
+            $user->profile_picture = url($img_location . '/' . $user->profile_picture);
+        }
+        
+        return response()->json($followed);
     }
 }
 
