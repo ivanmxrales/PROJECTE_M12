@@ -65,15 +65,3 @@ const SearchUsers = () => {
 }
 
 export default SearchUsers
-
-
-// aplicar cuando no se encuentre nada
-{/* <div className='flex flex-col items-center border-2 bg-transparent w-[1000px] h-[500px]'>
-        <div className='flex flex-col items-center justify-center mt-10'>
-          <h2 className="text-xl font-bold mb-4">Resultats de la cerca</h2>
-          <div className="flex flex-col items-center">
-            <p className="text-gray-500">No s'han trobat usuaris.</p>
-          </div>
-
-        </div>
-      </div> */}

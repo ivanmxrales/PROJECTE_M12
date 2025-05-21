@@ -14,8 +14,33 @@ import ProtectedRoutes from './components/AuthRoutes/ProtectedRoutes';
 import Verify from './pages/Auth/Verify';
 import ResetPassword from './pages/Auth/ResetPassword';
 import NewPassword from './pages/Auth/NewPassword';
+import Echo from 'laravel-echo';
+import Pusher from 'pusher-js';
+import api from './lib/axios.js';
+import Messages from './components/Messages/Messages.jsx';
+import Chat from './pages/Chat/Chat.jsx';
+
+window.Pusher = Pusher;
+//window.pusher = require('pusher-js');
+window.Echo = new Echo({
+  broadcaster: 'reverb',
+  key: '381rlxplslmo6mwe5eiy',
+  wsHost: 'localhost',
+  wsPort: 8080,
+  forceTLS: false,
+  encrypted: false,
+  enabledTransports: ['ws', 'wss'],
+  authEndpoint: api + '/broadcasting/auth',
+  auth: {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+  },
+})
 
 function App() {
+  window.Echo.channel('test-channel');
+
   return (
     <PageLayout>
       <Routes>
@@ -31,6 +56,18 @@ function App() {
         <Route path="/config" element={
           <ProtectedRoutes>
             <UserConfig />
+          </ProtectedRoutes>
+        } />
+
+        <Route path="/chat/:username" element={
+          <ProtectedRoutes>
+            <Chat />
+          </ProtectedRoutes>
+        } />
+
+        <Route path="/messages" element={
+          <ProtectedRoutes>
+            <Messages />
           </ProtectedRoutes>
         } />
         <Route path="/postnew" element={

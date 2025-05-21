@@ -61,6 +61,15 @@ class LikeController extends Controller
         return response()->json(['likes' => $count]);
     }
 
+
+    public function userLiked($userId)
+    {
+        $user = User::findOrFail($userId);
+        $posts = $user->likedPosts()->get();
+
+        return response()->json(['likes' => $posts]);
+    }
+
     // public function likes() {
     //     return response()->json(Auth::post()->followers);
     // }

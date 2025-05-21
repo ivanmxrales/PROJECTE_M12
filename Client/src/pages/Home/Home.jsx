@@ -10,10 +10,12 @@ import EditPostForm from "../../components/Posts/EditPostForm";
 import { useNavigate, useParams } from "react-router-dom";
 import { Link as RouterLink } from "react-router-dom";
 import Likes from "../../components/likes/Likes";
+import FetchPostsHome from "../../components/Posts/FetchPostsHome";
 
 
 function Home({ }) {
-  const { posts, loading, error, handleDelete } = FetchPosts();
+  const { posts, loading, error, handleDelete } = FetchPostsHome();
+  const [visibleComents, setVisibleComents] = useState({});
   const { users } = FetchUsers();
   const { id } = useParams();
   const Filtro = id;
@@ -23,6 +25,13 @@ function Home({ }) {
 
   if (loading) return <div>Cargando datos...</div>;
   if (error) return <div>Error cargando datos: {error.message}</div>;
+
+  const toggleComents = (postId) => {
+  setVisibleComents((prev) => ({
+    ...prev,
+    [postId]: !prev[postId],
+  }));
+};
 
 
   let filteredPosts = posts;
@@ -45,10 +54,10 @@ function Home({ }) {
             return (
 
 
-              <div key={post._id} className=" top-0 w-full max-w-screen-xl mx-auto border z-50 ">
+              <div key={post.id} className=" top-0 w-full max-w-screen-xl mx-auto border z-50 ">
                 <div className="flex w-full border-b h-24 ">
                   <div className='flex items-center gap-5 align-center'>
-                    <RouterLink id="toProfile" className="flex items-center gap-5 align-center pt-8 hover:bg-white/5 b-rounded-full"
+                    <RouterLink id="toProfile" className="flex items-center gap-5 align-center pt-8 b-rounded-full"
                       to={`/${author?.username}`}>
                       <div className="ml-12 w-12 h-12 border rounded-full overflow-hidden">
                         <img src={author?.profile_picture} alt="profile" className="w-full h-full object-cover" />
@@ -70,14 +79,34 @@ function Home({ }) {
                 <div className='flex w-full h-24 border-t gap-5 '>
                   {/* <Likes postId={post.id}/> */}
                   {/* <LikeLogo className="mt-5"></LikeLogo> */}
-                  <UnlikeLogo className="mt-5"></UnlikeLogo>
-                  <CommentLogo className="mt-5"></CommentLogo>
+                  
+                  <Button
+  variant="outline-primary"
+  onClick={() => toggleComents(post.id)}
+  className="ml-4"
+>
+  {/* {visibleComents[post.id] ? "Ocultar comentarios" : "Mostrar comentarios"} */}
+  <CommentLogo className="mt-5"></CommentLogo>
+</Button>
+                  {/* <CommentLogo className="mt-5"></CommentLogo> */}
                   <ShareLogo className="mt-5"></ShareLogo>
-                  {/* <Coments PostId={post.id}></Coments> */}
+                  {/* <EditPostForm post={post}></EditPostForm> */}
+                  
+                  <Button
+                        variant="danger"
+                        onClick={() => handleDelete(post.id)}
+                      >
+                        Eliminar
+                      </Button>
                 </div>
                 <p className='mt-4 text-lg text-gray-400'>{post.description}</p>
                 <p>{post.data_hora}</p>
+                {/* <Coments postId={post.id} /> */}
+                
+
+{visibleComents[post.id] && <Coments postId={post.id} />}
               </div>
+              
 
             );
           })}
@@ -88,12 +117,3 @@ function Home({ }) {
 }
 
 export default Home;
-
-
-
-
-{/* <div className="coments">
-                      <Coments postId={post.id} />
-                    </div> */}
-
-

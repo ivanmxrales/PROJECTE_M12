@@ -109,7 +109,7 @@ class UserController extends Controller
                 $user->role = $request->role;
                 if ($request->hasFile('profile_picture')) {
                     $file = $request->file('profile_picture');
-                    $file_name = $user->name . '_' . $user->surname . '.' . $file->getClientOriginalExtension();
+                    $file_name = $user->name . '_' . $user->username . '.' . $file->getClientOriginalExtension();
                     $file_location = env('USERS_PROFILE_PICTURE');
                     $file->move(public_path($file_location), $file_name);
                     $user->profile_picture = $file_name;
@@ -208,19 +208,46 @@ class UserController extends Controller
     }
 
 
+    public function searchFollowedUsers(Request $request)
+    {
+        //dd($request->all());
+        $query = $request->input('query');
+        $img_location = env('USERS_PROFILE_PICTURE');
+
+        $followedUserIds = Auth::user()->following()->pluck('user_id');
+
+        
+        $users = User::select('id', 'name', 'username', 'profile_picture')
+            ->whereIn('id', $followedUserIds)
+            ->where('name', 'LIKE', "%{$query}%")
+            ->orWhere('username', 'LIKE', "%{$query}%")
+            ->get();
+            
+
+        foreach ($users as $user) {
+            if ($user->profile_picture && !str_starts_with($user->profile_picture, 'http')) {
+                $user->profile_picture = url($img_location . '/' . $user->profile_picture);
+            }
+        }
+
+        return response()->json($users);
+    }
+
+
+
     public function randomUsers()
     {
         $currentUser = Auth::user();
 
         $excludedIds = $currentUser->following()->pluck('users.id')->toArray();
-        $excludedIds[] = $currentUser->id; 
+        $excludedIds[] = $currentUser->id;
 
         $users = User::whereNotIn('id', $excludedIds)
             ->inRandomOrder()
             ->take(5)
             ->select('id', 'name', 'username', 'profile_picture')
             ->get();
-            
+
         $img_location = env('USERS_PROFILE_PICTURE');
         foreach ($users as $user) {
             if ($user->profile_picture && !str_starts_with($user->profile_picture, 'http')) {
@@ -231,7 +258,8 @@ class UserController extends Controller
         return response()->json($users);
     }
 
-    public function followedUsers($id) {
+    public function followedUsers($id)
+    {
         $user = User::find($id);
 
         $followedUsers = $user->following()->select('id', 'username', 'profile_picture')->get();

@@ -55,6 +55,7 @@ const Sidebar = () => {
     {
       icon: MessagesLogo,
       text: 'Missatges',
+      link: '/messages',
     },
     {
       icon: NotificationsLogo,

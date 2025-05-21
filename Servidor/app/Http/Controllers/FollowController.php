@@ -62,13 +62,15 @@ class FollowController extends Controller
     public function getUserFollowing($id)
     {
         $user = User::find($id);
-        $img_location = env('USERS_PROFILE_PICTURE');
-        if ($user->profile_picture && !str_starts_with($user->profile_picture, 'http')) {
-            $user->profile_picture = url($img_location . '/' . $user->profile_picture);
-        }
         if (!$user) {
             return response()->json(['error' => 'Usuari no trobat'], 404);
         }
-        return response()->json($user->following);
+        $followed = $user->following;
+        $img_location = env('USERS_PROFILE_PICTURE');
+        foreach ($followed as $user) {
+            $user->profile_picture = url($img_location . '/' . $user->profile_picture);
+        }
+        
+        return response()->json($followed);
     }
 }

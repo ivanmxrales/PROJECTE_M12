@@ -59,6 +59,11 @@ class ApiController extends Controller
         return $this->userController->searchUsers($request);
     }
 
+    public function searchFollowedUser(Request $request)
+    {
+        return $this->userController->searchFollowedUsers($request);
+    }
+
     public function randomUsers()
     {
         return $this->userController->randomUsers();
@@ -115,9 +120,20 @@ class ApiController extends Controller
         return $this->postController->postsUser($id);
     }
 
+    public function listPostsFollowers(Request $request)
+    {
+        return $this->postController->postsFollowers($request);
+    }
+
     public function searchPost($id)
     {
         return $this->postController->search($id);
+    }
+
+    //busca por titulo Quiza se use
+    public function searchPosts($title)
+    {
+        return $this->postController->postsSearch($title);
     }
 
     public function createPost(Request $request)
@@ -146,9 +162,9 @@ class ApiController extends Controller
         return $this->comentController->list();
     }
 
-    public function listComentsPost()
+    public function listComentsPost($id)
     {
-        return $this->comentController->list();
+        return $this->comentController->comentsPost($id);
     }
 
     public function searchComent($id)
@@ -196,5 +212,10 @@ class ApiController extends Controller
     public function likeCount($postId)
     {
         return $this->likeController->likeCount($postId);
+    }
+
+    public function getLikedPosts($userId)
+    {
+        return $this->likeController->userLiked($userId);
     }
 }

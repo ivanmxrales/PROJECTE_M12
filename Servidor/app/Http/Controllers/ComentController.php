@@ -17,6 +17,14 @@ class ComentController extends Controller
         }
     }
 
+    public function comentsPost($postId)
+    {
+        $coments = Coment::where('post_id', $postId)->get();
+
+        return response()->json($coments);
+    }
+
+
     function listPost()
     {
         if (Coment::all()->count() > 0) {

@@ -5,7 +5,9 @@ const getAuthUserToken = () => {
     console.log("Token being used:", token);
     return {
         headers: {
-            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "Authorization": `Bearer ${token}`,
         },
     };
 }

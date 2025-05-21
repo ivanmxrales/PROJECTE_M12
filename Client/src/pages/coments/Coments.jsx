@@ -4,25 +4,27 @@ import React, { useState } from "react";
 import FetchComents from "../../components/coments/FetchComents"; // Puede seguir llamándose así internamente
 import FetchUsers from "../../components/users/FetchUsers";
 import EditComentForm from "../../components/coments/EditComentForm";
+import CreateComentForm from "../../components/coments/CreateComentForm";
 
 function Coments({ postId }) {
-  const { coments, loading, error, handleDelete } = FetchComents();
+  const { coments, loading, error, handleDelete } = FetchComents(postId);
   const { users } = FetchUsers();
 
   const [editingComent, setEditingComent] = useState(null);
 
-  const filteredComents = coments.filter(
-    (coment) => coment.post_id?.toString() === postId?.toString()
-  );
+  // const filteredComents = coments.filter(
+  //   (coment) => coment.post_id?.toString() === postId?.toString()
+  // );
   
+
+
   
   return (
     <div className="coments-list top-0 w-full max-w-screen-xl mx-auto border z-50">
-      {/* <h4>Comentarios</h4> */}
-      {filteredComents.length === 0 ? (
+      {coments.length === 0 ? (
         <p>No hay comentarios para esta publicación.</p>
       ) : (
-        filteredComents.map((coment) => {
+        coments.map((coment) => {
           const isEditing = editingComent && editingComent._id === coment._id;
           const author = users.find((user) => user.id === coment.user_id);
   
@@ -45,16 +47,17 @@ function Coments({ postId }) {
                     <p><strong> {author ? author.name : "Desconocido"}</strong> {coment.coment}</p>
                     <p className="coment-data_hora"><em>{coment.dataCom}</em></p>
                       </div>
-                    </div>
-                    {/* <div className="buttons" formInputC>
-                      <Button className="btn btn-primary" onClick={() => setEditingComent(coment)}>
-                        Editar
-                      </Button>
-  
-                      <Button variant="danger" onClick={() => handleDelete(coment._id)}>
+                      {/* <Button variant="danger" onClick={() => handleDelete(coment.id)}>
                         Eliminar
                       </Button>
-                    </div> */}
+                    </div>
+                    <div className="buttons" formInputC>
+                      <Button className="btn btn-primary" onClick={() => setEditingComent(coment)}>
+                        Editar
+                      </Button> */}
+  
+                      
+                    </div>
                   </>
                 )}
               </div>
@@ -62,9 +65,9 @@ function Coments({ postId }) {
           );
         })
       )}
+    <CreateComentForm comentedPost={postId}></CreateComentForm>
     </div>
   );
 }
 
 export default Coments;
-

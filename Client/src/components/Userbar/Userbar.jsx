@@ -18,7 +18,8 @@ const Userbar = () => {
 
       <div className="mt-10 ">
         {recommendedUsers.map(user => (
-          <div className='flex flex-col gap-2'>
+          <div className='flex flex-col gap-2'
+          key={user.id}>
             <RouterLink
               to={`/${user.username}`}
               key={user.id} className="bg-transparent w-full h-14 py-2 mt-4 hover:bg-white/20 rounded-md p-3">

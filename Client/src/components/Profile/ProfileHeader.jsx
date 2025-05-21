@@ -4,6 +4,7 @@ import UserSettings from './USettings/UserSettings';
 import api from '../../lib/axios';
 import { GearLogo } from '../../assets/constants';
 import useFollow from '../../hooks/useFollow';
+import { Link } from 'react-router';
 
 const ProfileHeader = ({ user: profileUser }) => {
     const [authUser, setAuthUser] = useState(null);
@@ -106,11 +107,11 @@ const ProfileHeader = ({ user: profileUser }) => {
                             </button>
                             &nbsp;&nbsp;
                             {isFollowing ? (
-                                <button className="bg-blue-500 text-white px-4 py-1 rounded"
-                                    onClick={() => navigate(`/chat/${profileUser.id}`)}
+                                <Link to={`/chat/${profileUser.username}`} 
+                                    className="bg-blue-500 text-white px-4 py-1 rounded"
                                 >
                                     Enviar missatge
-                                </button>
+                                </Link>
                             ) : null}
 
 

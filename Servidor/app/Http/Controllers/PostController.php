@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 use DateTime;
 use Illuminate\Support\Str;
@@ -169,6 +170,28 @@ public function delete($id)
         return response()->json($posts);
     }
     
+    public function postsSearch($title)
+    {
+        $posts = Post::where('title', 'LIKE', '%' . $title . '%')->get();
+        return response()->json($posts);
+    }
+
+
+    public function postsFollowers(Request $request)
+    {
+
+        $userId = $request->input('idUser');
+        if (!$userId) {
+            return response()->json(['error' => 'User ID is required'], 400);
+        }
+        $user = User::findOrFail($userId);
+        $seguidos = $user->following()->pluck('user_id')->toArray();
+
+        
+        $posts = Post::whereIn('user_id', $seguidos)->get();
+        return response()->json($posts);
+    }
+
     public function postsCaducados()
     {
         $posts = Post::where('caducidad', '<', now())->get();

@@ -17,8 +17,14 @@ const PageLayout = ({ children }) => {
         }, []);
 
     const { pathname } = useLocation();
-    const showSidebar = (pathname !== '/auth' && pathname !== '/verify' && pathname !== '/new-password' && pathname !== '/reset-password');
-    const showNavbar = (pathname !== '/auth' && pathname !== '/posts' && pathname!=='/postnew' &&pathname !== '/search' && pathname !== `/${user?.username}`);
+    const showSidebar = (pathname !== '/auth' && pathname !== '/verify' && 
+        pathname !== '/new-password' && pathname !== '/reset-password');
+
+    const showNavbar = (pathname !== '/auth' && pathname !== '/posts' && 
+        pathname!=='/postnew' &&pathname !== '/search' && pathname !== `/${user?.username}` 
+        && pathname !== '/messages' && pathname !== '/config' && pathname !== '/profile' && 
+        pathname !== '/messages' && pathname !== '/chat/*');
+    
 
     return (
         <div className="flex">
@@ -33,12 +39,6 @@ const PageLayout = ({ children }) => {
                             <Userbar />
                         </div>
                     ) : null}
-
-                    {/* {showNavbar && (
-                        <div className="fixed left-60 top-0 w-[calc(100%-240px)] z-[9999] bg-black shadow-md">
-                            <Navbar />
-                        </div>
-                    )} */}
                 </>
             )}
             <div className="flex-1 mx-auto w-[calc(100%-70px)] md:w-[calc(100%-240px)]">

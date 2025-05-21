@@ -11,6 +11,9 @@ use App\Http\Controllers\FollowController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\ApiEmailVerifyController;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Broadcast;
+
+Broadcast::routes(['middleware' => ['auth:sanctum']]);
 
 Route::post('/forgot-password', function (Request $request) {
     $request->validate(['email' => 'required|email']);
@@ -85,11 +88,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
     //// POSTS /////
     Route::get('/posts', [ApiController::class, 'listPosts']);
     Route::get('/post/{id}', [ApiController::class, 'searchPost']);
+    Route::get('/posts/search/{title}', [ApiController::class, 'searchPosts']);
     Route::post('/post', [ApiController::class, 'createPost']);
     Route::post('/post/{id}', [ApiController::class, 'updatePost']);
     Route::delete('/post/{id}', [ApiController::class, 'deletePost']);
     Route::get('/posts/user/{id}', [ApiController::class, 'listPostsUser']);
     Route::get('/posts/liked', [ApiController::class, 'getLikedPosts']);
+    Route::post('/posts/followers', [ApiController::class, 'listPostsFollowers']);
 
     //// USERS /////
     Route::get('/users', [ApiController::class, 'listUsers']);
@@ -103,6 +108,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/user/{id}/posts', [ApiController::class, 'getPostsUser']);
     Route::get('/user/username/{username}', [ApiController::class, 'getIdByUsername']);
     Route::get('/users/search', [ApiController::class, 'searchUsers']);
+    Route::get('/users/followed', [ApiController::class, 'searchFollowedUser']);
     Route::get('/users/random', [ApiController::class, 'randomUsers']);
     Route::get('/users/followed/{id}', [ApiController::class, 'followedUsers']);
 
@@ -120,6 +126,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     //// COMMENTS /////
     Route::get('/coments', [ApiController::class, 'listComents']);
+    Route::get('/coments/{id}', [ApiController::class, 'listComentsPost']);
     Route::get('/coment/{id}', [ApiController::class, 'searchComent']);
     Route::post('/coment', [ApiController::class, 'createComent']);
     Route::post('/coment/{id}', [ApiController::class, 'updateComent']);
@@ -131,11 +138,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('/posts/{postId}/like', [ApiController::class, 'unLiking']);
     Route::get('/posts/{id}/liked', [ApiController::class, 'hasLiked']);
     Route::get('/posts/{id}/likes', [ApiController::class, 'likeCount']);
+    Route::get('/{userId}/likes', [ApiController::class, 'getLikedPosts']);
 
 
     // MISSATGES
     Route::get('/messages', [MessageController::class, 'index']);
     Route::post('/messages', [MessageController::class, 'store']);
+    Route::get('/conversations', [MessageController::class, 'conversations']);
 
 });
 

@@ -1,19 +1,23 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import getAuthUser from "../../utility/getAuthUserToken";
+import api from "../../lib/axios";
 
-const FetchComents = () => {
+const FetchComents = (id) => {
   const [coments, setComents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+
+
   useEffect(() => {
     fetchComents();
-  }, []);
+  }, [id]);
 
   const fetchComents = async () => {
     try {
-      const response = await axios.get("http://127.0.0.1:8000/api/coments", getAuthUser());
+      await api.get("/sanctum/csrf-cookie");
+      const response = await api.get(`/api/coments/${id}`, getAuthUser());
       setComents(response.data);
       console.log("Comentaris carregats:", response.data);
     } catch (error) {
@@ -29,7 +33,8 @@ const FetchComents = () => {
     if (!confirmDelete) return;
 
     try {
-      await axios.delete(`http://127.0.0.1:8000/api/coments/${id}`, getAuthUser());
+      await api.get("/sanctum/csrf-cookie");
+      await api.delete(`/api/coment/${id}`, getAuthUser());
       setComents((prevComents) =>
         prevComents.filter((coment) => coment.id !== id)
       );
