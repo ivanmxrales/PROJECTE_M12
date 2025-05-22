@@ -4,6 +4,7 @@ import api from "../../lib/axios";
 import getAuthUser from "../../utility/getAuthUserToken";
 import getAuthUserId from "../../utility/getAuthUserId";
 import getFormattedDateTime from "../../utility/getFormattedDateTime";
+import { Send } from "lucide-react"
 
 function CreateComentForm({ comentedPost,onCancel }) {
     const [comentText, setComentText] = useState("");
@@ -31,7 +32,8 @@ function CreateComentForm({ comentedPost,onCancel }) {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <Form.Group controlId="formComent" className="p-6">
+      <div className="flex flex-row gap-4 p-6">
+      <Form.Group controlId="formComent" className="flex-grow ">
         
         <Form.Control
           as="textarea"
@@ -42,16 +44,18 @@ function CreateComentForm({ comentedPost,onCancel }) {
         />
       </Form.Group>
 
-      <div className="mt-4 d-flex justify-content-end gap-2">
-        <Button variant="success" type="submit">
-          Guardar
+      
+        <Button variant="success" type="submit" className="h-10 m-auto">
+        <Send/>
         </Button>{" "}
-        <Button variant="secondary" onClick={onCancel}>
+        {/* <Button variant="secondary" onClick={onCancel}>
           Cancel·lar
-        </Button>
+        </Button> */}
       </div>
     </Form>
   );
 }
+import { SendHorizonal } from "lucide-react";
 
 export default CreateComentForm;
+

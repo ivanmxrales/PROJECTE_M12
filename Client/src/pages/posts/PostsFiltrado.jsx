@@ -1,6 +1,6 @@
 import "../../styles/posts.css";
 import { Button } from "react-bootstrap";
-import { UnlikeLogo, LikeLogo, ShareLogo, CommentLogo } from "../../assets/constants";
+import { UnlikeLogo, LikeLogo, ShareLogo, CommentLogo } from "../../assets/icons";
 import React, { useState } from "react";
 import FetchPosts from "../../components/Posts/FetchPosts";
 import FetchUsers from "../../components/users/FetchUsers";

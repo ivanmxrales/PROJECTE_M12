@@ -39,8 +39,6 @@ const EditProfileForm = ({ user, onCancel }) => {
 			if (age < 16) newErrors.birth_date = "Has de tenir 16 anys com a mínim";
 		}
 
-		if (!inputs.email) newErrors.email = "El correu electrònic és necessari";
-
 		if (inputs.password && inputs.password.length < 8)
 			newErrors.password = "La contrasenya ha de tenir almenys 8 caràcters";
 
@@ -50,7 +48,7 @@ const EditProfileForm = ({ user, onCancel }) => {
 		return newErrors;
 	};
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
 		const newErrors = validate();
 		if (Object.keys(newErrors).length > 0) {
@@ -58,8 +56,12 @@ const EditProfileForm = ({ user, onCancel }) => {
 			return;
 		}
 		setErrors({});
-		edit(user.id, inputs);
+		const success = await edit(user.id, inputs);
+		if (success) {
+			onCancel(); 
+		}
 	};
+	
 
 	return (
 		<form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -111,20 +113,10 @@ const EditProfileForm = ({ user, onCancel }) => {
 				onChange={handleChange}
 			/>
 			{errors.birth_date && <div className="text-red-500 text-sm">{errors.birth_date}</div>}
-
-			<input
-				type="email"
-				name="email"
-				placeholder="Correu electrònic"
-				className="input"
-				value={inputs.email}
-				onChange={handleChange}
-			/>
-			{errors.email && <div className="text-red-500 text-sm">{errors.email}</div>}
+			
 			<div className="flex justify-end gap-2">
 				<button type="button" onClick={onCancel}>Cancel·la</button>
 				<button type="submit" disabled={loading} className= "button bg-blue-500 text-white hover:bg-blue-600 transition duration-200"
-					onClick={onCancel}
 				>
 					{loading ? "Desant..." : "Desa"}
 				</button>

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import api from "../../lib/axios";
+import baseUrl from '../../utility/getBaseUrl';
 
 const PostImages = ({ post }) => {
   // Asegúrate de que 'media' es un array con las URLs de las imágenes
   const media = JSON.parse(post.media);  // Suponiendo que 'media' está en formato JSON
-  const baseUrl = 'http://127.0.0.1:8000/';
+
 
   // Estado para el índice de la imagen activa
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -25,27 +26,36 @@ const PostImages = ({ post }) => {
 
 
   return (
-    <div className="carousel-container">
-      {media && media.length > 0 ? (
-        <div className="carousel">
-          {/* Botón anterior */}
-          <button className="prev" onClick={prevImage}>‹</button>
-          
-          {/* Imagen actual */}
-          <img
-            src={baseUrl + media[currentIndex]}
-            alt={`post-image-${currentIndex}`}
-            className="post-image"
-          />
-          
-          {/* Botón siguiente */}
-          <button className="next" onClick={nextImage}>›</button>
-        </div>
-      ) : (
-        <p>No images available</p>
-      )}
-    </div>
-  );
+  <div className="carousel-container w-full relative flex items-center justify-center">
+    {media && media.length > 0 ? (
+      <div className="carousel relative w-full flex items-center justify-center">
+
+        <button
+          className="prev absolute left-4 top-1/2 transform -translate-y-1/2 text-white text-3xl z-10"
+          onClick={prevImage}
+        >
+          ‹
+        </button>
+
+        <img
+          src={baseUrl + media[currentIndex]}
+          alt={`post-image-${currentIndex}`}
+          className="post-image min-h-[300px] max-h-[600px] w-auto h-auto object-contain"
+        />
+        
+        <button
+          className="next absolute right-4 top-1/2 transform -translate-y-1/2 text-white text-3xl z-10"
+          onClick={nextImage}
+        >
+          ›
+        </button>
+      </div>
+    ) : (
+      <p>No images available</p>
+    )}
+  </div>
+);
+
 };
 
 export default PostImages;

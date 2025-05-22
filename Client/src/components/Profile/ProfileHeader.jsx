@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import EditProfile from './EditProfile';
 import UserSettings from './USettings/UserSettings';
 import api from '../../lib/axios';
-import { GearLogo } from '../../assets/constants';
+import { GearLogo } from '../../assets/icons';
 import useFollow from '../../hooks/useFollow';
 import { Link } from 'react-router';
 import getAuthUserToken from '../../utility/getAuthUserToken';
@@ -26,28 +26,19 @@ const ProfileHeader = ({ user: profileUser }) => {
     useEffect(() => {
         const fetchFollowData = async () => {
             if (!profileUser?.id) return;
-            console.log("Profile user ID:", profileUser.id);
             const token = JSON.parse(localStorage.getItem("user-info"))?.token;
             try {
                 const resFollowers = await api.get(`/api/user/${profileUser.id}/followers`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
+                    headers: { Authorization: `Bearer ${token}` }
                 });
                 const resFollowing = await api.get(`/api/user/${profileUser.id}/following`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
+                    headers: { Authorization: `Bearer ${token}` }
                 });
-                
-                const resPostsCount = await api.get(`/api/user/posts/${profileUser.id}`
-                    , getAuthUserToken()
-                );
+                const resPostsCount = await api.get(`/api/user/posts/${profileUser.id}`, getAuthUserToken());
 
                 setFollowers(resFollowers.data);
                 setFollowing(resFollowing.data);
                 setPostsCount(resPostsCount.data);
-                //setPostsCount(3)
             } catch (error) {
                 console.error("Error fetching followers/following/posts:", error);
             }
@@ -62,9 +53,8 @@ const ProfileHeader = ({ user: profileUser }) => {
     const handleUserSettings = () => setIsModalOpenSettings(true);
     const handleCloseSettings = () => setIsModalOpenSettings(false);
     const handleCloseModal = () => setIsModalOpen(false);
+
     const { isFollowing, toggleFollow, loading } = useFollow(profileUser.id);
-
-
 
     const handleSaveProfile = (updatedData) => {
         if (!authUser) return;
@@ -75,9 +65,24 @@ const ProfileHeader = ({ user: profileUser }) => {
         localStorage.setItem("user-info", JSON.stringify(storedUser));
     };
 
+    const handleFollowClick = async () => {
+        try {
+            const result = await toggleFollow();
+            if (!authUser || !result) return;
+    
+            if (result === 'followed') {
+                setFollowers(prev => [...prev, authUser]);
+            } else if (result === 'unfollowed') {
+                setFollowers(prev => prev.filter(f => f.id !== authUser.id));
+            }
+        } catch (error) {
+            console.error("Error toggling follow:", error);
+        }
+    };
+    
+
     return (
         <div className="flex flex-col sm:flex-row gap-4 py-10 w-full">
-
             <div className="flex justify-center sm:justify-start">
                 <div className="relative w-24 h-24">
                     <img
@@ -89,7 +94,6 @@ const ProfileHeader = ({ user: profileUser }) => {
             </div>
 
             <div className="flex flex-col items-start gap-2 w-full">
-
                 <div className="flex flex-col sm:flex-row items-center justify-between w-full gap-4">
                     <h2 className="text-2xl font-semibold">{profileUser.username}</h2>
 
@@ -104,24 +108,19 @@ const ProfileHeader = ({ user: profileUser }) => {
                         <div>
                             <button
                                 className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-700"
-                                onClick={toggleFollow}
+                                onClick={handleFollowClick}
                                 disabled={loading}
                             >
                                 {isFollowing ? "Deixar de seguir" : "Seguir"}
                             </button>
                             &nbsp;&nbsp;
-                            {isFollowing ? (
-                                <Link to={`/chat/${profileUser.username}`} 
-                                    className="bg-blue-500 text-white px-4 py-1 rounded hover:text-white hover:bg-blue-700 inline-block"
-                                >
+                            {isFollowing && (
+                                <Link to={`/chat/${profileUser.username}`} className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-700 inline-block
+                                    hover:text-white">
                                     Enviar missatge
                                 </Link>
-                            ) : null}
-
-
+                            )}
                         </div>
-
-
                     )}
                 </div>
 
@@ -140,7 +139,6 @@ const ProfileHeader = ({ user: profileUser }) => {
             {isModalOpen && (
                 <EditProfile onClose={handleCloseModal} onSave={handleSaveProfile} user={authUser} />
             )}
-
             {isModalOpenSettings && (
                 <UserSettings onClose={handleCloseSettings} user={authUser} />
             )}

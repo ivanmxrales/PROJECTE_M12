@@ -22,7 +22,7 @@ const LikeButton = ({ postId, userId }) => {
 
       return (
         <div>
-          <button onClick={handleLikeToggle} class="bg-transparent">
+          <button onClick={handleLikeToggle} className="bg-transparent focus:outline-none">
             {hasUserLiked(userId) ? (
               <svg
                 xmlns="http://www.w3.org/2000/svg"

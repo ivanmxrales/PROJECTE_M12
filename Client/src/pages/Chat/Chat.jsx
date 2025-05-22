@@ -18,8 +18,27 @@ const Chat = () => {
   const messagesWithRole = messages.map(msg => ({
     ...msg,
     role: msg.sender.id === authUserId ? "user" : "other",
-  })); 
-  
+  }));
+
+  useEffect(() => {
+    const id = getAuthUserId();
+
+    const channel = window.Echo.channel('test-channel')
+      .listen('MessageSent', (e) => {
+        if (e.sender.id === selectedUser?.id || e.receiver.id === selectedUser?.id) {
+          setMessages((prev) => {
+            if (prev.some((msg) => msg.id === e.id)) return prev;
+            return [...prev, e];
+          });
+        }
+      });
+
+    return () => {
+      window.Echo.leave(`chat.${id}`);
+    };
+  }, [selectedUser]);
+
+
 
   useEffect(() => {
     if (!selectedUser) return;
@@ -32,22 +51,35 @@ const Chat = () => {
 
   const handleInputChange = (e) => setInput(e.target.value);
 
+  const handleDelete = (messageId) => {
+    api.delete(`/api/messages/${messageId}`, getAuthUserToken())
+      .then(() => {
+        setMessages((prev) => prev.filter((msg) => msg.id !== messageId));
+      })
+      .catch((err) => {
+        console.error("Failed to delete message", err);
+      });
+  };
+
   const handleSend = (messageContent) => {
     if (!selectedUser) return;
 
     setIsLoading(true);
 
     api.post("/api/messages", {
-        receiver_id: selectedUser.id,
-        content: messageContent,
-      },
+      receiver_id: selectedUser.id,
+      content: messageContent,
+    },
       getAuthUserToken()
     )
       .then((res) => {
         return res.data;
       })
       .then((newMessage) => {
-        setMessages((prev) => [...prev, newMessage]);
+        setMessages((prev) => {
+          if (prev.some((msg) => msg.id === newMessage.id)) return prev;
+          return [...prev, newMessage];
+        });
       })
       .catch((err) => {
         console.error(err);
@@ -62,7 +94,7 @@ const Chat = () => {
     <div className="flex h-[800px] w-[600px]">
       <div className="flex flex-col h-full flex-1">
         <ChatHeader user={selectedUser} />
-        <ChatBody messages={messagesWithRole} isLoading={isLoading} />
+        <ChatBody messages={messagesWithRole} isLoading={isLoading} onDelete={handleDelete} />
         <ChatInput onSend={handleSend} />
       </div>
     </div>

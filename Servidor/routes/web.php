@@ -21,9 +21,23 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+/* Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
     return redirect(env('FRONTEND_URL') . '/email-verified');
-})->middleware(['signed'])->name('verification.verify');
+})->middleware(['signed'])->name('verification.verify'); */
+
+Route::post('/broadcasting/auth', function (Request $request) {
+    Log::info('Broadcast auth attempt', [
+        'user' => $request->user(),
+        'headers' => $request->headers->all(),
+        'input' => $request->all(),
+    ]);
+
+    if (!$request->user()) {
+        return response()->json(['error' => 'Unauthorized'], 403);
+    }
+
+    return Broadcast::auth($request);
+})->middleware('auth:api');
 
 require __DIR__.'/auth.php';

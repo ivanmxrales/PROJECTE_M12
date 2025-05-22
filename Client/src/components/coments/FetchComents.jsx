@@ -44,7 +44,7 @@ const FetchComents = (id) => {
     }
   };
 
-  return { coments, loading, error, handleDelete };
+  return { coments, loading, error, handleDelete, setComents };
 };
 
 export default FetchComents;

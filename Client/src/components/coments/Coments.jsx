@@ -71,3 +71,4 @@ function Coments({ postId }) {
 }
 
 export default Coments;
+

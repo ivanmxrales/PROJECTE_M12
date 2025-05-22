@@ -1,5 +1,6 @@
 import { useState } from "react";
 import useSignup from "../../hooks/useSignup";
+import useEnterSubmit from "../../hooks/useEnterSubmit";
 
 const Signup = () => {
 	const [inputs, setInputs] = useState({
@@ -21,7 +22,7 @@ const Signup = () => {
 	const handleSubmit = () => {
 		const newErrors = {};
 
-		if (!inputs.name || inputs.name.length <= 3)
+		if (!inputs.name || inputs.name.length < 3)
 			newErrors.name = "El nom ha de tenir almenys 3 caràcters";
 
 		if (!inputs.username || inputs.username.length <= 3)
@@ -67,6 +68,8 @@ const Signup = () => {
 		setErrors({});
 		signup(inputs);
 	};
+
+	useEnterSubmit("signupSubmit");
 
 	return (
 		<>
@@ -132,6 +135,7 @@ const Signup = () => {
 
 			<button
 				onClick={handleSubmit}
+				id="signupSubmit"
 				disabled={loading}
 				className={`w-full text-sm px-4 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-600 transition duration-200 ${
 					loading ? "opacity-50 cursor-not-allowed" : ""

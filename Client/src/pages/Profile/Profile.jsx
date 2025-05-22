@@ -6,7 +6,7 @@ import ProfilePosts from '../../components/Profile/ProfilePosts';
 import LikedPosts from '../../components/Profile/LikedPosts';
 import getAuthUser from '../../utility/getAuthUserToken';
 import FetchUser from '../../hooks/useGetUserByUsername';
-import { CameraIcon, UnlikeLogo, UserIcon } from '../../assets/constants';
+import { CameraIcon, UnlikeLogo, UserIcon } from '../../assets/icons';
 import Seguint from '../../components/Profile/Seguint';
 
 const Profile = () => {

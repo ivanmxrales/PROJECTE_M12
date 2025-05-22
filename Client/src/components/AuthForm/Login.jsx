@@ -1,5 +1,6 @@
 import { useState } from "react";
 import useLogin from "../../hooks/useLogin";
+import useEnterSubmit from "../../hooks/useEnterSubmit";
 
 const Login = () => {
 	const [inputs, setInputs] = useState({
@@ -7,6 +8,8 @@ const Login = () => {
 		password: "",
 	});
 	const { loading, error, login } = useLogin();
+
+	useEnterSubmit('loginSubmit');
 
 	return (
 		<>
@@ -27,6 +30,8 @@ const Login = () => {
 			{error && <div className="text-red-500 text-sm mt-1">{error.message}</div>}
 
 			<button
+				type="submit"
+				id="loginSubmit"
 				onClick={() => login(inputs)}
 				disabled={loading}
 				className={`w-full text-sm px-4 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-600 transition duration-200 

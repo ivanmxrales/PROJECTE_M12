@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import useLogout from "../../hooks/useLogout";
 import { useLocation, useNavigate } from 'react-router-dom';
+import api from '../../lib/axios';
 
 function useQuery() {
     return new URLSearchParams(useLocation().search);
@@ -14,42 +15,56 @@ const ResetPassword = () => {
     const emailParam = query.get('email') || '';
     const from = query.get('from') || '/';
     const [email, setEmail] = useState('');
+    const [error, setError] = useState(null); 
+    const [errors, setErrors] = useState({});
     const { logout } = useLogout();
+
+    
     const handleLogout = async () => {
         await logout();
         localStorage.removeItem("user-info");
-        //setUser(null);;
     };
 
     useEffect(() => {
         setEmail(emailParam);
-      }, [emailParam]);
+    }, [emailParam]);
 
+    const validateEmail = (email) => {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(String(email).toLowerCase());
+    };
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        const email = useParams().email;
+        setError(null);
+    
+        if (!email) {
+            setError({ message: "El correu electrònic és necessari" });
+            return;
+        }
+        if (!validateEmail(email)) {
+            setError({ message: "El correu electrònic no és vàlid" });
+            return;
+        }
+    
         try {
-            const response = await fetch('http://localhost:8000/api/forgot-password', {
-                method: 'POST',
+            await api.post('/api/forgot-password', { email }, {
                 headers: {
                     'Content-Type': 'application/json',
                     Accept: 'application/json',
-                },
-                body: JSON.stringify({ email }),
+                }
             });
-
-            const data = await response.json();
-            if (response.ok) {
-                alert('Comprova el correu electrònic per restablir la contrasenya');
-            } else {
-                alert(data.message || 'Error sending reset email');
-            }
+            alert('Comprova el correu electrònic per restablir la contrasenya');
         } catch (error) {
             console.error(error);
-            alert('Something went wrong');
+            const message = error.response?.data?.message || "No s'ha pogut enviar el correu";
+            if (message.includes("Please wait before retrying")) {
+                message = "Si us plau, espera uns minuts abans d'intentar-ho de nou.";
+            }
+            setError({ message });
         }
     };
+    
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen px-4">
@@ -63,15 +78,18 @@ const ResetPassword = () => {
                         Correu electrònic
                     </label>
                     <input
-                        type="email"
+                        type="text"
                         id="email"
                         name="email"
-                        required
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md mb-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         placeholder="exemple@correu.com"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                     />
+                    {error && (
+                        <div className="text-red-500 text-sm mb-4">{error.message}</div>
+                    )}
                     <button
                         type="submit"
                         className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
@@ -84,16 +102,15 @@ const ResetPassword = () => {
                 </Link>
                 <br />
                 <a
-  href="#"
-  onClick={(e) => {
-    e.preventDefault();
-    navigate(-1);
-  }}
-  className="text-blue-500 hover:underline mt-4 block text-center"
->
-  Anar cap enrere
-</a>
-
+                    href="#"
+                    onClick={(e) => {
+                        e.preventDefault();
+                        navigate(-1);
+                    }}
+                    className="text-blue-500 hover:underline mt-4 block text-center"
+                >
+                    Anar cap enrere
+                </a>
             </div>
         </div>
     );

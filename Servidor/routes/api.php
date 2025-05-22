@@ -13,7 +13,7 @@ use App\Http\Controllers\ApiEmailVerifyController;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Broadcast;
 
-Broadcast::routes(['middleware' => ['auth:sanctum']]);
+/* Broadcast::routes(['middleware' => ['auth:sanctum']]); */
 
 Route::post('/forgot-password', function (Request $request) {
     $request->validate(['email' => 'required|email']);
@@ -59,6 +59,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         return $request->user();
     });
 
+    Route::delete('/messages/{id}', [MessageController::class, 'destroy']);
 
 
     // Email verification notice (optional)

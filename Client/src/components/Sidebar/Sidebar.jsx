@@ -1,23 +1,20 @@
-import { Router, Link as RouterLink } from "react-router-dom";
-import { CreatePostLogo, HomeLogo, InstagramLogo, InstagramMobileLogo, MessagesLogo, NotificationsLogo, LuminaLogo } from "../../assets/constants";
-import { SearchLogo } from "../../assets/constants";
+import { Link as RouterLink } from "react-router-dom";
+import {
+  CreatePostLogo,
+  HomeLogo,
+  InstagramMobileLogo,
+  MessagesLogo,
+  NotificationsLogo,
+  LuminaLogo,
+  SearchLogo,
+} from "../../assets/icons";
 import { useState, useEffect } from "react";
-import { LogoutIcon as Logout } from "../../assets/constants";
+import { LogoutIcon as Logout } from "../../assets/icons";
 import useLogout from "../../hooks/useLogout";
-import api from "../../lib/axios";
 
 const Sidebar = () => {
   const [user, setUser] = useState(null);
   const { logout } = useLogout();
-
-  /* useEffect(() => {
-    console.log("USUARI LOCALSTORAGE:", localStorage.getItem("user-info"));
-    const storedUser = localStorage.getItem("user-info");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-      console.log("User loguejat:", JSON.parse(storedUser));
-    }
-  }, []); */
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user-info");
@@ -34,101 +31,91 @@ const Sidebar = () => {
     return user.username;
   };
 
-  
   const handleLogout = async () => {
     await logout();
     localStorage.removeItem("user-info");
-    //setUser(null);;
   };
 
   const sidebarItems = [
-    {
-      icon: HomeLogo,
-      text: 'Inici',
-      link: '/',
-    },
-    {
-      icon: SearchLogo,
-      text: 'Buscar',
-      link: '/search',
-    },
-    {
-      icon: MessagesLogo,
-      text: 'Missatges',
-      link: '/messages',
-    },
-    {
-      icon: NotificationsLogo,
-      text: 'Notificacions',
-      link: '/profile',
-    },
-    {
-      icon: CreatePostLogo,
-      text: 'Publicació',
-      link: '/postnew',
-    }
-  ]
+    { icon: HomeLogo, text: "Inici", link: "/" },
+    { icon: SearchLogo, text: "Buscar", link: "/search" },
+    { icon: MessagesLogo, text: "Missatges", link: "/messages" },
+    { icon: NotificationsLogo, text: "Notificacions", link: "/profile" },
+    { icon: CreatePostLogo, text: "Publicació", link: "/postnew" },
+  ];
 
   return (
-    // <div className="h-screen border-r border-l border-white/30 py-8 px-2 md:px-4 sticky top-0 left-0">
-    <div className="w-20 sm:w-24 md:w-48 h-screen border-r border-l border-white/30 py-8 px-2 md:px-4 sticky top-0 left-0 bg-black">
-      <div className="flex flex-col gap-10 w-full h-full">
+    <div
+      className="
+        fixed bottom-0 left-0 w-full h-16 border-t border-white/30 bg-black
+        flex md:flex-col md:fixed md:top-0 md:left-0 md:w-60 md:h-screen md:border-r md:border-t-0 md:py-8 md:px-4
+        px-2 z-[999px]"
+    >
+      {/* Logo */}
+      <RouterLink to="/" className="hidden md:block mb-10 pl-2 cursor-pointer">
+        <LuminaLogo />
+      </RouterLink>
+      <RouterLink
+        to="/"
+        className="block md:hidden rounded-md hover:bg-white/20 w-10 cursor-pointer self-center"
+      >
+        <InstagramMobileLogo />
+      </RouterLink>
 
-        <RouterLink to="/" className="pl-2 hidden md:block cursor-pointer">
-          <LuminaLogo />
-        </RouterLink>
-
+      {/* Menu items */}
+      {sidebarItems.map((item, index) => (
         <RouterLink
-          to="/"
-          className="p-2 block md:hidden rounded-md hover:bg-white/20 w-10 cursor-pointer"
+          key={index}
+          to={item.link}
+          className="
+            flex items-center gap-3 p-2 rounded-md hover:bg-white/20
+            md:mb-6
+            justify-center md:justify-start
+            flex-1 md:flex-none
+          "
         >
-          <InstagramMobileLogo />
+          <item.icon className="w-6 h-6" />
+          <span className="hidden md:inline text-white">{item.text}</span>
         </RouterLink>
+      ))}
 
-        <div className="flex-col gap-10 cursor-pointer">
-          {sidebarItems.map((item, index) => (
-            <RouterLink
-              key={index}
-              to={item.link}
-              className="flex items-center gap-3 p-2 rounded-md hover:bg-white/20"
-            >
-              <br />
-              <br />
-              <item.icon className="w-6 h-6" />
-              <span className="hidden md:block text-white">{item.text}</span>
-            </RouterLink>
-          ))}
-        </div>
+      {/* User and Logout */}
+      {user && (
+        <>
+          <RouterLink
+            to={`/${user.username}`}
+            className="
+              flex items-center gap-3 p-2 rounded-md hover:bg-white/20
+              md:mt-auto
+              justify-center md:justify-start
+              flex-1 md:flex-none
+            "
+          >
+            <div className="w-8 h-8 border rounded-full overflow-hidden">
+              <img
+                src={user.profile_picture}
+                alt="profile"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <p className="hidden md:inline text-white">{handleUsername()}</p>
+          </RouterLink>
 
-        {user && (
-          <>
-            <RouterLink
-              to={`/${user.username}`}
-              className="flex items-center gap-3 p-2 rounded-md hover:bg-white/20">
-              <div className="flex items-center gap-3 p-2 rounded-md ">
-                <div className="w-8 h-8 border rounded-full overflow-hidden">
-                  <img src={user.profile_picture} alt="profile" className="w-full h-full object-cover" />
-                </div>
-                <p className="hidden md:block text-white">{handleUsername()}</p>
-              </div>
-            </RouterLink>
-
-            <RouterLink
-              to="/auth"
-              className="flex items-center gap-3 p-2 rounded-md hover:bg-white/20"
-              onClick={handleLogout}>
-
-              <div className="flex items-center gap-3 p-2 rounded-md ">
-                <div className="w-8 h-8 border rounded-full overflow-hidden">
-                  <Logout />
-                </div>
-                <p className="hidden md:block text-white">Tancar sessió</p>
-              </div>
-            </RouterLink>
-          </>
-
-        )}
-      </div>
+          <button
+            onClick={handleLogout}
+            className="
+              flex items-center gap-3 p-2 rounded-md hover:bg-white/20
+              justify-center md:justify-start
+              flex-1 md:flex-none
+              cursor-pointer
+              bg-transparent border-none
+            "
+          >
+            <Logout className="w-6 h-6" />
+            <span className="hidden md:inline text-white">Tancar sessió</span>
+          </button>
+        </>
+      )}
     </div>
   );
 };

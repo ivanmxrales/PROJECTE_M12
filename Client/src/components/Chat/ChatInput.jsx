@@ -1,5 +1,6 @@
-import { useState } from "react"
-import { Paperclip, Send, Smile } from "lucide-react"
+import { useState } from "react";
+import { Paperclip, Send, Smile } from "lucide-react";
+import useEnterSubmit from "../../hooks/useEnterSubmit";
 
 const ChatInput = ({ onSend }) => {
   const [message, setMessage] = useState("")
@@ -12,10 +13,12 @@ const ChatInput = ({ onSend }) => {
     setMessage("")
   }
 
+  useEnterSubmit('sendMessage');
+
   return (
     <div className="border-t  p-4">
       <form className="flex items-end gap-2" onSubmit={handleSubmit}>
-        <button type="button" className="flex-shrink-0" title="Attach file">
+        <button type="button" className="flex-shrink-0">
           <Paperclip className="h-5 w-5" />
         </button>
 
@@ -30,8 +33,8 @@ const ChatInput = ({ onSend }) => {
             <Smile className="h-5 w-5" />
           </button>
         </div>
-        <button type="submit" className="flex-shrink-0" title="Attach file">
-          <Send className="h-5 w-5" />
+        <button type="submit" className="flex-shrink-0" title="enviar">
+          <Send className="h-5 w-5" id="sendMessage"/>
         </button>
       </form>
     </div>

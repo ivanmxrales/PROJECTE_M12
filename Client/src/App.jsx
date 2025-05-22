@@ -21,9 +21,8 @@ import Messages from './components/Messages/Messages.jsx';
 import Chat from './pages/Chat/Chat.jsx';
 import getAuthUserId from './utility/getAuthUserId.jsx';
 
+const token = JSON.parse(localStorage.getItem('user-info'))?.token;
 
-window.Pusher = Pusher;
-//window.pusher = require('pusher-js');
 window.Echo = new Echo({
   broadcaster: 'reverb',
   key: '381rlxplslmo6mwe5eiy',
@@ -33,23 +32,27 @@ window.Echo = new Echo({
   forceTLS: false,
   encrypted: false,
   enabledTransports: ['ws', 'wss'],
-  authEndpoint: 'http://127.0.0.1:8000/broadcasting/auth',
+  /* authEndpoint: 'http://127.0.0.1:8000/broadcasting/auth',
   auth: {
     headers: {
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
+      Authorization: `Bearer ${token}`
     },
-  },
-})
+  }, */
+});
+console.log('AAAAAAAAAAA', token);
+
+
 
 function App() {
-  /* const id = getAuthUserId();
-  window.Echo.private(`chat.${id}`)
-    .listen('.App\\Events\\MessageSent', (e) => {
+  const id = getAuthUserId();
+  /* window.Echo.private(`chat.${id}`)
+    .listen('MessageSent', (e) => {
       console.log("Missatge rebut via: ", e)
     }); */
+
     window.Echo.channel('test-channel')
     .listen('MessageSent', (e) => {
-        console.log('Evento recibido:', e.message);
+      console.log("Missatge rebut via: ", e)
     });
 
   return (

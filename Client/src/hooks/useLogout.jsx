@@ -14,8 +14,6 @@ const useLogout = () => {
 		} catch (error) {
 			if (error.response?.status === 401) {
 				console.warn("Token already invalidated during logout.");
-			} else {
-				console.error("Logout error:", error);
 			}
 		} finally {
 			localStorage.removeItem("user-info");

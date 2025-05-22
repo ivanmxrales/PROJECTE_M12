@@ -48,7 +48,7 @@ class PostController extends Controller
             foreach ($request->file('media') as $index => $file) {
                 // Generar un nombre único para el archivo
                 $file_extension = $file->getClientOriginalExtension(); // Obtener la extensión original del archivo
-                $new_file_name = $post_title . '-' . ($index + 1) . '.' . $file_extension; // Nombre basado en el título y el índice del archivo
+                $new_file_name =  Str::random(16) . '.' . $file_extension;
 
                 // Almacenar el archivo con el nuevo nombre
                 $file_path = $file->storeAs($file_location, $new_file_name,"public"); // Usa storeAs para especificar el nombre del archivo
@@ -117,7 +117,7 @@ class PostController extends Controller
     if ($request->hasFile('new_media')) {
         foreach ($request->file('new_media') as $index => $file) {
             $extension = $file->getClientOriginalExtension();
-            $filename = Str::slug($request->input('title', $post->title)) . '-' . (count($updated_media) + $index + 1) . '.' . $extension;
+            $filename = Str::random(16) . '.' . $extension;
 
             $file->move($public_path, $filename); // Mueve el archivo al sistema de archivos real
             $updated_media[] = $file_location . '/' . $filename; // Ruta accesible desde el navegador
