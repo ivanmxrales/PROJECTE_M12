@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import useEditProfile from "../../hooks/useEditProfile";
 
-const EditProfileForm = ({ user, onCancel }) => {
+const EditProfileForm = ({ user, onCancel, onSave }) => {
 	const [inputs, setInputs] = useState({
 		name: "",
 		username: "",
@@ -66,6 +66,7 @@ const EditProfileForm = ({ user, onCancel }) => {
 		setErrors({});
 		const success = await edit(user.id, inputs);
 		if (success) {
+			window.location.reload();
 			onSave(success);
 			onCancel();
 		}

@@ -170,7 +170,11 @@ class UserController extends Controller
     function delete($id)
     {
         $user = User::find($id);
-        $user->delete();
+        if ($user) {
+            $user->email_verified_at = null;
+            $user->save();
+            $user->delete();
+        }
         return $user;
     }
 
@@ -216,13 +220,13 @@ class UserController extends Controller
 
         $followedUserIds = Auth::user()->following()->pluck('user_id');
 
-        
+
         $users = User::select('id', 'name', 'username', 'profile_picture')
             ->whereIn('id', $followedUserIds)
             ->where('name', 'LIKE', "%{$query}%")
             ->orWhere('username', 'LIKE', "%{$query}%")
             ->get();
-            
+
 
         foreach ($users as $user) {
             if ($user->profile_picture && !str_starts_with($user->profile_picture, 'http')) {
@@ -273,5 +277,23 @@ class UserController extends Controller
 
         return response()->json($followedUsers);
     }
+    public function updateEmail(Request $request)
+    {
+        $request->validate([
+            'email' => ['required', 'email', 'unique:users,email'],
+        ]);
 
+        $user = Auth::user();
+        $user->email = $request->email;
+        $user->email_verified_at = null;  // Marca como no verificado
+        $user->save();
+
+        $user->sendEmailVerificationNotification();
+
+        return response()->json([
+            'message' => 'Correu actualitzat. Comprova el teu correu per verificar-lo.'
+        ]);
+    }
 }
+
+

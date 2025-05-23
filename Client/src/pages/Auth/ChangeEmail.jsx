@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import useLogout from "../../hooks/useLogout";
 import { useLocation, useNavigate } from 'react-router-dom';
 import api from '../../lib/axios';
+import getAuthUserToken from '../../utility/getAuthUserToken';
 
 function useQuery() {
     return new URLSearchParams(useLocation().search);
@@ -48,12 +49,10 @@ const ChangeEmail = () => {
         }
 
         try {
-            await api.post('/api/forgot-password', { email }, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json',
-                }
-            });
+            await api.post('/api/user/update-email', { email },
+                getAuthUserToken()
+            );
+            
             alert('Comprova el correu electrònic per restablir la contrasenya');
         } catch (error) {
             console.error(error);
@@ -72,7 +71,7 @@ const ChangeEmail = () => {
     return (
         <div className="flex flex-col items-center justify-center min-h-screen px-4">
             <div className="p-6 rounded-lg shadow-md w-full max-w-md">
-                <h1 className="text-2xl font-bold mb-4 text-center">Canvia el correi electrònic</h1>
+                <h1 className="text-2xl font-bold mb-4 text-center">Canvia el correu electrònic</h1>
                 <p className="mb-6 text-center">
                     Introdueix la teva adreça electrònica i t’enviarem un enllaç per canviar el correu.
                 </p>
@@ -82,12 +81,24 @@ const ChangeEmail = () => {
                     </label>
                     <input
                         type="text"
+                        id="email1"
+                        name="email1"
+                        readOnly
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md mb-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        placeholder="exemple@correu.com"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                    <label htmlFor="email1" className="block text-sm font-medium mb-1">
+                        Correu electrònic nou
+                    </label>
+                    <input
+                        type="text"
                         id="email"
                         name="email"
 
                         className="w-full px-3 py-2 border border-gray-300 rounded-md mb-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         placeholder="exemple@correu.com"
-                        value={email}
                         onChange={(e) => setEmail(e.target.value)}
                     />
                     {error && (

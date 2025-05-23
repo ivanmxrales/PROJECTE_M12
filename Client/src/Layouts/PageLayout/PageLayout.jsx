@@ -18,7 +18,7 @@ const PageLayout = ({ children }) => {
 
     const { pathname } = useLocation();
 
-    const showSidebar = (pathname !== '/auth' && pathname !== '/verify' &&
+    const showSidebar = (pathname !== '/auth' && pathname !== '/verify' && pathname !== '/change-email' &&
         pathname !== '/new-password' && pathname !== '/reset-password' && pathname !== '/chat/:username');
 
     const showNavbar = (pathname !== '/auth' && pathname !== '/posts' &&

@@ -19,7 +19,7 @@ const Signup = () => {
 		setInputs({ ...inputs, [e.target.name]: e.target.value });
 	};
 
-	const handleSubmit = () => {
+	const handleSubmit = async () => {
 		const newErrors = {};
 
 		if (!inputs.name || inputs.name.length < 3)
@@ -28,25 +28,25 @@ const Signup = () => {
 		if (!inputs.username || inputs.username.length <= 3)
 			newErrors.username = "El nom d'usuari ha de tenir almenys 3 caràcters";
 
-		if (!inputs.birth_date){
+		if (!inputs.birth_date) {
 			newErrors.birth_date = "La data de naixement és necessària";
 		}
-		 else {
-            const inputDate = new Date(inputs.birth_date);
+		else {
+			const inputDate = new Date(inputs.birth_date);
 
-            const today = new Date();
-            let age = today.getFullYear() - inputDate.getFullYear();
-            const monthDiff = today.getMonth() - inputDate.getMonth();
-            const dayDiff = today.getDate() - inputDate.getDate();
+			const today = new Date();
+			let age = today.getFullYear() - inputDate.getFullYear();
+			const monthDiff = today.getMonth() - inputDate.getMonth();
+			const dayDiff = today.getDate() - inputDate.getDate();
 
-            if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
-                age--;
-            }
+			if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+				age--;
+			}
 
-            if (age < 16) {
-                newErrors.birth_date = "Has de tenir 16 anys com a mínim per registrar-te";
-            }
-        }
+			if (age < 16) {
+				newErrors.birth_date = "Has de tenir 16 anys com a mínim per registrar-te";
+			}
+		}
 
 		if (!inputs.email)
 			newErrors.email = "El correu electrònic és necessari";
@@ -66,6 +66,34 @@ const Signup = () => {
 		}
 
 		setErrors({});
+		try {
+			await signup(inputs);
+		} /* catch (err) {
+			if (err.response?.status === 422) {
+				setErrors({
+					email: "Aquest correu electrònic ja està en ús",
+					username: "Aquest nom d'usuari ja està en ús",
+				});
+			} else {
+				//console.error("Signup error:", err);
+			} */
+		catch (err) {
+			if (err.response?.status === 422 && err.response.data?.errors) {
+				const serverErrors = err.response.data.errors;
+				const formattedErrors = {};
+
+				if (serverErrors.email) {
+					formattedErrors.email = "Aquest correu electrònic ja està en ús";
+				}
+				if (serverErrors.username) {
+					formattedErrors.username = "Aquest nom d'usuari ja està en ús";
+				}
+
+				setErrors(formattedErrors);
+			} else {
+				console.error("Signup error:", err);
+			}
+		}
 		signup(inputs);
 	};
 
@@ -137,9 +165,8 @@ const Signup = () => {
 				onClick={handleSubmit}
 				id="signupSubmit"
 				disabled={loading}
-				className={`w-full text-sm px-4 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-600 transition duration-200 ${
-					loading ? "opacity-50 cursor-not-allowed" : ""
-				}`}
+				className={`w-full text-sm px-4 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-600 transition duration-200 ${loading ? "opacity-50 cursor-not-allowed" : ""
+					}`}
 			>
 				{loading ? "Enviant..." : "Registrar-se"}
 			</button>

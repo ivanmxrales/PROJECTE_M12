@@ -27,19 +27,14 @@ const UserSettings = ({ user, onClose }) => {
                             <Close onClose={onClose} />
                             <Logout />
                             <button
-                                className="bg-transparent text-white text-sm border-b-gray-600 hover:bg-opacity-80 sm:text-xl px-4 py-2 rounded"
-                                onClick={() => setShowChangeEmail(true)}
+                                className="bg-transparent text-white hover:text-white text-sm border-b 
+                                hover:border border-b-gray-600 hover:bg-opacity-80 sm:text-xl px-4 py-2 rounded"
+                                onClick={() =>
+                                    navigate(`/change-email?email=${encodeURIComponent(user.email)}&from=${encodeURIComponent(location.pathname)}`)
+                                }
                             >
                                 Canviar email
                             </button>
-                            {/* <button
-                                className="bg-transparent text-white hover:text-white text-sm border-b 
-                                hover:border border-b-gray-600 hover:bg-opacity-80 sm:text-xl px-4 py-2 rounded"
-                                onClick={() => navigate(`/reset-password?email=${user.email}`)}
-
-                            >
-                                Canviar contrasenya
-                            </button> */}
                             <button
                                 className="bg-transparent text-white hover:text-white text-sm border-b 
                                 hover:border border-b-gray-600 hover:bg-opacity-80 sm:text-xl px-4 py-2 rounded"
@@ -49,7 +44,8 @@ const UserSettings = ({ user, onClose }) => {
                             >
                                 Canviar contrasenya
                             </button>
-                            <DeleteAccount />
+                            <DeleteAccount userId={user.id} />
+
                         </>
                     )}
 

@@ -3,7 +3,7 @@ import EditProfileForm from "../../components/AuthForm/EditProfileForm";
 const EditProfile = ({ user, onClose, onSave }) => {
 	const handleSave = (updatedUser) => {
 		console.log("Usuari actualitzat correctament:", updatedUser);
-		// Aquí pots actualitzar l'estat global, tancar el modal, etc.
+		if (onSave) onSave(updatedUser);
 	};
 
 	return (

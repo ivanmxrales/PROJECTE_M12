@@ -49,7 +49,15 @@ const ProfileHeader = ({ user: profileUser }) => {
 
     const isOwnProfile = authUser?.id === profileUser?.id;
 
-    const handleOpenEditProfile = () => setIsModalOpen(true);
+    const handleOpenEditProfile = () => {
+        const storedUser = localStorage.getItem("user-info");
+        if (storedUser) {
+            const parsed = JSON.parse(storedUser);
+            setAuthUser(parsed.user);
+
+        } setIsModalOpen(true);
+    };
+
     const handleUserSettings = () => setIsModalOpenSettings(true);
     const handleCloseSettings = () => setIsModalOpenSettings(false);
     const handleCloseModal = () => setIsModalOpen(false);
@@ -63,14 +71,14 @@ const ProfileHeader = ({ user: profileUser }) => {
         const storedUser = JSON.parse(localStorage.getItem("user-info"));
         storedUser.user = updatedUser;
         localStorage.setItem("user-info", JSON.stringify(storedUser));
-        setIsModalOpen(false); 
+        setIsModalOpen(false);
     };
 
     const handleFollowClick = async () => {
         try {
             const result = await toggleFollow();
             if (!authUser || !result) return;
-    
+
             if (result === 'followed') {
                 setFollowers(prev => [...prev, authUser]);
             } else if (result === 'unfollowed') {
@@ -80,7 +88,7 @@ const ProfileHeader = ({ user: profileUser }) => {
             console.error("Error toggling follow:", error);
         }
     };
-    
+
 
     return (
         <div className="flex flex-col sm:flex-row gap-4 py-10 w-full">
@@ -138,7 +146,10 @@ const ProfileHeader = ({ user: profileUser }) => {
             </div>
 
             {isModalOpen && (
-                <EditProfile onClose={handleCloseModal} onSave={handleSaveProfile} user={authUser} />
+                <EditProfile onClose={handleCloseModal} onSave={(updatedData) =>{
+                    handleSaveProfile(updatedData);
+                    if (typeof onSaveProfile === 'function') onSaveProfile(updatedData);
+                }} user={authUser} />
             )}
             {isModalOpenSettings && (
                 <UserSettings onClose={handleCloseSettings} user={authUser} />

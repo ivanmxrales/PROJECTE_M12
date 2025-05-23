@@ -33,9 +33,21 @@ const useSignup = () => {
 			useLogin(userData); */
 			navigate('/verify');
 		} catch (err) {
-			const errMsg = err.response?.data?.message || "Signup failed";
-			setError({ message: errMsg });
-		} finally {
+			/* if (err.response?.status === 422) {
+				setErrors({
+					email: "Aquest correu electrònic ja està en ús",
+					username: "Aquest nom d'usuari ja està en ús",
+				});
+			} else {
+				const errMsg = err.response?.data?.message || "Error en el registre";
+				setError({ message: errMsg });
+			} */
+
+				throw err;
+		}
+		
+		
+		finally {
 			setLoading(false);
 		}
 	};

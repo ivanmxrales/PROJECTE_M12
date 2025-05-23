@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\UserController;
 use App\Http\Middleware\ApiAuthenticate;
 use App\Http\Middleware\Middleware;
 use Illuminate\Support\Facades\Route;
@@ -13,7 +14,10 @@ use App\Http\Controllers\ApiEmailVerifyController;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Broadcast;
 
+
 /* Broadcast::routes(['middleware' => ['auth:sanctum']]); */
+
+Route::middleware('auth:sanctum')->post('/user/update-email', [UserController::class, 'updateEmail']);
 
 Route::post('/forgot-password', function (Request $request) {
     $request->validate(['email' => 'required|email']);
