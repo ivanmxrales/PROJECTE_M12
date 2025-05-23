@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useLocation, useNavigate } from 'react-router-dom';
 import useLogout from "../../hooks/useLogout";
-import { useLocation, useNavigate } from 'react-router-dom';
 import api from '../../lib/axios';
 import getAuthUserToken from '../../utility/getAuthUserToken';
 
@@ -15,11 +14,11 @@ const ChangeEmail = () => {
 
     const emailParam = query.get('email') || '';
     const from = query.get('from') || '/';
-    const [email, setEmail] = useState('');
+    const [currentEmail, setCurrentEmail] = useState('');
+    const [newEmail, setNewEmail] = useState('');
     const [error, setError] = useState(null);
     const [errors, setErrors] = useState({});
     const { logout } = useLogout();
-
 
     const handleLogout = async () => {
         await logout();
@@ -27,7 +26,7 @@ const ChangeEmail = () => {
     };
 
     useEffect(() => {
-        setEmail(emailParam);
+        setCurrentEmail(emailParam);
     }, [emailParam]);
 
     const validateEmail = (email) => {
@@ -39,20 +38,19 @@ const ChangeEmail = () => {
         e.preventDefault();
         setError(null);
 
-        if (!email) {
+        if (!newEmail) {
             setError({ message: "El correu electrònic és necessari" });
             return;
         }
-        if (!validateEmail(email)) {
+        if (!validateEmail(newEmail)) {
             setError({ message: "El correu electrònic no és vàlid" });
             return;
         }
 
         try {
-            await api.post('/api/user/update-email', { email },
+            await api.post('/api/user/update-email', { email: newEmail },
                 getAuthUserToken()
             );
-            
             alert('Comprova el correu electrònic per restablir la contrasenya');
         } catch (error) {
             console.error(error);
@@ -64,9 +62,7 @@ const ChangeEmail = () => {
             }
             setError({ message });
         }
-
     };
-
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen px-4">
@@ -76,30 +72,29 @@ const ChangeEmail = () => {
                     Introdueix la teva adreça electrònica i t’enviarem un enllaç per canviar el correu.
                 </p>
                 <form onSubmit={handleSubmit}>
-                    <label htmlFor="email" className="block text-sm font-medium mb-1">
+                    <label htmlFor="emailOld" className="block text-sm font-medium mb-1">
                         Correu electrònic actual
                     </label>
                     <input
                         type="text"
-                        id="email1"
-                        name="email1"
+                        id="emailOld"
+                        name="emailOld"
                         readOnly
                         className="w-full px-3 py-2 border border-gray-300 rounded-md mb-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         placeholder="exemple@correu.com"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        value={currentEmail}
                     />
-                    <label htmlFor="email1" className="block text-sm font-medium mb-1">
+                    <label htmlFor="emailNou" className="block text-sm font-medium mb-1">
                         Correu electrònic nou
                     </label>
                     <input
                         type="text"
-                        id="email"
-                        name="email"
-
+                        id="emailNou"
+                        name="emailNou"
                         className="w-full px-3 py-2 border border-gray-300 rounded-md mb-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         placeholder="exemple@correu.com"
-                        onChange={(e) => setEmail(e.target.value)}
+                        value={newEmail}
+                        onChange={(e) => setNewEmail(e.target.value)}
                     />
                     {error && (
                         <div className="text-red-500 text-sm mb-4">{error.message}</div>

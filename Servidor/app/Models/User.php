@@ -101,6 +101,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function sendPasswordResetNotification($token)
     {
-        $this->notify(new VerifyEmailCatalan());
+        $this->notify(new CustomResetPassword($token));
     }
 }

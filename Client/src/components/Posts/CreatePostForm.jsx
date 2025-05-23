@@ -92,7 +92,7 @@ function CreatePostForm({ userId, onPostCreated }) {
 
       <Form.Group controlId="formMedia" className="mt-3">
         <Form.Label>Imágenes o videos</Form.Label>
-        <Form.Control type="file" multiple onChange={handleFileChange} />
+        <Form.Control type="file" accept="image/*" multiple onChange={handleFileChange} />
       </Form.Group>
 
       <Button className="mt-3" variant="primary" type="submit">

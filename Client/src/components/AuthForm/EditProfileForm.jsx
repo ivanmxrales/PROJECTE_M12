@@ -100,12 +100,12 @@ const EditProfileForm = ({ user, onCancel, onSave }) => {
 	return (
 		<form onSubmit={handleSubmit} className="flex flex-col gap-4">
 			<input 
-				type="file" 
-				name="profile_picture"
-				placeholder="Imatge"
-				className={inputs.profile_picture}
-				onChange={handleChange}
-			/>
+	type="file" 
+	name="profile_picture"
+	accept=".jpg,.jpeg,.png,image/jpeg,image/png"
+	onChange={handleChange}
+/>
+
 			{errors.profile_picture && <div className="text-red-500 text-sm">{errors.profile_picture}</div>}
 
 			<input

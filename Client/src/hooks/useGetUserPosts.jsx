@@ -33,7 +33,8 @@ const FetchUserPosts = (userId) => {
     if (!confirmDelete) return;
 
     try {
-      await axios.delete(`http://127.0.0.1:8000/api/post/${id_num}`);
+      await api.get("/sanctum/csrf-cookie");
+      await api.delete(`/api/post/${id_num}`, getAuthUserToken());
       setPosts((prevPosts) => prevPosts.filter((post) => post.id_num !== id_num));
       console.log("Post esborrat");
     } catch (error) {

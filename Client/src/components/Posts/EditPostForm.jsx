@@ -181,7 +181,7 @@ function EditPostForm({ post, onCancel }) {
 
       <Form.Group controlId="formNewMedia" className="mt-3">
         <Form.Label>Añadir nuevas imágenes o vídeos</Form.Label>
-        <Form.Control type="file" multiple onChange={handleFileChange} />
+        <Form.Control type="file" accept="image/*" multiple onChange={handleFileChange} />
       </Form.Group>
 
       <div className="mt-4">

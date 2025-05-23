@@ -23,7 +23,7 @@ const NewPassword = () => {
 
     const data = await res.json();
     if (res.ok) {
-      alert('Password reset successful');
+      alert('Contrasenya modificada');
       navigate('/auth');
     } else {
       alert(data.message);
