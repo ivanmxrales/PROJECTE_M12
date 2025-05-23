@@ -67,9 +67,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 
     // Email verification notice (optional)
-    Route::get('/email/verify', function () {
+    /* Route::get('/email/verify', function () {
         return response()->json(['message' => 'Si us plau, verifica el teu correu electrònic.']);
-    })->middleware('auth:sanctum')->name('verification.notice');
+    })->middleware('auth:sanctum')->name('verification.notice'); */
 
     // Verification link handler
     // In api.php
@@ -77,17 +77,17 @@ Route::middleware(['auth:sanctum'])->group(function () {
         ->middleware('signed')
         ->$request->fulfill()
         ->name('verification.verify'); */
-    Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    /* Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
         $request->fulfill();
         return redirect(env('FRONTEND_URL') . '/email-verified');
-    })->middleware(['signed'])->name('verification.verify');
+    })->middleware(['signed'])->name('verification.verify'); */
 
 
     // Resend verification email
-    Route::post('/email/verification-notification', function (Request $request) {
+    /* Route::post('/email/verification-notification', function (Request $request) {
         $request->user()->sendEmailVerificationNotification();
         return response()->json(['message' => 'S\'ha enviat un nou correu de verificació.']);
-    })->middleware(['auth:sanctum', 'throttle:6,1'])->name('verification.send');
+    })->middleware(['auth:sanctum', 'throttle:6,1'])->name('verification.send'); */
 
 
     //// POSTS /////
@@ -153,6 +153,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/conversations', [MessageController::class, 'conversations']);
 
 });
-
 
 

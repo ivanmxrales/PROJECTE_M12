@@ -42,14 +42,14 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('verify-email', EmailVerificationPromptController::class)
-        ->name('verification.notice');
+    /* Route::get('verify-email', EmailVerificationPromptController::class)
+        ->name('verification.notice'); */
 
     
 
-    Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
+    /* Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
         ->middleware('throttle:6,1')
-        ->name('verification.send');
+        ->name('verification.send'); */
 
     Route::get('confirm-password', [ConfirmablePasswordController::class, 'show'])
         ->name('password.confirm');
@@ -66,10 +66,9 @@ Route::middleware('auth')->group(function () {
         ->middleware(['signed', 'throttle:6,1'])
         ->name('verification.verify'); */
 
-Route::get('verify-email/{id}/{hash}', [App\Http\Controllers\ApiEmailVerifyController::class, 'verify'])
+/* Route::get('verify-email/{id}/{hash}', [App\Http\Controllers\ApiEmailVerifyController::class, 'verify'])
         ->middleware('signed')
-        /* ->$request->fulfill() */
-        ->name('verification.verify');
+        ->name('verification.verify'); */
 
 Route::post('/login', [ApiController::class, 'login']);
 Route::post(env('FRONTEND_URL') . '/auth', [ApiController::class, 'login']);
