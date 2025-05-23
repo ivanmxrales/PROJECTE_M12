@@ -51,7 +51,7 @@ function Home({ }) {
   return (
     <div>
       <div className="posts-list">
-        <div className="flex flex-col items-center justify-center gap-10  w-[800px] mt-[20%]">
+        <div className="flex flex-col items-center justify-center gap-10  w-[800px] mt-[20px]">
           {posts.map((post) => {
             const isEditing = editingPost && editingPost.id === post.id;
             const author = users.find((user) => user.id === post.user_id);

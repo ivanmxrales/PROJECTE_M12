@@ -43,7 +43,7 @@ const PageLayout = ({ children }) => {
                     ) : null}
                 </>
             )}
-            <div className="flex-1 mx-auto w-[calc(100%-70px)] md:w-[calc(100%-240px)]">
+            <div className="flex-1 mx-auto w-[calc(100%-70px)] md:w-[calc(100%-240px)] mt-[0px]">
                 {children}
             </div>
         </div>

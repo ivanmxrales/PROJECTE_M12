@@ -1,18 +1,32 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useEditProfile from "../../hooks/useEditProfile";
 
 const EditProfileForm = ({ user, onCancel }) => {
 	const [inputs, setInputs] = useState({
-		name: user?.name || "",
-		username: user?.username || "",
-		biography: user?.biography || "",
-		birth_date: user?.birth_date || "",
-		email: user?.email || "",
-		profile_picture: user?.profile_picture || ""
+		name: "",
+		username: "",
+		biography: "",
+		birth_date: "",
+		email: "",
+		profile_picture: ""
 	});
 
 	const { loading, edit, error } = useEditProfile();
 	const [errors, setErrors] = useState({});
+
+	useEffect(() => {
+		if (user) {
+			console.log("Usuario que llega al form: ", user);
+			setInputs({
+				name: user.name || "",
+				username: user.username || "",
+				biography: user.biography || "",
+				birth_date: user.birth_date || "",
+				email: user.email || "",
+				profile_picture: user.profile_picture || ""
+			});
+		}
+	}, [user]);
 
 	const handleChange = (e) => {
 		if (e.target.name === 'profile_picture') {
@@ -39,12 +53,6 @@ const EditProfileForm = ({ user, onCancel }) => {
 			if (age < 16) newErrors.birth_date = "Has de tenir 16 anys com a mínim";
 		}
 
-		if (inputs.password && inputs.password.length < 8)
-			newErrors.password = "La contrasenya ha de tenir almenys 8 caràcters";
-
-		if (inputs.password !== inputs.confirmPassword)
-			newErrors.confirmPassword = "Les contrasenyes no coincideixen";
-
 		return newErrors;
 	};
 
@@ -58,7 +66,8 @@ const EditProfileForm = ({ user, onCancel }) => {
 		setErrors({});
 		const success = await edit(user.id, inputs);
 		if (success) {
-			onCancel(); 
+			onSave(success);
+			onCancel();
 		}
 	};
 	

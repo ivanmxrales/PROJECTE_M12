@@ -20,6 +20,7 @@ import api from './lib/axios.js';
 import Messages from './components/Messages/Messages.jsx';
 import Chat from './pages/Chat/Chat.jsx';
 import getAuthUserId from './utility/getAuthUserId.jsx';
+import ChangeEmail from './pages/Auth/ChangeEmail.jsx';
 
 const token = JSON.parse(localStorage.getItem('user-info'))?.token;
 
@@ -62,6 +63,7 @@ function App() {
         <Route path="/verify" element={<Verify />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/new-password" element={<NewPassword />} />
+        <Route path='/change-email' element ={<ChangeEmail/>} />
         <Route path="/search" element={
           <ProtectedRoutes>
             <SearchUsers />

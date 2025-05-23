@@ -1,4 +1,7 @@
-import { Search, PlusCircle, Settings, MessageSquare } from "lucide-react"
+import { Search, PlusCircle, Settings, MessageSquare } from "lucide-react";
+
+const { user: authUser } = useAuth();
+
 
 const ChatPreview = ({ user, active, onClick }) => (
   <div

@@ -4,7 +4,7 @@ import api from '../lib/axios';
 import getAuthUser from '../utility/getAuthUserToken';
 import { useAuth } from '../context/AuthContext';
 
-const editProfile = () => {
+const useEditProfile = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -45,8 +45,10 @@ const editProfile = () => {
 
 
       login(updatedUser);
+      
       console.log('Usuari actualitzat:', updatedUser);
       navigate(`/${updatedUser.username}`);
+      return response.data;
     } catch (err) {
       const errMsg = err.response?.data?.message || "Error al desar l'usuari";
       setError({ message: errMsg });
@@ -58,4 +60,4 @@ const editProfile = () => {
   return { loading, error, edit };
 };
 
-export default editProfile;
+export default useEditProfile;

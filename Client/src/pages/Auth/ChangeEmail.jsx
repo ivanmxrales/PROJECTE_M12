@@ -8,7 +8,7 @@ function useQuery() {
     return new URLSearchParams(useLocation().search);
 }
 
-const ResetPassword = () => {
+const ChangeEmail = () => {
     const query = useQuery();
     const navigate = useNavigate();
 
@@ -72,13 +72,13 @@ const ResetPassword = () => {
     return (
         <div className="flex flex-col items-center justify-center min-h-screen px-4">
             <div className="p-6 rounded-lg shadow-md w-full max-w-md">
-                <h1 className="text-2xl font-bold mb-4 text-center">Recupera la teva contrasenya</h1>
+                <h1 className="text-2xl font-bold mb-4 text-center">Canvia el correi electrònic</h1>
                 <p className="mb-6 text-center">
-                    Introdueix la teva adreça electrònica i t’enviarem un enllaç per restablir la contrasenya.
+                    Introdueix la teva adreça electrònica i t’enviarem un enllaç per canviar el correu.
                 </p>
                 <form onSubmit={handleSubmit}>
                     <label htmlFor="email" className="block text-sm font-medium mb-1">
-                        Correu electrònic
+                        Correu electrònic actual
                     </label>
                     <input
                         type="text"
@@ -119,4 +119,4 @@ const ResetPassword = () => {
     );
 };
 
-export default ResetPassword;
+export default ChangeEmail;

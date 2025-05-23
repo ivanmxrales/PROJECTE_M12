@@ -28,9 +28,9 @@ class AuthController extends Controller
 
         $user = Auth::user();
 
-        /* if ($user->email_verified_at == null) {
+        if ($user->email_verified_at == null) {
             return response()->json(['message' => 'El teu compte no està verificat'], Response::HTTP_UNAUTHORIZED);
-        } */
+        }
 
         if ($user->is_blocked) {
             return response()->json(['message' => 'El teu compte ha estat bloquejat'], Response::HTTP_UNAUTHORIZED);

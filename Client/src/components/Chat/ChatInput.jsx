@@ -1,44 +1,78 @@
-import { useState } from "react";
 import { Paperclip, Send, Smile } from "lucide-react";
-import useEnterSubmit from "../../hooks/useEnterSubmit";
+import { useState } from "react";
+import GifPicker from "../GIPHY/GifPicker";
 
 const ChatInput = ({ onSend }) => {
-  const [message, setMessage] = useState("")
+  const [text, setText] = useState("");
+  const [error, setError] = useState(null);
+  const [showGifPicker, setShowGifPicker] = useState(false);
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    if (!message.trim()) return
+  const TEXT_LENGTH = 20;
+  const GIF_LENGTH = 200;
 
-    onSend?.(message.trim())
-    setMessage("")
-  }
+  const sendTextMessage = () => {
+    const trimmed = text.trim();
 
-  useEnterSubmit('sendMessage');
+    if (trimmed.length === 0) {
+      setError("El missatge no pot estar buit.");
+      return;
+    }
+
+    if (trimmed.length > TEXT_LENGTH) {
+      setError(`El missatge ha de tenir menys de ${MAX_LENGTH} caràcters.`);
+      return;
+    }
+
+    onSend(trimmed);
+    setText("");
+    setError(null);
+  };
+
+  const sendGifMessage = (gifUrl) => {
+    if (gifUrl.length > GIF_LENGTH) {
+      setError("Aquest GIF és massa llarg per enviar-lo.");
+      return;
+    }
+
+    onSend(gifUrl);
+    setShowGifPicker(false);
+    setError(null);
+  };
 
   return (
-    <div className="border-t  p-4">
-      <form className="flex items-end gap-2" onSubmit={handleSubmit}>
-        <button type="button" className="flex-shrink-0">
-          <Paperclip className="h-5 w-5" />
-        </button>
-
-        <div className="relative flex-1">
-          <textarea
-            placeholder="Escriu un missatge..."
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            className="w-full min-h-[60px] resize-none pr-10 border p-2 rounded-2xl bg-black/80 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <button type="button" className="absolute bottom-2 right-2" title="Insert emoji">
-            <Smile className="h-5 w-5" />
-          </button>
-        </div>
-        <button type="submit" className="flex-shrink-0" title="enviar">
+    <div className="p-2 border-t border-gray-700">
+      <div className="flex space-x-2">
+        <input
+          value={text}
+          onChange={(e) => {
+            setText(e.target.value);
+            if (error) setError(null);
+          }}
+          placeholder="Escriu un missatge..."
+          className="flex-1 p-2 rounded bg-slate-800 text-white"
+        />
+        <button
+          onClick={sendTextMessage}
+           className="flex-shrink-0" title="enviar">
           <Send className="h-5 w-5" id="sendMessage"/>
         </button>
-      </form>
-    </div>
-  )
-}
+        <button
+          onClick={() => setShowGifPicker(!showGifPicker)}
+          className="text-white px-2"
+        >
+          🎬
+        </button>
+      </div>
 
-export default ChatInput
+      {error && (
+        <div className="mt-1 text-sm text-red-400">
+          {error}
+        </div>
+      )}
+
+      {showGifPicker && <GifPicker onGifSelect={sendGifMessage} />}
+    </div>
+  );
+};
+
+export default ChatInput;

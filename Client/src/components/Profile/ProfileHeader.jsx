@@ -63,6 +63,7 @@ const ProfileHeader = ({ user: profileUser }) => {
         const storedUser = JSON.parse(localStorage.getItem("user-info"));
         storedUser.user = updatedUser;
         localStorage.setItem("user-info", JSON.stringify(storedUser));
+        setIsModalOpen(false); 
     };
 
     const handleFollowClick = async () => {

@@ -19,19 +19,19 @@ const PostModal = ({ posts, currentIndex, closeModal, showPrev, showNext }) => {
 
     return (
         <div
-            className="fixed inset-0 bg-white/50 z-50 flex items-center justify-center p-4 w-full h-full overflow-auto"
+            className="fixed inset-0 bg-white/70 z-50 flex items-center justify-center p-4 w-full h-full overflow-auto"
             onClick={closeModal}
         >
-            {/* Switch to previous post */}
+
             <button
                 onClick={(e) => {
                     e.stopPropagation();
-                    setMediaIndex(0); // Reset mediaIndex when changing posts
+                    setMediaIndex(0); 
                     showPrev();
                 }}
-                className="absolute left-24 top-1/2 transform -translate-y-1/2 text-4xl text-white hover:scale-110 transition-transform select-none"
+                className="bg-transparent absolute left-24 top-1/2 transform -translate-y-1/2 text-4xl text-white hover:scale-110 transition-transform select-none"
             >
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M16.67 0l2.83 2.829-9.339 9.175 9.339 9.167-2.83 2.829-12.17-11.996z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M16.67 0l2.83 2.829-9.339 9.175 9.339 9.167-2.83 2.829-12.17-11.996z" /></svg>
             </button>
 
             <div
@@ -43,15 +43,15 @@ const PostModal = ({ posts, currentIndex, closeModal, showPrev, showNext }) => {
                         <>
                             <button
                                 onClick={showPrevImage}
-                                className="absolute left-2 top-1/2 transform -translate-y-1/2 text-white text-2xl z-10 hover:scale-110 transition-transform"
+                                className="focus:outline-none bg-transparent hover:border-0 scale-110 absolute left-2 top-1/2 transform -translate-y-1/2 text-white text-2xl z-10 transition-transform"
                             >
-                                ◀️
+                                ◀
                             </button>
                             <button
                                 onClick={showNextImage}
-                                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-white text-2xl z-10 hover:scale-110 transition-transform"
+                                className="focus:outline-none bg-transparent hover:border-0 scale-110 absolute right-2 top-1/2 transform -translate-y-1/2 text-white text-2xl z-10 transition-transform"
                             >
-                                ▶️
+                                ▶
                             </button>
                         </>
                     )}
@@ -78,12 +78,12 @@ const PostModal = ({ posts, currentIndex, closeModal, showPrev, showNext }) => {
             <button
                 onClick={(e) => {
                     e.stopPropagation();
-                    setMediaIndex(0); 
+                    setMediaIndex(0);
                     showNext();
                 }}
-                className="absolute right-24 top-1/2 transform -translate-y-1/2 text-4xl text-white hover:scale-110 transition-transform select-none"
+                className="bg-transparent absolute right-24 top-1/2 transform -translate-y-1/2 text-4xl text-white hover:scale-110 transition-transform select-none"
             >
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M8.122 24l-4.122-4 8-8-8-8 4.122-4 11.878 12z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M8.122 24l-4.122-4 8-8-8-8 4.122-4 11.878 12z" /></svg>
             </button>
         </div>
     );

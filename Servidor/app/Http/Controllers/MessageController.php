@@ -61,7 +61,7 @@ class MessageController extends Controller
     {
         $validated = $request->validate([
             'receiver_id' => 'required|exists:users,id',
-            'content' => 'required|string|max:100',
+            'content' => 'required|string|max:500',
         ]);
 
         $user = $request->user();
