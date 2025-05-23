@@ -34,7 +34,7 @@ class PostController extends Controller
             'caducidad' => 'nullable|date|after_or_equal:data_hora',
             'user_id' => 'required|exists:users,id',
             'media' => 'required|array',
-            'media.*' => 'file|mimes:jpg,jpeg,png,mp4,mov,avi|max:10240', // Permite imágenes y videos hasta 10MB
+            'media.*' => 'file|mimes:jpg,jpeg,png|max:4096', // Permite imágenes y videos hasta 10MB
         ]);
 
         $data_hora = $request->input('data_hora', now());
@@ -89,7 +89,7 @@ class PostController extends Controller
         'media' => 'nullable|array', // URLs de medios que el usuario quiere conservar
         'media.*' => 'string',
         'new_media' => 'nullable|array', // Nuevos archivos que el usuario sube
-        'new_media.*' => 'file|mimes:jpg,jpeg,png,mp4,mov,avi|max:10240',
+        'new_media.*' => 'file|mimes:jpg,jpeg,png|max:4096',
     ]);
 
     $file_location = env('POST_PICTURES', 'uploads/media'); // fallback si la variable no está definida

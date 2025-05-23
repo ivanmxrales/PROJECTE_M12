@@ -9,8 +9,7 @@ const ProfilePosts = ({ userId: id }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const { posts, loading, error } = FetchUserPosts(id);
-  const { handleDelete } = DeleteUserPost(id);
+  const { posts, loading, error , handleDelete} = FetchUserPosts(id);
 
   useEffect(() => {
     setTimeout(() => {

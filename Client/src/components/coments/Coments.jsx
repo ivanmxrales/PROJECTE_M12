@@ -11,6 +11,7 @@ function Coments({ postId }) {
   const { users } = FetchUsers();
 
   const [editingComent, setEditingComent] = useState(null);
+  const permiso = JSON.parse(localStorage.getItem("user-info"))?.user.role;
 
   // const filteredComents = coments.filter(
   //   (coment) => coment.post_id?.toString() === postId?.toString()
@@ -27,6 +28,7 @@ function Coments({ postId }) {
         coments.map((coment) => {
           const isEditing = editingComent && editingComent._id === coment._id;
           const author = users.find((user) => user.id === coment.user_id);
+          const shouldShowButton = permiso === "moderator" || coment.user_id === JSON.parse(localStorage.getItem("user-info"))?.user.id;
   
           return (
             <div key={coment._id} className="coment-card">
@@ -47,14 +49,16 @@ function Coments({ postId }) {
                     <p><strong> {author ? author.name : "Desconocido"}</strong> {coment.coment}</p>
                     <p className="coment-data_hora"><em>{coment.dataCom}</em></p>
                       </div>
-                      {/* <Button variant="danger" onClick={() => handleDelete(coment.id)}>
-                        Eliminar
+                      {shouldShowButton && (
+                      <Button variant="danger" onClick={() => handleDelete(coment.id)}>
+                        cambiar por un icono de papelera
                       </Button>
-                    </div>
-                    <div className="buttons" formInputC>
+                      )}
+                      {shouldShowButton && (
                       <Button className="btn btn-primary" onClick={() => setEditingComent(coment)}>
-                        Editar
-                      </Button> */}
+                        
+                      </Button>
+                      )}
   
                       
                     </div>

@@ -20,6 +20,7 @@ function Home({ }) {
   const [selectedPost, setSelectedPost] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [commentsByPostId, setCommentsByPostId] = useState({});
+  const permiso = JSON.parse(localStorage.getItem("user-info"))?.user.role;
 
 
 
@@ -35,6 +36,8 @@ function Home({ }) {
     localStorage.setItem("user-info", JSON.stringify(storedUser));
   };
 
+  const storedUser = localStorage.getItem("user-info");
+  console.log("USUARI: ",storedUser);
 
   const [editingPost, setEditingPost] = useState(null);
 
@@ -54,6 +57,7 @@ function Home({ }) {
         <div className="flex flex-col items-center justify-center gap-10  w-[800px] mt-[20px]">
           {posts.map((post) => {
             const isEditing = editingPost && editingPost.id === post.id;
+            const shouldShowButton = permiso === "moderator" || post.user_id === JSON.parse(localStorage.getItem("user-info"))?.user.id;
             const author = users.find((user) => user.id === post.user_id);
 
             return (
@@ -73,12 +77,17 @@ function Home({ }) {
                       </div>
                     </RouterLink>
                     {/* <EditPost></EditPost> */}
-                    <button className="ml-[500px] scale-150'w-10 h-10 bg-transparent text-center" onClick={() => {
-                      setSelectedPost(post);
-                      setIsModalOpen(true);
-                    }}>
-                      ···
-                    </button>
+                    {shouldShowButton && (
+  <button
+    className="text-white text-xl bg-transparent"
+    onClick={() => {
+      setSelectedPost(post);
+      setIsModalOpen(true);
+    }}
+  >
+    ···
+  </button>
+)}
                   </div>
                 </div>
                 <div className='flex flex-col items-center justify-center '>

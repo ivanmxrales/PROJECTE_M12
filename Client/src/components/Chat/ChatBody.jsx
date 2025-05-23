@@ -11,11 +11,13 @@ const ChatBody = ({ messages, isLoading, onDelete }) => {
   const isImageUrl = (url) => {
     return typeof url === 'string' && url.match(/\.(gif|jpe?g|tiff?|png|webp|bmp)$/i);
   };
-
+{/* <div className="flex-1  p-4 space-y-4 w-full sm:h-full"> */}
   return (
-    <div className="flex-1 overflow-y-auto p-4 space-y-4 w-full">
+    
+    <div className="flex-1 overflow-y-auto p-2 sm:p-4 space-y-4 w-full">
+
       {messages.length === 0 ? (
-        <div className="flex flex-col items-center justify-center h-full text-center text-gray-500">
+        <div className="flex flex-col items-center justify-center w-full h-full text-center text-gray-500">
           <div className="max-w-md">
             <h3 className="text-xl font-medium mb-2">Comença una conversació!</h3>
           </div>
@@ -26,13 +28,21 @@ const ChatBody = ({ messages, isLoading, onDelete }) => {
             key={message.id}
             className={`flex ${message.role === "user" ? "justify-end" : "justify-start"} relative group`}
           >
-            <div
+            {/* <div
               className={`max-w-[80%] px-4 py-2 rounded-lg break-words ${
                 message.role === "user"
                   ? "bg-blue-600 text-white transition-transform duration-200 ease-in-out group-hover:-translate-x-8"
                   : "bg-slate-700 text-white"
               }`}
-            >
+            > */}
+            <div
+  className={`max-w-[85%] sm:max-w-[70%] md:max-w-[60%] px-4 py-2 rounded-lg break-words ${
+    message.role === "user"
+      ? "bg-blue-600 text-white group-hover:-translate-x-2"
+      : "bg-slate-700 text-white"
+  }`}
+>
+
               {isImageUrl(message.content) ? (
                 <img
                   src={message.content}

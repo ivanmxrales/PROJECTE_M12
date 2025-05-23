@@ -45,7 +45,7 @@ class AuthController extends Controller
         $token = $user->createToken('YourAppName')->plainTextToken;
         $img_location = env('USERS_PROFILE_PICTURE');
         $user->profile_picture = url($img_location . '/' . $user->profile_picture);
-        $user->role = 'user';
+        //$user->role = 'user';
 
         return response()->json([
             'user' => $user,

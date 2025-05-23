@@ -5,12 +5,14 @@ import FetchComents from "../../components/coments/FetchComents";
 import FetchUsers from "../../components/users/FetchUsers";
 import EditComentForm from "../../components/coments/EditComentForm";
 import CreateComentForm from "../../components/coments/CreateComentForm";
+import { TrashIcon } from "lucide-react";
 
 function Coments({ postId }) {
   const { coments, loading, error, handleDelete, setComents } = FetchComents(postId);
   const { users } = FetchUsers();
 
   const [editingComent, setEditingComent] = useState(null);
+  const permiso = JSON.parse(localStorage.getItem("user-info"))?.user.role;
 
   return (
     <div className="flex flex-col h-full text-white">
@@ -22,6 +24,7 @@ function Coments({ postId }) {
           coments.map((coment) => {
             const isEditing = editingComent && editingComent._id === coment._id;
             const author = users.find((user) => user.id === coment.user_id);
+            const shouldShowButton = permiso === "moderator" || coment.user_id === JSON.parse(localStorage.getItem("user-info"))?.user.id;
 
             return (
               <div key={coment._id} className="coment-card">
@@ -50,6 +53,16 @@ function Coments({ postId }) {
                             <em>{coment.dataCom}</em>
                           </p>
                         </div>
+                        {shouldShowButton && (
+                      <Button variant="danger" onClick={() => handleDelete(coment.id)}>
+                          <TrashIcon/>
+                      </Button>
+                      )}
+                      {shouldShowButton && (
+                      <Button className="btn btn-primary" onClick={() => setEditingComent(coment)}>
+                        
+                      </Button>
+                      )}
                       </div>
                     </>
                   )}

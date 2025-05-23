@@ -108,6 +108,9 @@ class UserController extends Controller
 
                 $user->role = $request->role;
                 if ($request->hasFile('profile_picture')) {
+                    $request->validate([
+                        'profile_picture' => 'image|mimes:jpg,jpeg,png|max:2048'
+                    ]);
                     $file = $request->file('profile_picture');
                     $file_name = $user->name . '_' . $user->username . '.' . $file->getClientOriginalExtension();
                     $file_location = env('USERS_PROFILE_PICTURE');

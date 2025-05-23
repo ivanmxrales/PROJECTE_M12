@@ -39,12 +39,35 @@ const EditProfileForm = ({ user, onCancel, onSave }) => {
 
 	const validate = () => {
 		const newErrors = {};
-		if (!inputs.name || inputs.name.length <= 3)
-			newErrors.name = "El nom ha de tenir almenys 3 caràcters";
+	
+		// Nom: almenys 3 caràcters i només lletres (accents permesos)
+		if (!inputs.name || inputs.name.length < 3) {
+			newErrors.name = "El nom ha de tenir 3 caràcters com a mínim";
+		} else if (!/^[A-Za-zÀ-ÿ\s]+$/.test(inputs.name)) {
+			newErrors.name = "El nom només pot contenir lletres";
+		}
+	
+		// Username: almenys 3 caràcters i només lletres, números i guió baix
+		if (!inputs.username || inputs.username.length < 3) {
+			newErrors.username = "El nom d'usuari ha de tenir 3 caràcters com a mínim";
+		} else if (!/^[A-Za-z0-9_]+$/.test(inputs.username)) {
+			newErrors.username = "El nom d'usuari només pot contenir lletres, números i '_' ";
+		}
+	
+		// Validació imatge
+		if (inputs.profile_picture && inputs.profile_picture.name) {
+			const allowedExtensions = ['jpg', 'jpeg', 'png'];
+			const fileExtension = inputs.profile_picture.name.split('.').pop().toLowerCase();
+			if (!allowedExtensions.includes(fileExtension)) {
+				newErrors.profile_picture = "Format d'imatge no vàlid (només jpg, jpeg, png)";
+			}
+		}
 
-		if (!inputs.username || inputs.username.length <= 3)
-			newErrors.username = "El nom d'usuari ha de tenir almenys 3 caràcters";
-
+		if (inputs.biography.length > 50) {
+			newErrors.biography = "No pot tenir més de 50 caràcters"
+		}
+	
+		// Validació data de naixement
 		if (!inputs.birth_date) {
 			newErrors.birth_date = "La data de naixement és necessària";
 		} else {
@@ -52,9 +75,10 @@ const EditProfileForm = ({ user, onCancel, onSave }) => {
 			const age = new Date().getFullYear() - dob.getFullYear();
 			if (age < 16) newErrors.birth_date = "Has de tenir 16 anys com a mínim";
 		}
-
+	
 		return newErrors;
 	};
+	
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();

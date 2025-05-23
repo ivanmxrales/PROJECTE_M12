@@ -90,15 +90,26 @@ const Chat = () => {
   if (loading) return <p className="text-white text-center mt-4">Carregant conversa...</p>;
   if (error || !selectedUser) return <p className="text-red-500 text-center mt-4">Usuari no trobat.</p>;
 
+  /* return (
+    <div className="flex lg:h-[800px] lg:w-[600px] sm:w-[800px] sm:h-[400px]">
+      <div className="flex flex-col w-full h-full flex-1">
+        <ChatHeader user={selectedUser} />
+        <ChatBody messages={messagesWithRole} isLoading={isLoading} onDelete={handleDelete} />
+        <ChatInput onSend={handleSend} />
+      </div>
+    </div>
+  ); */
+
   return (
-    <div className="flex h-[800px] w-[600px]">
-      <div className="flex flex-col h-full flex-1">
+    <div className="flex w-full h-full justify-center items-center p-2 lg:h-[800px] lg:w-[600px]">
+      <div className="flex flex-col w-full h-full sm:max-w-[640px] md:max-w-[768px] lg:max-w-[800px] xl:max-w-[1000px] border border-gray-700 rounded-md">
         <ChatHeader user={selectedUser} />
         <ChatBody messages={messagesWithRole} isLoading={isLoading} onDelete={handleDelete} />
         <ChatInput onSend={handleSend} />
       </div>
     </div>
   );
+  
 };
 
 export default Chat;
