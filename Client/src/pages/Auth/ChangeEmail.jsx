@@ -51,7 +51,7 @@ const ChangeEmail = () => {
             await api.post('/api/user/update-email', { email: newEmail },
                 getAuthUserToken()
             );
-            alert('Comprova el correu electrònic per restablir la contrasenya');
+            alert('Comprova el correu electrònic per verificar la nova adreça');
         } catch (error) {
             console.error(error);
             let message = error.response?.data?.message || "No s'ha pogut enviar el correu";

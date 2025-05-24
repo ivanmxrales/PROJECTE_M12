@@ -26,7 +26,9 @@ const useSignup = () => {
 		};
 
 		try {
-			await api.post('/api/signup', data);
+			const response = await api.post('/api/signup', data);
+			const { token, user } = response.data;
+			localStorage.setItem('authToken', token);
 			/* await login({ email: inputs.email, password: inputs.password });
 
 			const userData = response.data;

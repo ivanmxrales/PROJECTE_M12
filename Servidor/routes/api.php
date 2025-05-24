@@ -17,6 +17,12 @@ use Illuminate\Support\Facades\Broadcast;
 
 /* Broadcast::routes(['middleware' => ['auth:sanctum']]); */
 
+/* Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+
+    return response()->json(['message' => 'Correu de verificació enviat!']);
+})->middleware(['auth:sanctum', 'throttle:6,1']); */
+
 Route::middleware('auth:sanctum')->post('/user/update-email', [UserController::class, 'updateEmail']);
 
 Route::post('/forgot-password', function (Request $request) {
@@ -54,7 +60,6 @@ Route::post('/reset-password', function (Request $request) {
         : response()->json(['message' => __($status)], 422);
 });
 
-
 Route::post('/signup', [ApiController::class, 'signup']);
 Route::post('/login', [ApiController::class, 'login']);
 
@@ -77,7 +82,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         ->middleware('signed')
         ->$request->fulfill()
         ->name('verification.verify'); */
-    /* Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    /* Route::get('/api/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
         $request->fulfill();
         return redirect(env('FRONTEND_URL') . '/email-verified');
     })->middleware(['signed'])->name('verification.verify'); */

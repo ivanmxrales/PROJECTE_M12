@@ -25,7 +25,7 @@ const Signup = () => {
 		if (!inputs.name || inputs.name.length < 3)
 			newErrors.name = "El nom ha de tenir almenys 3 caràcters";
 
-		if (!inputs.username || inputs.username.length <= 3)
+		if (!inputs.username || inputs.username.length < 3)
 			newErrors.username = "El nom d'usuari ha de tenir almenys 3 caràcters";
 
 		if (!inputs.birth_date) {
@@ -94,7 +94,6 @@ const Signup = () => {
 				console.error("Signup error:", err);
 			}
 		}
-		signup(inputs);
 	};
 
 	useEnterSubmit("signupSubmit");

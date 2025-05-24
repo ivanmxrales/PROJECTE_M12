@@ -12,7 +12,7 @@ class CustomResetPassword extends ResetPassword
      */
     public function toMail($notifiable)
     {
-        $frontendUrl = env('FRONTEND_URL', 'http://localhost:3000');
+        $frontendUrl = env('FRONTEND_URL', 'http://localhost:5173');
 
         $resetUrl = "{$frontendUrl}/new-password?token={$this->token}&email=" . urlencode($notifiable->getEmailForPasswordReset());
 

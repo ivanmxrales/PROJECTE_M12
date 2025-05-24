@@ -100,10 +100,15 @@ class AuthController extends Controller
                 }
                 $user->save();
 
-                event(new Registered($user));
+                /* event(new Registered($user));*/
                 $user->sendEmailVerificationNotification();
 
-                return response()->json($user);
+                $token = $user->createToken('YourAppName')->plainTextToken;
+
+                return response()->json([
+                    'user' => $user,
+                    'token' => $token
+                ]);
             }
         }
     }
