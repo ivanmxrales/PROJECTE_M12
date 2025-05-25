@@ -60,7 +60,7 @@ function CreatePostForm({ userId, onPostCreated }) {
       });
       setMediaFiles([]);
     } catch (error) {
-      console.error("Error al crear el post:", error.response?.data || error);
+      //console.error("Error al crear el post:", error.response?.data || error);
     }
   };
 

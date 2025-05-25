@@ -16,7 +16,7 @@ const EditProfileForm = ({ user, onCancel, onSave }) => {
 
 	useEffect(() => {
 		if (user) {
-			console.log("Usuario que llega al form: ", user);
+			//console.log("Usuario que llega al form: ", user);
 			setInputs({
 				name: user.name || "",
 				username: user.username || "",

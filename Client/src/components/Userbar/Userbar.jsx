@@ -9,7 +9,10 @@ const Userbar = () => {
   useEffect(() => {
     api.get('/api/users/random', getAuthUserToken())
       .then(response => setRecommendedUsers(response.data))
-      .catch(error => console.error('Error fetching recommended users:', error));
+      /* .catch(error => console.error('Error fetching recommended users:', error)); */
+      .catch((err) => {
+        //console.error(err);
+      })
   }, []);
 
   return (

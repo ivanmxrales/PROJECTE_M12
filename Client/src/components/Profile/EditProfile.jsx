@@ -2,7 +2,7 @@ import EditProfileForm from "../../components/AuthForm/EditProfileForm";
 
 const EditProfile = ({ user, onClose, onSave }) => {
 	const handleSave = (updatedUser) => {
-		console.log("Usuari actualitzat correctament:", updatedUser);
+		//console.log("Usuari actualitzat correctament:", updatedUser);
 		if (onSave) onSave(updatedUser);
 	};
 

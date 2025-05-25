@@ -20,7 +20,7 @@ const Profile = () => {
                 const res = await api.get(`/ api/user/username/${username}`, getAuthUser());
                 setUser(res.data);
             } catch (err) {
-                console.log("Error fetching user: ", err);
+                //console.log("Error fetching user: ", err);
                 setUser(null);
             } finally {
                 setLoading(false);

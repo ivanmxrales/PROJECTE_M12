@@ -35,7 +35,7 @@ function CreatePostForm({ userId, onPostCreated }) {
     });
 
     try {
-      console.log("tsts")
+      //console.log("tsts")
       await axios.post("http://127.0.0.1:8000/api/post", data, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -52,7 +52,7 @@ function CreatePostForm({ userId, onPostCreated }) {
       });
       setMediaFiles([]);
     } catch (error) {
-      console.error("Error al crear el post:", error.response?.data || error);
+      //console.error("Error al crear el post:", error.response?.data || error);
     }
   };
 

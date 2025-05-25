@@ -13,12 +13,12 @@ const FetchUser = () => {
 
   const fetch = async (username) => {
     try {
-      console.log("Utilitzant: ", username);
+      //console.log("Utilitzant: ", username);
       const response = await api.get(`/username/${username}`, getAuthUserToken());
       setPosts(response.data);
-      console.log("Usuari carregat: ", response.data);
+      //console.log("Usuari carregat: ", response.data);
     } catch (error) {
-      console.error("Error agafant el username:", error);
+      //console.error("Error agafant el username:", error);
       setError(error);
     } finally {
       setLoading(false);

@@ -17,9 +17,9 @@ const FetchUsers = () => {
       await api.get("/sanctum/csrf-cookie");
       const response = await api.get("/api/users", getAuthUser());
       setUsers(response.data);
-      console.log("Usuaris carregats:", response.data);
+      //console.log("Usuaris carregats:", response.data);
     } catch (error) {
-      console.error("Error carregant els usuaris:", error);
+      //console.error("Error carregant els usuaris:", error);
       setError(error);
     } finally {
       setLoading(false);
@@ -35,9 +35,9 @@ const FetchUsers = () => {
       setUsers((prevUsers) =>
         prevUsers.filter((user) => user.id !== id)
       );
-      console.log("Usuari esborrat");
+      //console.log("Usuari esborrat");
     } catch (error) {
-      console.error("Error en esborrar l'usuari:", error.response?.data || error.message);
+      //console.error("Error en esborrar l'usuari:", error.response?.data || error.message);
     }
   };
 

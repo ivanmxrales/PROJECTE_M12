@@ -91,7 +91,7 @@ const Signup = () => {
 
 				setErrors(formattedErrors);
 			} else {
-				console.error("Signup error:", err);
+				//console.error("Signup error:", err);
 			}
 		}
 	};

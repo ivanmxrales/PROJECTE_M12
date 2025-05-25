@@ -13,12 +13,12 @@ const useSearchPosts = (filter) => {
 
     const fetchPosts = async () => {
       try {
-        console.log("Fetching posts for search:", filter);
+        //console.log("Fetching posts for search:", filter);
         const response = await api.get(`/api/posts/search/${filter}`, getAuthUserToken());
         setPosts(response.data);
-        console.log("Publicacions carregats:", response.data);
+        //console.log("Publicacions carregats:", response.data);
       } catch (error) {
-        console.error("Error carregant els Publicacions:", error);
+        //console.error("Error carregant els Publicacions:", error);
         setError(error);
       } finally {
         setLoading(false);
@@ -35,9 +35,9 @@ const useSearchPosts = (filter) => {
     try {
       await axios.delete(`http://127.0.0.1:8000/api/post/${id_num}`);
       setPosts((prevPosts) => prevPosts.filter((post) => post.id_num !== id_num));
-      console.log("Post esborrat");
+      //console.log("Post esborrat");
     } catch (error) {
-      console.error("Error en esborrar l'Post:", error.response?.data || error.message);
+      //console.error("Error en esborrar l'Post:", error.response?.data || error.message);
     }
   };
 

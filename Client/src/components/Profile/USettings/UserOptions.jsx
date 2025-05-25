@@ -15,7 +15,7 @@ export const DeleteAccount = ({ userId }) => {
             alert("Compte eliminat correctament.");
             navigate('/auth');
         } catch (error) {
-            console.error(error);
+            //console.error(error);
             alert("Error inesperat. Torna-ho a intentar.");
         }
     };

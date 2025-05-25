@@ -18,7 +18,7 @@ function CreateComentForm({ comentedPost,onCancel }) {
     dataC.append("post_id", comentedPost);
     dataC.append("user_id", getAuthUserId());
 
-    console.log("Coment dataC:", dataC);
+    //console.log("Coment dataC:", dataC);
 
     try {
       await api.post(`/api/coment`, dataC ,getAuthUser());
@@ -26,7 +26,7 @@ function CreateComentForm({ comentedPost,onCancel }) {
       alert("Coment actualitzat correctament");
       onCancel(); // Cierra el formulario de edición
     } catch (error) {
-      console.error("Error al actualizar el coment:", error.response?.dataC || error);
+      //console.error("Error al actualizar el coment:", error.response?.dataC || error);
     }
   };
 

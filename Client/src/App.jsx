@@ -40,7 +40,7 @@ window.Echo = new Echo({
     },
   }, */
 });
-console.log('AAAAAAAAAAA', token);
+//console.log('AAAAAAAAAAA', token);
 
 
 
@@ -53,7 +53,7 @@ function App() {
 
     window.Echo.channel('test-channel')
     .listen('MessageSent', (e) => {
-      console.log("Missatge rebut via: ", e)
+      //console.log("Missatge rebut via: ", e)
     });
 
   return (

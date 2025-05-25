@@ -9,7 +9,10 @@ const Seguint = ({ userId: id }) => {
   useEffect(() => {
     api.get(`/api/user/${id}/following`, getAuthUserToken())
       .then(response => setFollowedUsers(response.data))
-      .catch(error => console.error('Error fetching followed users:', error));
+      /* .catch(error => console.error('Error fetching followed users:', error)); */
+      .catch((err) => {
+        //console.error(err);
+      })
   }, [id]);
 
   return (

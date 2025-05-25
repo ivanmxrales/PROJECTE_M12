@@ -9,7 +9,10 @@ const MessageList = () => {
     useEffect(() => {
         api.get('/api/conversations', getAuthUserToken())
             .then(response => setMessageUsers(response.data))
-            .catch(error => console.error("No s'han pogut carregar la llista de conversacions:", error));
+           /*  .catch(error => console.error("No s'han pogut carregar la llista de conversacions:", error)); */
+           .catch((err) => {
+            //console.error(err);
+          })
     }, []);
 
     return (

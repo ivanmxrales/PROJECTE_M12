@@ -45,7 +45,9 @@ const Chat = () => {
 
     api.get(`/api/messages?user_id=${selectedUser.id}`, getAuthUserToken())
       .then((res) => setMessages(res.data))
-      .catch((err) => console.error("Axios error", err));
+      .catch((err) => {
+        //console.error(err);
+      })
   }, [selectedUser]);
 
 
@@ -57,7 +59,7 @@ const Chat = () => {
         setMessages((prev) => prev.filter((msg) => msg.id !== messageId));
       })
       .catch((err) => {
-        console.error("Failed to delete message", err);
+        //console.error("Failed to delete message", err);
       });
   };
 
@@ -82,7 +84,7 @@ const Chat = () => {
         });
       })
       .catch((err) => {
-        console.error(err);
+        //console.error(err);
       })
       .finally(() => setIsLoading(false));
   };

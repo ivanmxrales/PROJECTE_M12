@@ -44,9 +44,9 @@ function EditPostForm({ post, onCancel }) {
       setPosts((prevPosts) =>
         prevPosts.filter((post) => post.id_num !== id_num)
       );
-      console.log("Post esborrat");
+      //console.log("Post esborrat");
     } catch (error) {
-      console.error("Error en esborrar l'Post:", error.response?.data || error.message);
+      //console.error("Error en esborrar l'Post:", error.response?.data || error.message);
     }
   };
 
@@ -102,7 +102,7 @@ function EditPostForm({ post, onCancel }) {
       alert("Post actualizado correctamente");
       onCancel();
     } catch (error) {
-      console.error("Error actualizando el post:", error.response?.data || error);
+      //console.error("Error actualizando el post:", error.response?.data || error);
     }
   };
 

@@ -13,14 +13,16 @@ const SearchUsers = () => {
       return
     }
 
-    console.log('Fetching users for search:', searchUser)
+    //console.log('Fetching users for search:', searchUser)
     const delay = setTimeout(() => {
       api.get('/api/users/search', {
         ...getAuthUserToken(),
         params: { query: searchUser }
       })
         .then(response => setUsers(response.data))
-        .catch(error => console.error('Error fetching users:', error))
+        .catch((err) => {
+          //console.error(err);
+        })
     }, 300)
 
     return () => clearTimeout(delay)

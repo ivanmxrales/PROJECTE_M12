@@ -53,7 +53,7 @@ const ChangeEmail = () => {
             );
             alert('Comprova el correu electrònic per verificar la nova adreça');
         } catch (error) {
-            console.error(error);
+            //console.error(error);
             let message = error.response?.data?.message || "No s'ha pogut enviar el correu";
             if (message.includes("Please wait before retrying")) {
                 message = "Si us plau, espera uns minuts abans d'intentar-ho de nou.";

@@ -19,9 +19,9 @@ const FetchComents = (id) => {
       await api.get("/sanctum/csrf-cookie");
       const response = await api.get(`/api/coments/${id}`, getAuthUser());
       setComents(response.data);
-      console.log("Comentaris carregats:", response.data);
+      //console.log("Comentaris carregats:", response.data);
     } catch (error) {
-      console.error("Error carregant els comentaris:", error);
+      //console.error("Error carregant els comentaris:", error);
       setError(error);
     } finally {
       setLoading(false);
@@ -38,9 +38,9 @@ const FetchComents = (id) => {
       setComents((prevComents) =>
         prevComents.filter((coment) => coment.id !== id)
       );
-      console.log("Comentari esborrat");
+      //console.log("Comentari esborrat");
     } catch (error) {
-      console.error("Error en esborrar el comentari:", error.response?.data || error.message);
+      //console.error("Error en esborrar el comentari:", error.response?.data || error.message);
     }
   };
 

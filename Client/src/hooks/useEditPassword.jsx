@@ -47,7 +47,7 @@ const editProfilePassword = () => {
       console.log('Usuari actualitzat:', updatedUser);
       navigate(`/${updatedUser.username}`); */
     } catch (err) {
-      console.log("Error backend:", err.response?.data);
+      //console.log("Error backend:", err.response?.data);
       const errMsg = err.response?.data?.message || "Error al desar l'usuari";
       setError({ message: errMsg });
     } finally {

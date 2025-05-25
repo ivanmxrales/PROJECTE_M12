@@ -13,12 +13,12 @@ const FetchLikedPosts = (userId) => {
 
     const fetchPosts = async () => {
       try {
-        console.log("Fetching posts for user:", userId);
+        //console.log("Fetching posts for user:", userId);
         const response = await api.get(`/api/${userId}/likes`, getAuthUserToken());
         setPosts(response.data.likes);
-        console.log("Publicacions carregats a:", response.data.likes);
+        //console.log("Publicacions carregats a:", response.data.likes);
       } catch (error) {
-        console.error("Error carregant els Publicacions:", error);
+        //console.error("Error carregant els Publicacions:", error);
         setError(error);
       } finally {
         setLoading(false);
@@ -35,9 +35,9 @@ const FetchLikedPosts = (userId) => {
     try {
       await axios.delete(`http://127.0.0.1:8000/api/post/${id_num}`);
       setPosts((prevPosts) => prevPosts.filter((post) => post.id_num !== id_num));
-      console.log("Post esborrat");
+      //console.log("Post esborrat");
     } catch (error) {
-      console.error("Error en esborrar l'Post:", error.response?.data || error.message);
+      //console.error("Error en esborrar l'Post:", error.response?.data || error.message);
     }
   };
 

@@ -13,12 +13,12 @@ const FetchUserPosts = (userId) => {
 
     const fetchPosts = async () => {
       try {
-        console.log("Fetching posts for user:", userId);
+        //console.log("Fetching posts for user:", userId);
         const response = await api.get(`/api/posts/user/${userId}`, getAuthUserToken());
         setPosts(response.data);
-        console.log("Publicacions carregats:", response.data);
+        //console.log("Publicacions carregats:", response.data);
       } catch (error) {
-        console.error("Error carregant els Publicacions:", error);
+        //console.error("Error carregant els Publicacions:", error);
         setError(error);
       } finally {
         setLoading(false);
@@ -36,9 +36,9 @@ const FetchUserPosts = (userId) => {
       await api.get("/sanctum/csrf-cookie");
       await api.delete(`/api/post/${id_num}`, getAuthUserToken());
       setPosts((prevPosts) => prevPosts.filter((post) => post.id_num !== id_num));
-      console.log("Post esborrat");
+      //console.log("Post esborrat");
     } catch (error) {
-      console.error("Error en esborrar l'Post:", error.response?.data || error.message);
+      //console.error("Error en esborrar l'Post:", error.response?.data || error.message);
     }
   };
 

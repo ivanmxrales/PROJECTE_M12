@@ -14,9 +14,9 @@ const FetchUser = (username) => {
       try {
         const response = await api.get(`/api/username/${username}`, getAuthUserToken());
         setUser(response.data);
-        console.log("Usuari carregat:", response.data);
+        //console.log("Usuari carregat:", response.data);
       } catch (error) {
-        console.error("Error carregant l'usuari:", error);
+        //console.error("Error carregant l'usuari:", error);
         setError(error);
       } finally {
         setLoading(false);

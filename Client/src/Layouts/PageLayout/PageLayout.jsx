@@ -11,7 +11,7 @@ const PageLayout = ({ children }) => {
         const storedUser = localStorage.getItem("user-info");
         if (storedUser) {
             const parsed = JSON.parse(storedUser);
-            console.log("User loguejat:", parsed.user);
+            //console.log("User loguejat:", parsed.user);
             setUser(parsed.user);
         }
     }, []);

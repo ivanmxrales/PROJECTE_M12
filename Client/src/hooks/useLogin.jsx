@@ -19,8 +19,8 @@ const useLogin = () => {
 				password: inputs.password
 			});
 			const userData = res.data;
-			console.log("Usuari:", userData);
-			console.log("Token: ", localStorage.getItem("token"));
+			//console.log("Usuari:", userData);
+			//console.log("Token: ", localStorage.getItem("token"));
 			setAuthUser(userData);
 			navigate("/");
 			return res.data;

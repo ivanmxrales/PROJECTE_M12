@@ -40,7 +40,7 @@ const ProfileHeader = ({ user: profileUser }) => {
                 setFollowing(resFollowing.data);
                 setPostsCount(resPostsCount.data);
             } catch (error) {
-                console.error("Error fetching followers/following/posts:", error);
+                //console.error("Error fetching followers/following/posts:", error);
             }
         };
 
@@ -85,7 +85,7 @@ const ProfileHeader = ({ user: profileUser }) => {
                 setFollowers(prev => prev.filter(f => f.id !== authUser.id));
             }
         } catch (error) {
-            console.error("Error toggling follow:", error);
+            //console.error("Error toggling follow:", error);
         }
     };
 

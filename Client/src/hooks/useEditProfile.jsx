@@ -46,7 +46,7 @@ const useEditProfile = () => {
 
       login(updatedUser);
       
-      console.log('Usuari actualitzat:', updatedUser);
+      //console.log('Usuari actualitzat:', updatedUser);
       navigate(`/${updatedUser.username}`);
       return response.data;
     } catch (err) {

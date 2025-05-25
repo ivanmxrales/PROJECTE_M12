@@ -22,7 +22,10 @@ const Messages = () => {
                 params: { query: searchUser }
             })
                 .then(response => setUsers(response.data))
-                .catch(error => console.error('Error fetching users:', error))
+                /* .catch(error => console.error('Error fetching users:', error)) */
+                .catch((err) => {
+                    //console.error(err);
+                  })
         }, 300)
 
         return () => clearTimeout(delay)

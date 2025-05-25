@@ -16,7 +16,7 @@ function EditComentForm({ coment, onCancel }) {
       alert("Coment actualitzat correctament");
       onCancel(); // Cierra el formulario de edición
     } catch (error) {
-      console.error("Error al actualizar el coment:", error.response?.data || error);
+      //console.error("Error al actualizar el coment:", error.response?.data || error);
     }
   };
 

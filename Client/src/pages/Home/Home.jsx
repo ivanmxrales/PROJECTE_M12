@@ -37,7 +37,7 @@ function Home({ }) {
   };
 
   const storedUser = localStorage.getItem("user-info");
-  console.log("USUARI: ",storedUser);
+  //console.log("USUARI: ",storedUser);
 
   const [editingPost, setEditingPost] = useState(null);
 

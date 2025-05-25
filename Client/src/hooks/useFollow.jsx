@@ -58,7 +58,7 @@ const useFollow = (userId) => {
         const response = await api.get(`/api/isFollowing/${userId}`, getAuthUserToken());
         setIsFollowing(response.data.seguint); // assuming 'seguint' means true/false
       } catch (err) {
-        console.error("Error checking follow status:", err);
+        //console.error("Error checking follow status:", err);
         setError(err);
       } finally {
         setLoading(false);
@@ -75,7 +75,7 @@ const useFollow = (userId) => {
       setIsFollowing(!isFollowing);
       return isFollowing ? 'unfollowed' : 'followed';
     } catch (err) {
-      console.error("Error toggling follow:", err);
+      //console.error("Error toggling follow:", err);
       setError(err);
       return null;
     }
