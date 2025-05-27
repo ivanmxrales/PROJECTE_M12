@@ -69,6 +69,7 @@ function Home({ }) {
                     <RouterLink id="toProfile" className="flex items-center gap-5 align-center pt-8 b-rounded-full"
                       to={`/${author?.username}`}>
                       <div className="ml-12 w-12 h-12 border rounded-full overflow-hidden">
+                        {/* <img src={author?.profile_picture} alt="profile" className="w-full h-full object-cover" /> */}
                         <img src={author?.profile_picture} alt="profile" className="w-full h-full object-cover" />
                       </div>
                       <div>
@@ -78,16 +79,16 @@ function Home({ }) {
                     </RouterLink>
                     {/* <EditPost></EditPost> */}
                     {shouldShowButton && (
-  <button
-    className="text-white text-xl bg-transparent"
-    onClick={() => {
-      setSelectedPost(post);
-      setIsModalOpen(true);
-    }}
-  >
-    ···
-  </button>
-)}
+                      <button
+                        className="text-white text-xl bg-transparent"
+                        onClick={() => {
+                          setSelectedPost(post);
+                          setIsModalOpen(true);
+                        }}
+                      >
+                        ···
+                      </button>
+                    )}
                   </div>
                 </div>
                 <div className='flex flex-col items-center justify-center '>

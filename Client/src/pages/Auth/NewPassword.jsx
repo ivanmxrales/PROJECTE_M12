@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import useLogout from '../../hooks/useLogout';
 
 const NewPassword = () => {
   const query = new URLSearchParams(useLocation().search);
@@ -9,6 +10,7 @@ const NewPassword = () => {
   const [password, setPassword] = useState('');
   const [password_confirmation, setPasswordConfirmation] = useState('');
   const navigate = useNavigate();
+  const logout = useLogout();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,9 +26,10 @@ const NewPassword = () => {
     const data = await res.json();
     if (res.ok) {
       alert('Contrasenya modificada');
-      navigate('/auth');
+      logout();
+    
     } else {
-      alert(data.message);
+      alert("Contrasenyes diferents o no compleixen els requisits (8-20 càracters)");
     }
   };
 

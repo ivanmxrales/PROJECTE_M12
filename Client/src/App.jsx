@@ -27,8 +27,8 @@ const token = JSON.parse(localStorage.getItem('user-info'))?.token;
 window.Echo = new Echo({
   broadcaster: 'reverb',
   key: '381rlxplslmo6mwe5eiy',
-  //wsHost: '127.0.0.1',
-  wsHost: 'https://projectem12-production.up.railway.app',
+  wsHost: '127.0.0.1',
+  /* wsHost: 'https://projectem12-production.up.railway.app', */
   wsPort: 8080,
   wssPort: 8080,
   forceTLS: false,

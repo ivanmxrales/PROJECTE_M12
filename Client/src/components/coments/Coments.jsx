@@ -5,6 +5,7 @@ import FetchComents from "../../components/coments/FetchComents"; // Puede segui
 import FetchUsers from "../../components/users/FetchUsers";
 import EditComentForm from "../../components/coments/EditComentForm";
 import CreateComentForm from "../../components/coments/CreateComentForm";
+import { TrashIcon, LetterTextIcon } from "lucide-react";
 
 function Coments({ postId }) {
   const { coments, loading, error, handleDelete } = FetchComents(postId);
@@ -51,12 +52,12 @@ function Coments({ postId }) {
                       </div>
                       {shouldShowButton && (
                       <Button variant="danger" onClick={() => handleDelete(coment.id)}>
-                        cambiar por un icono de papelera
+                        <TrashIcon/>
                       </Button>
                       )}
                       {shouldShowButton && (
                       <Button className="btn btn-primary" onClick={() => setEditingComent(coment)}>
-                        
+                        <LetterTextIcon/>
                       </Button>
                       )}
   

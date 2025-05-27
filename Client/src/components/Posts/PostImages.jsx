@@ -38,7 +38,7 @@ const PostImages = ({ post }) => {
         </button>
 
         <img
-          src={baseUrl + media[currentIndex]}
+          src={baseUrl + "/"+ media[currentIndex]}
           alt={`post-image-${currentIndex}`}
           className="post-image min-h-[300px] max-h-[600px] w-auto h-auto object-contain"
         />

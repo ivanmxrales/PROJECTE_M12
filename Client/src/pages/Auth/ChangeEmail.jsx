@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams, useLocation, useNavigate } from 'react-router-dom';
-import useLogout from "../../hooks/useLogout";
+//import useLogout from "../../hooks/useLogout";
 import api from '../../lib/axios';
 import getAuthUserToken from '../../utility/getAuthUserToken';
 
@@ -11,17 +11,16 @@ function useQuery() {
 const ChangeEmail = () => {
     const query = useQuery();
     const navigate = useNavigate();
-
     const emailParam = query.get('email') || '';
     const from = query.get('from') || '/';
     const [currentEmail, setCurrentEmail] = useState('');
     const [newEmail, setNewEmail] = useState('');
     const [error, setError] = useState(null);
     const [errors, setErrors] = useState({});
-    const { logout } = useLogout();
+    //const { logout } = useLogout();
 
     const handleLogout = async () => {
-        await logout();
+        //await logout();
         localStorage.removeItem("user-info");
     };
 
@@ -52,6 +51,7 @@ const ChangeEmail = () => {
                 getAuthUserToken()
             );
             alert('Comprova el correu electrònic per verificar la nova adreça');
+            logout();
         } catch (error) {
             //console.error(error);
             let message = error.response?.data?.message || "No s'ha pogut enviar el correu";

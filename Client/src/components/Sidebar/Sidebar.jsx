@@ -40,7 +40,7 @@ const Sidebar = () => {
     { icon: HomeLogo, text: "Inici", link: "/" },
     { icon: SearchLogo, text: "Buscar", link: "/search" },
     { icon: MessagesLogo, text: "Missatges", link: "/messages" },
-    { icon: NotificationsLogo, text: "Notificacions", link: "/profile" },
+    { icon: NotificationsLogo, text: "Notificacions", link: "/" },
     { icon: CreatePostLogo, text: "Publicació", link: "/postnew" },
   ];
 
